@@ -1,12 +1,12 @@
 {
-  "name": "wiki-map",
+  "name": "node-skeleton",
   "version": "1.0.0",
-  "description": "LHL Node Skeleton =========",
+  "description": "",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "local": "nodemon -L --ignore public/",
+    "local": "./node_modules/.bin/nodemon -L --ignore public/",
     "db:reset": "node bin/resetdb.js"
   },
   "author": "Lighthouse Labs",
@@ -22,19 +22,5 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.10"
-  },
-  "bin": {
-    "wiki-map": "bin/resetdb.js"
-  },
-  "directories": {
-    "lib": "lib"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ConsensusAI/Wiki-Map.git"
-  },
-  "bugs": {
-    "url": "https://github.com/ConsensusAI/Wiki-Map/issues"
-  },
-  "homepage": "https://github.com/ConsensusAI/Wiki-Map#readme"
+  }
 }
