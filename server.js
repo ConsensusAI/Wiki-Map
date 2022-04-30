@@ -64,16 +64,22 @@ app.get("/maps/new", (req, res) => {
   res.render("create");
 });
 
+app.get("/maps", (req, res) => {
+  const templateVars = {
+    name: testDb["0001"].name,
+    country: testDb["0001"].country,
+    locationAddress: testDb["0001"].locationAddress,
+  };
+  res.render("maps", templateVars);
+});
+
 app.post("/maps", (req, res) => {
   testDb["0001"] = {
     name: req.body["newMapName"],
     country: req.body["country"],
-    place: req.body["place"],
+    locationAddress: req.body["locationAddress"],
   };
-  console.log("\n\n\n===\n===");
-  console.log("test data: ", testDb["0001"]);
-  // console.log(req.body);
-  res.send("ok");
+  res.redirect("/maps");
 });
 
 app.listen(PORT, () => {
