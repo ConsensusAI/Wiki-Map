@@ -2,5 +2,57 @@
 
 body,
 html {
-  margin: 0;
+  margin: 50;
 }
+
+nav {
+  color: #FFFFFF;
+  background-color:#cf4265;
+  height:120px;
+  width:100%;
+  padding-left:1.5em;
+  padding-right:1.5em;
+  display: flex;
+  font-family: Source Sans Pro, sans-serif;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1;
+  position: fixed; /* Set the navbar to fixed position */
+  top: 0; /* Position the navbar at the top of the page */
+
+  }
+
+  body {
+    color: #545149;
+    background-color: #f4f1ec;
+    font-size: 24px;
+    font-family: Source Sans Pro, sans-serif;
+    padding-top: 120px;
+    display: flex;
+    // flex-direction: row;
+    // align-items: flex-start;
+
+
+  }
+
+  #login {
+    color: #FFFFFF;
+
+  }
+
+   nav {
+    font-family: Bungee, sans-serif;
+
+   }
+
+   .container {
+     display: flex;
+     align-items: center;
+     width: 100%;
+     background-color: #f4f1ec;
+     display: flex;
+     flex-direction: row;
+     gap: 30px;
+
+   }
