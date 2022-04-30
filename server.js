@@ -41,12 +41,15 @@ app.use(express.static("public"));
 // Note: Feel free to replace the example routes below with your own
 const usersRoutes = require("./routes/users");
 const widgetsRoutes = require("./routes/widgets");
-const newRoute = require("./routes/new");
+const createMap = require("./routes/createMap");
+const maps = require("./routes/maps");
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
 app.use("/api/users", usersRoutes(db));
 app.use("/api/widgets", widgetsRoutes(db));
+app.use("/maps/new", createMap);
+app.use("/maps", maps);
 // Note: mount other resources here, using the same pattern above
 
 // Home page
@@ -55,31 +58,6 @@ app.use("/api/widgets", widgetsRoutes(db));
 
 app.get("/", (req, res) => {
   res.render("index");
-});
-
-// ***To Move***
-const testDb = {};
-
-app.get("/maps/new", (req, res) => {
-  res.render("create");
-});
-
-app.get("/maps", (req, res) => {
-  const templateVars = {
-    name: testDb["0001"].name,
-    country: testDb["0001"].country,
-    locationAddress: testDb["0001"].locationAddress,
-  };
-  res.render("maps", templateVars);
-});
-
-app.post("/maps", (req, res) => {
-  testDb["0001"] = {
-    name: req.body["newMapName"],
-    country: req.body["country"],
-    locationAddress: req.body["locationAddress"],
-  };
-  res.redirect("/maps");
 });
 
 app.listen(PORT, () => {
