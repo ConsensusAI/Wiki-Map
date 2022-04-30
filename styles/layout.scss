@@ -30,8 +30,8 @@ nav {
     font-family: Source Sans Pro, sans-serif;
     padding-top: 120px;
     display: flex;
-    /* flex-direction: column;
-    align-items: flex-start; */
+    // flex-direction: row;
+    // align-items: flex-start;
 
 
   }
@@ -49,10 +49,10 @@ nav {
    .container {
      display: flex;
      align-items: center;
-     width: 90%;
+     width: 100%;
      background-color: #f4f1ec;
      display: flex;
-     flex-direction: column;
+     flex-direction: row;
      gap: 30px;
 
    }
