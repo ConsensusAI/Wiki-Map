@@ -12,10 +12,14 @@ let mapObj = {
 }
 let points = [
   {
+    id: 1,
+    title: 'Point1',
     lat: 45.4236237996463,
     lng: -75.70106847644017
   },
   {
+    id: 2,
+    title: 'Point2',
     lat: 45.436767,
     lng: -75.739633
   }
@@ -34,14 +38,17 @@ L.tileLayer(
     id: "mapbox/streets-v11",
     tileSize: 512,
     zoomOffset: -1,
-    accessToken:
-      "pk.eyJ1IjoiaGVucmlxdWV0YWthIiwiYSI6ImNsMmlkZnVhMDAxcW0zZG50OHZkMmw2bjcifQ.sjkW4ZrEFg8NOCIKEQki1g",
+    accessToken: "pk.eyJ1IjoiaGVucmlxdWV0YWthIiwiYSI6ImNsMmlkZnVhMDAxcW0zZG50OHZkMmw2bjcifQ.sjkW4ZrEFg8NOCIKEQki1g",
   }
 ).addTo(map);
 
-// Marker - implement for loop to include in the map
-L.marker([points[0].lat, points[0].lng]).addTo(map);
-L.marker([points[1].lat, points[1].lng]).addTo(map);
+// Markers
+points.map(p => {
+  console.log(p);
+  let tempMarker = L.marker([p.lat, p.lng]).addTo(map);
+  tempMarker.bindPopup(p.title).openPopup();
+});
+
 
 // Circle
 // var circle = L.circle([45.42, -75.7], {
@@ -67,12 +74,24 @@ function onMapClick(e) {
 
   clickedMapPopup
     .setLatLng(e.latlng)
-    .setContent("You clicked the map at " + e.latlng)
+    .setContent("You clicked on: " + e.latlng)
     .openOn(map);
 
   if (confirm("Do you want to save this location?")) {
-    marker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(map);
+
+    let marker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(map);
+    let title = prompt("Please enter the title", "Write...");
+
+    marker.bindPopup(title).openPopup();
+
+    // clickedMapPopup
+    //   .setLatLng(e.latlng)
+    //   .setContent(title)
+    //   .openOn(map);
+
     points.push({
+      id: Object.keys(points).length + 1,
+      title: title,
       lat: e.latlng.lat,
       lng: e.latlng.lng
     });
