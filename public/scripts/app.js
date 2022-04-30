@@ -39,9 +39,8 @@ L.tileLayer(
   }
 ).addTo(map);
 
-// Marker
-
-let marker = L.marker([points[0].lat, points[0].lng]).addTo(map);
+// Marker - implement for loop to include in the map
+L.marker([points[0].lat, points[0].lng]).addTo(map);
 L.marker([points[1].lat, points[1].lng]).addTo(map);
 
 // Circle
@@ -53,31 +52,33 @@ L.marker([points[1].lat, points[1].lng]).addTo(map);
 // }).addTo(map);
 
 // Popups
-
-marker
-  .bindPopup("<b>Welcome to our map!!</b><br>This is Parliament Hill.")
-  .openPopup();
+// marker
+//   .bindPopup("<b>Welcome to our map!!</b><br>This is Parliament Hill.")
+//   .openPopup();
 
 // Click Event
 
 let clickedMapPopup = L.popup();
-
+let marker;
 function onMapClick(e) {
+  marker = L.marker([e.latlng.lat, e.latlng.lng]);
   clickedMapPopup
     .setLatLng(e.latlng)
     .setContent("You clicked the map at " + e.latlng)
     .openOn(map);
 
   if (confirm("Do you want to save this location?")) {
-    L.marker([e.latlng.lat, e.latlng.lng]).addTo(map);
+    marker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(map);
     points.push({
       lat: e.latlng.lat,
       lng: e.latlng.lng
     });
-    console.log(points);
+  }
+  if (confirm("Do you want to delete?")) {
+    map.removeLayer(marker);
   }
 
-
+  console.log(points);
 }
 
 
