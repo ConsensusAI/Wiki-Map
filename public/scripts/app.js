@@ -59,9 +59,12 @@ L.marker([points[1].lat, points[1].lng]).addTo(map);
 // Click Event
 
 let clickedMapPopup = L.popup();
-let marker;
+
 function onMapClick(e) {
-  marker = L.marker([e.latlng.lat, e.latlng.lng]);
+
+  // Check if point exists
+  // Implement - if true show option to delete...
+
   clickedMapPopup
     .setLatLng(e.latlng)
     .setContent("You clicked the map at " + e.latlng)
@@ -73,9 +76,6 @@ function onMapClick(e) {
       lat: e.latlng.lat,
       lng: e.latlng.lng
     });
-  }
-  if (confirm("Do you want to delete?")) {
-    map.removeLayer(marker);
   }
 
   console.log(points);
