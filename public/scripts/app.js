@@ -1,3 +1,5 @@
+// require("dotenv").config();
+
 // Client facing scripts here
 
 // dummy database
@@ -14,12 +16,14 @@ let points = [
   {
     id: 1,
     title: 'Point1',
+    description: 'description1...',
     lat: 45.4236237996463,
     lng: -75.70106847644017
   },
   {
     id: 2,
     title: 'Point2',
+    description: 'description2...',
     lat: 45.436767,
     lng: -75.739633
   }
@@ -27,6 +31,8 @@ let points = [
 //// Map ////
 
 let map = L.map("map").setView([mapObj.lat, mapObj.lng], 13);
+let markers = [];
+let latlng;
 
 // Tile Layer
 L.tileLayer(
@@ -38,68 +44,81 @@ L.tileLayer(
     id: "mapbox/streets-v11",
     tileSize: 512,
     zoomOffset: -1,
-    accessToken: "pk.eyJ1IjoiaGVucmlxdWV0YWthIiwiYSI6ImNsMmlkZnVhMDAxcW0zZG50OHZkMmw2bjcifQ.sjkW4ZrEFg8NOCIKEQki1g",
+    accessToken: "pk.eyJ1IjoiaGVucmlxdWV0YWthIiwiYSI6ImNsMmlkZnVhMDAxcW0zZG50OHZkMmw2bjcifQ.sjkW4ZrEFg8NOCIKEQki1g"
   }
-).addTo(map);
+).addTo(map);``
 
-// Markers
+// Markers - Load Map
 points.map(p => {
   console.log(p);
   let tempMarker = L.marker([p.lat, p.lng]).addTo(map);
-  tempMarker.bindPopup(p.title).openPopup();
+  let content = `<p>${p.title}</p></br><p>${p.description}</p></br><button onclick=clearMarker(${p.id})>Remove</button>`;
+  tempMarker._id = p.id;
+  markers.push(tempMarker);
+  tempMarker.bindPopup(content);
 });
 
-
-// Circle
-// var circle = L.circle([45.42, -75.7], {
-//   color: "red",
-//   fillColor: "#f03",
-//   fillOpacity: 0.5,
-//   radius: 500,
-// }).addTo(map);
-
-// Popups
-// marker
-//   .bindPopup("<b>Welcome to our map!!</b><br>This is Parliament Hill.")
-//   .openPopup();
+console.log("markers: ", markers);
 
 // Click Event
-
 let clickedMapPopup = L.popup();
 
 function onMapClick(e) {
 
-  // Check if point exists
-  // Implement - if true show option to delete...
+  latlng = e.latlng;
+  let popContent = `<p>Clicked on: ${e.latlng}</p></br><button onclick=saveMarker()>Save</button>`;
+  // let popContent = `<p>Clicked on: ${e.latlng}</p></br><button onclick=saveMarker()>Save</button>`;
 
   clickedMapPopup
     .setLatLng(e.latlng)
-    .setContent("You clicked on: " + e.latlng)
+    .setContent(popContent)
     .openOn(map);
 
-  if (confirm("Do you want to save this location?")) {
+  console.log(e);
+  console.log(markers);
 
-    let marker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(map);
-    let title = prompt("Please enter the title", "Write...");
-
-    marker.bindPopup(title).openPopup();
-
-    // clickedMapPopup
-    //   .setLatLng(e.latlng)
-    //   .setContent(title)
-    //   .openOn(map);
-
-    points.push({
-      id: Object.keys(points).length + 1,
-      title: title,
-      lat: e.latlng.lat,
-      lng: e.latlng.lng
-    });
-  }
-
-  console.log(points);
 }
 
+// Save point on map
+function saveMarker() {
+  let tempMarker = L.marker([latlng.lat, latlng.lng]).addTo(map);
+  let title = prompt("Please enter the title", "Write...");
+  let desc = prompt("Brief description", "Write...");
+  // new ID
+  let newId = 0;
+  if (markers.length > 0) {
+    newId = markers[markers.length - 1]._id + 1
+  }
 
+  let content = `<p>${title}</p></br><p>${desc}</p></br><button onclick=clearMarker(${newId})>Remove</button>`;
+  tempMarker._id = newId;
+  markers.push(tempMarker);
+  tempMarker.bindPopup(content).openPopup();
+
+  // Implement on Database - points table
+  // points.push({
+  //   id: Object.keys(points).length + 1,
+  //   title: title,
+  //   description: desc,
+  //   lat: e.latlng.lat,
+  //   lng: e.latlng.lng
+  // });
+  // console.log(points);
+}
+
+// Clear marker
+function clearMarker(id) {
+  let newMarkers = [];
+  markers.forEach(m => {
+    if (m._id === id) {
+      m.remove();
+    } else {
+      newMarkers.push(m);
+    }
+  })
+  markers = newMarkers;
+  console.log("markers: ", markers);
+
+}
 
 map.on("click", onMapClick);
