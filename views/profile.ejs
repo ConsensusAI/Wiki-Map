@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Wiki Map - Home Page</title>
+    <title>Wiki Map - Your Profile</title>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -30,25 +30,13 @@
 
   <nav>
 
-      <span id ="navbar">Wiki-Home</span>
-      <span id ="login" ><div>Login</span>
+      <span id ="navbar">Wiki-Maps</span>
+      <span id ="login" ><div>Username</span>
   </nav>
-    <div id="map"></div>
 
     <main class="container">
-      <section class="map-container"></section>
-      <script>
-        var map = L.map('map').setView([51.505, -0.09], 13);
+      <section class="form-container"></section>
 
-        L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={pk.eyJ1IjoibWFyaWJla2tlciIsImEiOiJjbDJsNmRqcGowYWNzM29zYjJ1bGMyenppIn0.k3-vbpunpWaejv0J4au6eQ}', {
-            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-            maxZoom: 18,
-            id: 'mapbox/streets-v11',
-            tileSize: 512,
-            zoomOffset: -1,
-            accessToken: 'pk.eyJ1IjoibWFyaWJla2tlciIsImEiOiJjbDJsNmRqcGowYWNzM29zYjJ1bGMyenppIn0.k3-vbpunpWaejv0J4au6eQ'
-        }).addTo(map);
-    </script>
       <section id ="list-container"></section>
     </main>
 
