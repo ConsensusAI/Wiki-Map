@@ -11,8 +11,4 @@ CREATE TABLE maps_users (
   favourite BOOLEAN
 );
 
-CREATE TABLE maps_points (
-  id SERIAL PRIMARY KEY NOT NULL,
-  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-  point_id INTEGER REFERENCES points(id) ON DELETE CASCADE
-);
+
