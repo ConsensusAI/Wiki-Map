@@ -6,7 +6,7 @@
 let user_id = 1;
 let mapObj = {
   map_id: 1,
-  title: 'Ottawaa',
+  title: 'Best Places in Ottawa',
   lat: 45.4236237996463,
   lng: -75.70106847644017,
   public: true,
@@ -26,10 +26,18 @@ let points = [
     description: 'description2...',
     lat: 45.436767,
     lng: -75.739633
+  },
+  {
+    id: 3,
+    title: 'Point3',
+    description: 'description3...',
+    lat: 45.436767,
+    lng: -75.759633
   }
 ]
 //// Map ////
 
+document.getElementById("map-title").innerHTML = mapObj.title;
 let map = L.map("map").setView([mapObj.lat, mapObj.lng], 13);
 let markers = [];
 let latlng;
@@ -48,7 +56,7 @@ L.tileLayer(
   }
 ).addTo(map);``
 
-// Markers - Load Map
+// Markers - Load Map initial state
 points.map(p => {
   console.log(p);
   let tempMarker = L.marker([p.lat, p.lng]).addTo(map);
@@ -57,6 +65,19 @@ points.map(p => {
   markers.push(tempMarker);
   tempMarker.bindPopup(content);
 });
+
+// Reload
+function loadMap() {
+  document.getElementById("map-list").innerHTML = "";
+  points.map(p => {
+    let node = document.createElement("li");
+    let nodeText = document.createTextNode(p.title);
+    node.appendChild(nodeText);
+    document.getElementById("map-list").appendChild(node)
+  });
+}
+
+loadMap();
 
 console.log("markers: ", markers);
 
@@ -96,19 +117,21 @@ function saveMarker() {
   tempMarker.bindPopup(content).openPopup();
 
   // Implement on Database - points table
-  // points.push({
-  //   id: Object.keys(points).length + 1,
-  //   title: title,
-  //   description: desc,
-  //   lat: e.latlng.lat,
-  //   lng: e.latlng.lng
-  // });
-  // console.log(points);
+  points.push({
+    id: Object.keys(points).length + 1,
+    title: title,
+    description: desc,
+    lat: latlng.lat,
+    lng: latlng.lng
+  });
+  console.log(points);
+  loadMap();
 }
 
 // Clear marker
 function clearMarker(id) {
   let newMarkers = [];
+
   markers.forEach(m => {
     if (m._id === id) {
       m.remove();
@@ -119,6 +142,15 @@ function clearMarker(id) {
   markers = newMarkers;
   console.log("markers: ", markers);
 
+  points.forEach((p, index) => {
+    if (p.id === id) {
+      points.splice(index,1);
+    }
+  });
+  console.log("points: ", points);
+  loadMap();
 }
 
 map.on("click", onMapClick);
+
+
