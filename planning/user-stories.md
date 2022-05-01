@@ -12,6 +12,15 @@ Users can favourite a map
 Users have profiles, indicating their favourite maps and maps they’ve contributed to
 Use leafletjs or google maps
 
+## Implementation notes:
+
+Hybrid multi page and SPA. 
+
+4 Pages/EJS templates: index, profile, create and edit (contribute).
+
+
+Routes for the pages are each in a separate file. 
+
 ## User Stories:
 
 1) As a user, when I am NOT logged in, I can see a list of available maps which are public, because I want to know what's avaialble on the app. 
