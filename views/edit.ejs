@@ -31,9 +31,46 @@
     <%- include('./partials/nav.ejs') %>
 
     <main class="container">
-      <section class="form-container"></section>
+      <section id ="list-container">
+        Add Point - Default selection
+        <br>
+        <br>
+        edit point
+        <br>
+        <br>
+        Remove Point - need Jquery to change option
+        <br>
+        <br>
+        Edit map
 
-      <section id ="list-container"></section>
+      </section>
+
+    <section class="form-container">
+        <h1>Enter Point details</h1>
+        Title:
+        <br>
+        <input type="pointTitle" name="pointTitle" placeholder="Name your point">
+        <br><br>
+        Description:
+        <br>
+        <input type="pointDescription" name="pointDescription" placeholder="What is this place?">
+        <br><br>
+        Image:
+        <input type="pointImage" name="pointImage" placeholder="Image link">
+        <br><br>
+        Longitutude:
+        <input type="pointLong" name="pointLong" placeholder="Point Longitude">
+        <br><br>
+        Latitude:
+        <input type="pointLat" name="pointLat" placeholder="Point Latitude">
+        <br><br>
+
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+      </section>
+
+
     </main>
 
   </body>
