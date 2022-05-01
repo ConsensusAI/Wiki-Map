@@ -66,7 +66,7 @@ points.map(p => {
   tempMarker.bindPopup(content);
 });
 
-// Reload
+// Reload the list of points
 function loadMap() {
   document.getElementById("map-list").innerHTML = "";
   points.map(p => {
@@ -85,10 +85,8 @@ console.log("markers: ", markers);
 let clickedMapPopup = L.popup();
 
 function onMapClick(e) {
-
   latlng = e.latlng;
   let popContent = `<p>Clicked on: ${e.latlng}</p></br><button onclick=saveMarker()>Save</button>`;
-  // let popContent = `<p>Clicked on: ${e.latlng}</p></br><button onclick=saveMarker()>Save</button>`;
 
   clickedMapPopup
     .setLatLng(e.latlng)
@@ -97,7 +95,6 @@ function onMapClick(e) {
 
   console.log(e);
   console.log(markers);
-
 }
 
 // Save point on map
