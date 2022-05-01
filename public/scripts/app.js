@@ -4,41 +4,73 @@
 
 // dummy database
 let user_id = 1;
-let mapObj = {
-  map_id: 1,
-  title: 'Best Places in Ottawa',
-  lat: 45.4236237996463,
-  lng: -75.70106847644017,
-  public: true,
-  created_by: 1
-}
+let map_id = 1;
+
+let maps = [
+  {
+    id: 1,
+    title: 'Best Places in Ottawa',
+    lat: 45.4236237996463,
+    lng: -75.70106847644017,
+    public: true,
+    created_by: 1
+  },
+  {
+    id: 2,
+    title: 'Best Places in Montreal',
+    lat: 45.507189,
+    lng: -73.583097,
+    public: true,
+    created_by: 1
+  },
+  {
+    id: 3,
+    title: 'Best Places in Toronto',
+    lat: 45.507189,
+    lng: -73.583097,
+    public: true,
+    created_by: 2
+  }
+];
+
+// let mapObj = {
+//   map_id: 1,
+//   title: 'Best Places in Ottawa',
+//   lat: 45.4236237996463,
+//   lng: -75.70106847644017,
+//   public: true,
+//   created_by: 1
+// }
+
 let points = [
   {
     id: 1,
     title: 'Point1',
     description: 'description1...',
     lat: 45.4236237996463,
-    lng: -75.70106847644017
+    lng: -75.70106847644017,
+    map_id: 1
   },
   {
     id: 2,
     title: 'Point2',
     description: 'description2...',
     lat: 45.436767,
-    lng: -75.739633
+    lng: -75.739633,
+    map_id: 1
   },
   {
     id: 3,
     title: 'Point3',
     description: 'description3...',
     lat: 45.436767,
-    lng: -75.759633
+    lng: -75.759633,
+    map_id: 2
   }
 ]
 //// Map ////
-
-document.getElementById("map-title").innerHTML = mapObj.title;
-let map = L.map("map").setView([mapObj.lat, mapObj.lng], 13);
+document.getElementById("map-title").innerHTML = maps[0].title;
+let map = L.map("map").setView([maps[0].lat, maps[0].lng], 13);
 let markers = [];
 let latlng;
 
@@ -54,30 +86,55 @@ L.tileLayer(
     zoomOffset: -1,
     accessToken: "pk.eyJ1IjoiaGVucmlxdWV0YWthIiwiYSI6ImNsMmlkZnVhMDAxcW0zZG50OHZkMmw2bjcifQ.sjkW4ZrEFg8NOCIKEQki1g"
   }
-).addTo(map);``
+).addTo(map);
+
+// Maps - Load Maps available for user
+function loadMaps() {
+  document.getElementById("maps-list").innerHTML = "";
+  maps.map((m, index) => {
+    if (m.created_by === user_id) {
+      let node = document.createElement("li");
+      let nodeText = document.createTextNode(m.title);
+      node.setAttribute("onclick", `loadMapId(${m.id}, ${index})`);
+      node.appendChild(nodeText);
+      document.getElementById("maps-list").appendChild(node)
+    }
+  });
+}
+loadMaps();
+
+function loadMapId (id, index) {
+  map_id = id;
+  document.getElementById("map-title").innerHTML = maps[index].title;
+  map.setView([maps[index].lat, maps[index].lng], 13);
+};
 
 // Markers - Load Map initial state
 points.map(p => {
-  console.log(p);
-  let tempMarker = L.marker([p.lat, p.lng]).addTo(map);
-  let content = `<p>${p.title}</p></br><p>${p.description}</p></br><button onclick=clearMarker(${p.id})>Remove</button>`;
-  tempMarker._id = p.id;
-  markers.push(tempMarker);
-  tempMarker.bindPopup(content);
+  if (p.map_id === map_id) {
+    console.log(p);
+    let tempMarker = L.marker([p.lat, p.lng]).addTo(map);
+    let content = `<p>${p.title}</p></br><p>${p.description}</p></br><button onclick=clearMarker(${p.id})>Remove</button>`;
+    tempMarker._id = p.id;
+    markers.push(tempMarker);
+    tempMarker.bindPopup(content);
+  }
 });
 
 // Reload the list of points
-function loadMap() {
-  document.getElementById("map-list").innerHTML = "";
+function loadPoints() {
+  document.getElementById("map-points").innerHTML = "";
   points.map(p => {
-    let node = document.createElement("li");
-    let nodeText = document.createTextNode(p.title);
-    node.appendChild(nodeText);
-    document.getElementById("map-list").appendChild(node)
+    if (p.map_id === map_id) {
+      let node = document.createElement("li");
+      let nodeText = document.createTextNode(p.title);
+      node.appendChild(nodeText);
+      document.getElementById("map-points").appendChild(node)
+    }
   });
 }
 
-loadMap();
+loadPoints();
 
 console.log("markers: ", markers);
 
@@ -86,7 +143,7 @@ let clickedMapPopup = L.popup();
 
 function onMapClick(e) {
   latlng = e.latlng;
-  let popContent = `<p>Clicked on: ${e.latlng}</p></br><button onclick=saveMarker()>Save</button>`;
+  let popContent = `<p>Clicked on: ${e.latlng}</p></br><button onclick=saveMarker(latlng)>Save</button>`;
 
   clickedMapPopup
     .setLatLng(e.latlng)
@@ -98,7 +155,7 @@ function onMapClick(e) {
 }
 
 // Save point on map
-function saveMarker() {
+function saveMarker(latlng) {
   let tempMarker = L.marker([latlng.lat, latlng.lng]).addTo(map);
   let title = prompt("Please enter the title", "Write...");
   let desc = prompt("Brief description", "Write...");
@@ -122,7 +179,7 @@ function saveMarker() {
     lng: latlng.lng
   });
   console.log(points);
-  loadMap();
+  loadPoints();
 }
 
 // Clear marker
@@ -145,7 +202,7 @@ function clearMarker(id) {
     }
   });
   console.log("points: ", points);
-  loadMap();
+  loadPoints();
 }
 
 map.on("click", onMapClick);

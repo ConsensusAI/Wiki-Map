@@ -27,18 +27,21 @@
   </head>
 
   <body>
-    <h1>/ / W i k i M a p / /</h1>
-
     <nav>
-        <span id ="navbar">Wiki-Home</span>
-        <span id ="login" ><div><a href ="/profile">Username</a></span>
+      <span id ="navbar">Wiki-Home</span>
+      <span id ="login" ><div><a href ="/profile">Username</a></span>
     </nav>
-
+    <div>
+      <h1>/ / W i k i M a p / /</h1>
+      <h2>My Maps:</h2>
+      <ul id="maps-list">
+        <li onclick=testFunc()>maps1</li>
+      </ul>
+    </div>
     <main class="container">
       <section id ="list-container">
         <h1 id="map-title"></h1>
-        <ul id="map-list">
-        </ul>
+        <ul id="map-points"></ul>
       </section>
       <section class="map-container"></section>
       <div id="map"></div>
