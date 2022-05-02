@@ -1,7 +1,7 @@
-// require("dotenv").config();
+// require("dotenv").config(); Ask Taiwo how to config this...
 
 // dummy database
-let user_id = 1;
+let user_id = 2;
 
 let maps = [
   {
@@ -37,6 +37,7 @@ let points = [
     description: 'description1...',
     lat: 45.4236237996463,
     lng: -75.70106847644017,
+    image: '',
     map_id: 1
   },
   {
@@ -45,6 +46,7 @@ let points = [
     description: 'description2...',
     lat: 45.436767,
     lng: -75.739633,
+    image: '',
     map_id: 1
   },
   {
@@ -53,6 +55,7 @@ let points = [
     description: 'description3...',
     lat: 45.508091,
     lng: -73.599874,
+    image: '',
     map_id: 2
   },
   {
@@ -61,14 +64,16 @@ let points = [
     description: 'description4...',
     lat: 45.409357,
     lng: -75.719346,
+    image: '',
     map_id: 1
-  }, //43.642555, -79.387109
+  },
   {
     id: 5,
     title: 'CN Tower',
     description: 'Most iconic tower of Canada.',
     lat: 43.642555,
     lng: -79.387109,
+    image: 'https://media.istockphoto.com/photos/tower-picture-id483465910', //https://media.istockphoto.com/photos/tower-picture-id483465910
     map_id: 3
   },
   {
@@ -77,6 +82,7 @@ let points = [
     description: 'The High Park is one of the biggest parks in the Toronto region.',
     lat: 43.645905,
     lng: -79.463374,
+    image: 'https://media.istockphoto.com/photos/toronto-postcard-picture-id803293832?s=612x612', //https://media.istockphoto.com/photos/toronto-postcard-picture-id803293832?s=612x612
     map_id: 3
   },
 ]
@@ -168,7 +174,13 @@ function loadMarkers() {
     if (p.map_id === map_id) {
       console.log(p);
       let tempMarker = L.marker([p.lat, p.lng]).addTo(map);
-      let content = `<p>${p.title}</p></br><p>${p.description}</p></br><button onclick="clearMarker(${p.id})">Remove</button>`;
+      let content =
+        `<p>${p.title}</p>
+        </br>
+        <p>${p.description}</p>
+        </br>
+        <img src="${p.image}" style="width:150px;height:150px;">
+        <button onclick="clearMarker(${p.id})">Remove</button>`;
       tempMarker._id = p.id;
       markers.push(tempMarker);
       tempMarker.bindPopup(content);
