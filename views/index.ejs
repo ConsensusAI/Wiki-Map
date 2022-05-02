@@ -29,11 +29,15 @@
   <body>
  <%- include('./partials/nav.ejs') %>
 
-
     <main class="container">
-      <section id ="list-container"></section>
-      <h3>Replace with SQL query for all maps</h3>
-      <section class="map-container"></section>
+      <section id ="list-container">
+        <h2>Maps:</h2>
+        <ul id="maps-list"></ul>
+
+        <h2>Saved locations:</h2>
+        <ul id="map-points"></ul>
+      </section>
+      <h1 id="map-title"></h1>
       <div id="map"></div>
 
     </main>

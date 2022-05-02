@@ -1,38 +1,98 @@
 // require("dotenv").config();
 
-// Client facing scripts here
-
 // dummy database
 let user_id = 1;
-let mapObj = {
-  map_id: 1,
-  title: 'Ottawaa',
-  lat: 45.4236237996463,
-  lng: -75.70106847644017,
-  public: true,
-  created_by: 1
-}
+
+let maps = [
+  {
+    id: 1,
+    title: 'Best Places in Ottawa',
+    lat: 45.4236237996463,
+    lng: -75.70106847644017,
+    public: true,
+    created_by: 1
+  },
+  {
+    id: 2,
+    title: 'Best Places in Montreal',
+    lat: 45.508091,
+    lng: -73.599874,
+    public: true,
+    created_by: 1
+  },
+  {
+    id: 3,
+    title: 'Best Places in Toronto',
+    lat: 43.642555,
+    lng: -79.387109,
+    public: true,
+    created_by: 2
+  }
+];
+
 let points = [
   {
     id: 1,
     title: 'Point1',
     description: 'description1...',
     lat: 45.4236237996463,
-    lng: -75.70106847644017
+    lng: -75.70106847644017,
+    map_id: 1
   },
   {
     id: 2,
     title: 'Point2',
     description: 'description2...',
     lat: 45.436767,
-    lng: -75.739633
-  }
+    lng: -75.739633,
+    map_id: 1
+  },
+  {
+    id: 3,
+    title: 'Point3',
+    description: 'description3...',
+    lat: 45.508091,
+    lng: -73.599874,
+    map_id: 2
+  },
+  {
+    id: 4,
+    title: 'Point4',
+    description: 'description4...',
+    lat: 45.409357,
+    lng: -75.719346,
+    map_id: 1
+  }, //43.642555, -79.387109
+  {
+    id: 5,
+    title: 'CN Tower',
+    description: 'Most iconic tower of Canada.',
+    lat: 43.642555,
+    lng: -79.387109,
+    map_id: 3
+  },
+  {
+    id: 6,
+    title: 'High Park',
+    description: 'The High Park is one of the biggest parks in the Toronto region.',
+    lat: 43.645905,
+    lng: -79.463374,
+    map_id: 3
+  },
 ]
-//// Map ////
 
-let map = L.map("map").setView([mapObj.lat, mapObj.lng], 13);
+// Map - initialize on "map"
+let userMaps = [];
+maps.forEach((m, index) => {
+  if(m.created_by === user_id) {
+    userMaps.push([m.id, index]);
+  }
+});
+// By default we are displaying the first map found for each user
+map_id = userMaps[0][0];
+document.getElementById("map-title").innerHTML = maps[userMaps[0][1]].title;
+let map = L.map("map").setView([maps[userMaps[0][1]].lat, maps[userMaps[0][1]].lng], 13);
 let markers = [];
-let latlng;
 
 // Tile Layer
 L.tileLayer(
@@ -46,71 +106,117 @@ L.tileLayer(
     zoomOffset: -1,
     accessToken: "pk.eyJ1IjoiaGVucmlxdWV0YWthIiwiYSI6ImNsMmlkZnVhMDAxcW0zZG50OHZkMmw2bjcifQ.sjkW4ZrEFg8NOCIKEQki1g"
   }
-).addTo(map);``
+).addTo(map);
 
-// Markers - Load Map
-points.map(p => {
-  console.log(p);
-  let tempMarker = L.marker([p.lat, p.lng]).addTo(map);
-  let content = `<p>${p.title}</p></br><p>${p.description}</p></br><button onclick=clearMarker(${p.id})>Remove</button>`;
-  tempMarker._id = p.id;
-  markers.push(tempMarker);
-  tempMarker.bindPopup(content);
-});
+loadMaps();
+loadMarkers();
+loadPoints();
 
-console.log("markers: ", markers);
+console.log("markers: ", markers, " --- points: ", points);
 
 // Click Event
 let clickedMapPopup = L.popup();
 
+let latlng;
 function onMapClick(e) {
-
   latlng = e.latlng;
-  let popContent = `<p>Clicked on: ${e.latlng}</p></br><button onclick=saveMarker()>Save</button>`;
-  // let popContent = `<p>Clicked on: ${e.latlng}</p></br><button onclick=saveMarker()>Save</button>`;
+  let popContent = `<p>Clicked on: ${e.latlng}</p></br><button onclick=saveMarker(latlng)>Save</button>`;
 
   clickedMapPopup
     .setLatLng(e.latlng)
     .setContent(popContent)
     .openOn(map);
 
-  console.log(e);
-  console.log(markers);
-
 }
 
+
+
+
+// Functions here -------------------------------------------------------------------------------------------
+
+// Maps - Load Maps available for user
+function loadMaps() {
+  document.getElementById("maps-list").innerHTML = "";
+  maps.map((m, index) => {
+    if (m.created_by === user_id) {
+      let node = document.createElement("li");
+      let nodeText = document.createTextNode(m.title);
+      node.setAttribute("onclick", `loadMapId(${m.id}, ${index})`);
+      node.appendChild(nodeText);
+      document.getElementById("maps-list").appendChild(node)
+    }
+  });
+}
+
+// Reload the list of points on page
+function loadPoints() {
+  document.getElementById("map-points").innerHTML = "";
+  points.map(p => {
+    if (p.map_id === map_id) {
+      let node = document.createElement("li");
+      let nodeText = document.createTextNode(p.title);
+      node.setAttribute("onclick", `showPopup(${p.id})`);
+      node.appendChild(nodeText);
+      document.getElementById("map-points").appendChild(node)
+    }
+  });
+}
+
+// Markers - Load Markers (initial state from points table)
+function loadMarkers() {
+  points.map((p) => {
+    if (p.map_id === map_id) {
+      console.log(p);
+      let tempMarker = L.marker([p.lat, p.lng]).addTo(map);
+      let content = `<p>${p.title}</p></br><p>${p.description}</p></br><button onclick="clearMarker(${p.id})">Remove</button>`;
+      tempMarker._id = p.id;
+      markers.push(tempMarker);
+      tempMarker.bindPopup(content);
+    }
+  });
+}
+
+// Load a new selected Map by ID
+function loadMapId(id, index) {
+  map_id = id;
+  document.getElementById("map-title").innerHTML = maps[index].title;
+  map.setView([maps[index].lat, maps[index].lng], 13);
+  markers = []; // reset markers array
+  loadMarkers();
+  loadPoints();
+};
+
 // Save point on map
-function saveMarker() {
+function saveMarker(latlng) {
   let tempMarker = L.marker([latlng.lat, latlng.lng]).addTo(map);
   let title = prompt("Please enter the title", "Write...");
   let desc = prompt("Brief description", "Write...");
-  // new ID
-  let newId = 0;
-  if (markers.length > 0) {
-    newId = markers[markers.length - 1]._id + 1
-  }
-
-  let content = `<p>${title}</p></br><p>${desc}</p></br><button onclick=clearMarker(${newId})>Remove</button>`;
-  tempMarker._id = newId;
+  let newIdPoint = points[Object.keys(points).length - 1].id + 1;
+  let content = `<p>${title}</p></br><p>${desc}</p></br><button onclick="clearMarker(${newIdPoint})">Remove</button>`;
+  tempMarker._id = newIdPoint;
   markers.push(tempMarker);
   tempMarker.bindPopup(content).openPopup();
 
   // Implement on Database - points table
-  // points.push({
-  //   id: Object.keys(points).length + 1,
-  //   title: title,
-  //   description: desc,
-  //   lat: e.latlng.lat,
-  //   lng: e.latlng.lng
-  // });
-  // console.log(points);
+  points.push({
+    id: newIdPoint,
+    title: title,
+    description: desc,
+    lat: latlng.lat,
+    lng: latlng.lng,
+    map_id: map_id
+  });
+
+  loadPoints();
+  console.log("<<saveMarkers>> markers: ", markers, " --- points: ", points);
 }
 
 // Clear marker
-function clearMarker(id) {
+function clearMarker(idMarker) {
   let newMarkers = [];
+
   markers.forEach(m => {
-    if (m._id === id) {
+    if (m._id === idMarker) {
       m.remove();
     } else {
       newMarkers.push(m);
@@ -119,6 +225,24 @@ function clearMarker(id) {
   markers = newMarkers;
   console.log("markers: ", markers);
 
+  points.forEach((p, index) => {
+    if (p.id === idMarker) {
+      points.splice(index,1);
+    }
+  });
+
+  loadPoints();
+  console.log("<<clearMarkers>> markers: ", markers, " --- points: ", points);
+}
+
+function showPopup(id) {
+  markers.forEach(m => {
+    if(m._id === id) {
+      m.openPopup();
+    }
+  });
 }
 
 map.on("click", onMapClick);
+
+
