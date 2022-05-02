@@ -1,7 +1,7 @@
 // require("dotenv").config();
 
 // dummy database
-let user_id = 2;
+let user_id = 1;
 
 let maps = [
   {
