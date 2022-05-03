@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Wiki Map - Home Page</title>
+    <title>Wiki Map - Your contributions</title>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -27,20 +27,52 @@
   </head>
 
   <body>
- <%- include('./partials/nav.ejs') %>
+
+    <%- include('./partials/nav.ejs') %>
 
     <main class="container">
       <section id ="list-container">
-        <h2>Maps:</h2>
-        <ul id="maps-list"></ul>
+        Add Point - Default selection
+        <br>
+        <br>
+        edit point
+        <br>
+        <br>
+        Remove Point - need Jquery to change option
+        <br>
+        <br>
+        Edit map
 
-        <h2>Saved locations:</h2>
-        <ul id="map-points"></ul>
       </section>
-      <h1 id="map-title"></h1>
-      <div id="map"></div>
+
+    <section class="form-container">
+        <h1>Enter Point details</h1>
+        Title:
+        <br>
+        <input type="pointTitle" name="pointTitle" placeholder="Name your point">
+        <br><br>
+        Description:
+        <br>
+        <input type="pointDescription" name="pointDescription" placeholder="What is this place?">
+        <br><br>
+        Image:
+        <input type="pointImage" name="pointImage" placeholder="Image link">
+        <br><br>
+        Longitutude:
+        <input type="pointLong" name="pointLong" placeholder="Point Longitude">
+        <br><br>
+        Latitude:
+        <input type="pointLat" name="pointLat" placeholder="Point Latitude">
+        <br><br>
+
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+      </section>
+
 
     </main>
+
   </body>
   <script type="text/javascript" src="/scripts/app.js"></script>
 </html>
