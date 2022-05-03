@@ -1,7 +1,12 @@
 // require("dotenv").config(); Ask Taiwo how to config this...
+// const getMapsByUser = require('../../routes/maps');
 
 // dummy database
-let user_id = 2;
+let user_id = 1;
+let user_email = 'alice@gmail.com';
+
+// let mapsDB = getMapsByUser(user_email);
+// console.log(mapsDB);
 
 let maps = [
   {

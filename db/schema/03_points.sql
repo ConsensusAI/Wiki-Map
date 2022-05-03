@@ -8,8 +8,8 @@ CREATE TABLE points (
   title VARCHAR(255) NOT NULL,
   description TEXT,
   image VARCHAR(255) NOT NULL,
-  latitude DECIMAL,
-  longitude DECIMAL,
+  lat DECIMAL NOT NULL,
+  lng DECIMAL NOT NULL,
   created_by INTEGER REFERENCES users(id) ON DELETE CASCADE
 );
 
