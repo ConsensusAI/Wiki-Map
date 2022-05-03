@@ -8,7 +8,7 @@ const express = require("express");
 const app = express();
 const morgan = require("morgan");
 
-// ***To Move***
+// Parse Information Sent in Body
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true }));
 
