@@ -5,21 +5,30 @@ const testDb = {};
 
 // Create New Map Forms
 router.post("/", function (req, res) {
+  let private;
+  if (!req.body["checked"]) {
+    private = false;
+  } else {
+    private = true;
+  }
+
   testDb["0001"] = {
     name: req.body["newMapName"],
     latitude: req.body["latitude"],
     longitude: req.body["longitude"],
+    private: private,
   };
 
   let name = testDb["0001"].name;
   let lat = testDb["0001"].latitude;
   let lng = testDb["0001"].longitude;
+  let privacy = testDb["0001"].private;
 
   // Query to send new map data to database
   // pool
   //   .query(
   //     "INSERT INTO maps (title, lat, lng, created_by, public) VALUES ($1, $2, $3, $4, $5)",
-  //     [name, lat, lng]
+  //     [name, lat, lng, private]
   //   )
   //   .then((result) => {});
 
