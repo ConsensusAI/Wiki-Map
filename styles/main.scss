@@ -19,3 +19,13 @@ body {
   height: 500px;
   width: 75%;
 }
+
+li :hover {
+  cursor: pointer;
+  color: aqua;
+}
+
+ul :hover {
+  cursor: pointer;
+  color: aqua;
+}

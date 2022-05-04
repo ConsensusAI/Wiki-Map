@@ -99,6 +99,7 @@ maps.forEach((m, index) => {
     userMaps.push([m.id, index]);
   }
 });
+
 // By default we are displaying the first map found for each user
 map_id = userMaps[0][0];
 document.getElementById("map-title").innerHTML = maps[userMaps[0][1]].title;
@@ -119,9 +120,9 @@ L.tileLayer(
   }
 ).addTo(map);
 
-loadMaps();
-loadMarkers();
-loadPoints();
+loadMaps(); // List of maps for the user e.g. Best Places in Ottawa/Montreal
+loadMarkers(); // Place the markers in the map from points table
+loadPoints(); // List of points(places) saved on the map e.g. Point1, Point2, etc
 
 console.log("markers: ", markers, " --- points: ", points);
 
@@ -141,11 +142,9 @@ function onMapClick(e) {
 }
 
 
-
-
 // Functions here -------------------------------------------------------------------------------------------
 
-// Maps - Load Maps available for user
+// List of Maps (Ottawa, Montreal, etc)
 function loadMaps() {
   document.getElementById("maps-list").innerHTML = "";
   maps.map((m, index) => {
@@ -159,9 +158,21 @@ function loadMaps() {
   });
 }
 
-// Reload the list of points on page
+// List of points saved on the map (Point1, Point2, etc)
 function loadPoints() {
   document.getElementById("map-points").innerHTML = "";
+  /*$.ajax(url)
+  .then(res => {
+    res.points.map(p => {
+      if (p.map_id === map_id) {
+        let node = document.createElement("li");
+        let nodeText = document.createTextNode(p.title);
+        node.setAttribute("onclick", `showPopup(${p.id})`);
+        node.appendChild(nodeText);
+        document.getElementById("map-points").appendChild(node)
+      }
+    });
+  })*/
   points.map(p => {
     if (p.map_id === map_id) {
       let node = document.createElement("li");
@@ -173,7 +184,7 @@ function loadPoints() {
   });
 }
 
-// Markers - Load Markers (initial state from points table)
+// Markers on the map from points table
 function loadMarkers() {
   points.map((p) => {
     if (p.map_id === map_id) {
@@ -193,7 +204,7 @@ function loadMarkers() {
   });
 }
 
-// Load a new selected Map by ID
+// Load a new selected Map by ID - it loads again the markers and points
 function loadMapId(id, index) {
   map_id = id;
   document.getElementById("map-title").innerHTML = maps[index].title;
@@ -203,7 +214,7 @@ function loadMapId(id, index) {
   loadPoints();
 };
 
-// Save point on map
+// Save point on map (creates a new marker and add to points table)
 function saveMarker(latlng) {
   let tempMarker = L.marker([latlng.lat, latlng.lng]).addTo(map);
   let title = prompt("Please enter the title", "Write...");
@@ -230,16 +241,15 @@ function saveMarker(latlng) {
 
 // Clear marker
 function clearMarker(idMarker) {
-  let newMarkers = [];
+  // let newMarkers = [];
 
-  markers.forEach(m => {
+  markers.forEach((m, index) => {
     if (m._id === idMarker) {
       m.remove();
-    } else {
-      newMarkers.push(m);
+      markers.splice(index,1);
     }
   })
-  markers = newMarkers;
+  // markers = newMarkers;
   console.log("markers: ", markers);
 
   points.forEach((p, index) => {
