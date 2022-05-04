@@ -10,14 +10,20 @@ router.post("/", function (req, res) {
     latitude: req.body["latitude"],
     longitude: req.body["longitude"],
   };
-  res.send(
-    "Name: " +
-      testDb["0001"].name +
-      "\nLatitude: " +
-      testDb["0001"].latitude +
-      "\nLongitude: " +
-      testDb["0001"].longitude
-  );
+
+  let name = testDb["0001"].name;
+  let lat = testDb["0001"].latitude;
+  let lng = testDb["0001"].longitude;
+
+  // Query to send new map data to database
+  // pool
+  //   .query(
+  //     "INSERT INTO maps (title, lat, lng, created_by, public) VALUES ($1, $2, $3, $4, $5)",
+  //     [name, lat, lng]
+  //   )
+  //   .then((result) => {});
+
+  res.send("Name: " + name + "\nLatitude: " + lat + "\nLongitude: " + lng);
 });
 
 const getMapsByUser = function (email) {
