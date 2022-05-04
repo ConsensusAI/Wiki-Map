@@ -23,6 +23,20 @@ router.post("/", function (req, res) {
   //   )
   //   .then((result) => {});
 
+  const getAllPublicMaps = function () {
+    return pool
+      .query("SELECT * FROM maps WHERE public = 1")
+      .then((result) => {
+        console.log("maps: ", result.rows);
+        return result.rows;
+      })
+      .catch((err) => console.log(err));
+  };
+
+  (module.exports = router), getAllPublicMaps;
+
+
+
   res.send("Name: " + name + "\nLatitude: " + lat + "\nLongitude: " + lng);
 });
 
