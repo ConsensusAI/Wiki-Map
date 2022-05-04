@@ -5,10 +5,8 @@ const testDb = {};
 
 // Create New Map Forms
 router.post("/", function (req, res) {
-  let private;
-  if (!req.body["checked"]) {
-    private = false;
-  } else {
+  let private = false;
+  if (req.body["privateMap"]) {
     private = true;
   }
 
@@ -43,8 +41,6 @@ router.post("/", function (req, res) {
   };
 
   (module.exports = router), getAllPublicMaps;
-
-
 
   res.send("Name: " + name + "\nLatitude: " + lat + "\nLongitude: " + lng);
 });

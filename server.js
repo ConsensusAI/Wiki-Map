@@ -44,7 +44,13 @@ const widgetsRoutes = require("./routes/widgets");
 const createMap = require("./routes/createMap");
 const maps = require("./routes/maps");
 const profile = require("./routes/profile");
-const edit= require("./routes/edit");
+const edit = require("./routes/edit");
+
+// Set up interaction with the database
+const database = require("./db/database");
+const jrouter = express.Router();
+const jroute = require("./routes/jroute");
+jroute(jrouter, database);
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
@@ -54,6 +60,7 @@ app.use("/maps/new", createMap);
 app.use("/maps", maps);
 app.use("/profile", profile);
 app.use("/edit", edit);
+app.use("/jroute", jrouter);
 // Note: mount other resources here, using the same pattern above
 
 // Home page
