@@ -33,3 +33,28 @@ const addMap = (map) => {
 };
 
 exports.addMap = addMap;
+
+const getAllPublicMapsByUser = function (id) {
+  return pool
+    .query("SELECT * FROM maps WHERE public = 1 AND created_by = $1, [id]")
+    .then((result) => {
+      console.log("maps: ", result.rows[0]);
+      return result.rows[0];
+    })
+    .catch((err) => console.log(err));
+};
+
+(module.exports = router), getAllPublicMapsByUser;
+
+
+const getAllPublicMaps = function () {
+  return pool
+    .query("SELECT * FROM maps WHERE public = 1")
+    .then((result) => {
+      console.log("maps: ", result.rows);
+      return result.rows;
+    })
+    .catch((err) => console.log(err));
+};
+
+(module.exports = router), getAllPublicMaps;
