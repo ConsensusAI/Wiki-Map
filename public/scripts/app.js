@@ -163,7 +163,7 @@ $(() => {
         res.maps.map((m, index) => {
           if(m.created_by === user_id) {
             let node = $("<li></li>").text(m.title);
-            // node.click(`loadMapId(${m.id}, ${index})`);   //
+            // node.click(`loadMapId(${m.id}, ${index})`);   // finish later
             $("#maps-list").append(node);
           }
         });
