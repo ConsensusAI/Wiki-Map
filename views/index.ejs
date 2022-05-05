@@ -17,6 +17,10 @@
       crossorigin=""
     />
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Koulen&display=swap" rel="stylesheet">
+
     <!-- Make sure you put this AFTER Leaflet's CSS -->
     <script
       src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
@@ -29,6 +33,12 @@
   <body>
  <%- include('./partials/nav.ejs') %>
 
+ <header>
+  <div>
+    <h3><a href="/maps/new">Create new</a></h3>
+  </div>
+</header>
+
     <main class="container">
       <section id ="list-container">
         <h2>Maps:</h2>
@@ -37,8 +47,10 @@
         <h2>Saved locations:</h2>
         <ul id="map-points"></ul>
       </section>
+      <section class="map-area">
       <h1 id="map-title"></h1>
       <div id="map"></div>
+    </section>
 
     </main>
   </body>
