@@ -130,9 +130,9 @@ L.tileLayer(
   }
 ).addTo(map);
 
-loadMaps(); // List of maps for the user e.g. Best Places in Ottawa/Montreal
+// loadMaps(); // List of maps for the user e.g. Best Places in Ottawa/Montreal
 loadMarkers(); // Place the markers in the map from points table
-loadPoints(); // List of points(places) saved on the map e.g. Point1, Point2, etc
+// loadPoints(); // List of points(places) saved on the map e.g. Point1, Point2, etc
 
 console.log("markers: ", markers, " --- points: ", points);
 
@@ -215,7 +215,7 @@ function loadMapId(id, index) {
   map.setView([maps[index].lat, maps[index].lng], 13);
   markers = []; // reset markers array
   loadMarkers();
-  loadPoints();
+  // loadPoints();
 }
 
 // Save point on map (creates a new marker and add to points table)
@@ -239,7 +239,7 @@ function saveMarker(latlng) {
     map_id: map_id,
   });
 
-  loadPoints();
+  // loadPoints();
   console.log("<<saveMarkers>> markers: ", markers, " --- points: ", points);
 }
 
@@ -262,7 +262,7 @@ function clearMarker(idMarker) {
     }
   });
 
-  loadPoints();
+  // loadPoints();
   console.log("<<clearMarkers>> markers: ", markers, " --- points: ", points);
 }
 

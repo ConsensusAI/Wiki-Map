@@ -10,6 +10,16 @@ module.exports = function (router, database) {
       });
   });
 
+  router.get("/points", (req, res) => {
+    database
+      .getAllPointsByUser(1, 1)
+      .then((points) => res.send({ points }))
+      .catch((e) => {
+        console.error(e);
+        res.send(e);
+      });
+  });
+
   // Create new map
   router.post("/", (req, res) => {
     let private = false;

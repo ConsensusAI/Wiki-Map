@@ -1,10 +1,31 @@
 $.ajax({
   url: "/maps",
-  success: function (result) {
-    $("#div1").html(result[0]);
-    console.log("result:", result["maps"][0]);
+  success: function (json) {
+    addMapsList(json);
   },
 });
+
+$.ajax({
+  url: "/maps/points",
+  success: function (json) {
+    addPointsList(json);
+  },
+});
+
+const addMapsList = (mapsJson) => {
+  let maps = mapsJson["maps"];
+  for (let map in maps) {
+    $("#maps-list").append(`<li>${maps[map]["title"]}</li>`);
+    console.log("map", map);
+  }
+};
+
+const addPointsList = (pointsJson) => {
+  let points = pointsJson["points"];
+  for (let point in points) {
+    $("#map-points").append(`<li>${points[point]["title"]}</li>`);
+  }
+};
 
 // IMPORTANT
 // console.log("result:", result["maps"][0]);

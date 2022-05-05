@@ -3,8 +3,11 @@
   <head>
     <title>Wiki Map - Home Page</title>
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
 
     <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
     <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
@@ -17,10 +20,16 @@
       crossorigin=""
     />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Koulen&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Bungee&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Koulen&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bungee&display=swap"
+      rel="stylesheet"
+    />
 
     <!-- Make sure you put this AFTER Leaflet's CSS -->
     <script
@@ -32,16 +41,16 @@
   </head>
 
   <body>
- <%- include('./partials/nav.ejs') %>
+    <%- include('./partials/nav.ejs') %>
 
- <header>
-  <div>
-    <h3><a href="/maps/new">Create new</a></h3>
-  </div>
-</header>
+    <header>
+      <div>
+        <h3><a href="/maps/new">Create new</a></h3>
+      </div>
+    </header>
 
     <main class="container">
-      <section id ="list-container">
+      <section id="list-container">
         <h2>Maps:</h2>
         <ul id="maps-list"></ul>
 
@@ -49,11 +58,11 @@
         <ul id="map-points"></ul>
       </section>
       <section class="map-area">
-      <h1 id="map-title"></h1>
-      <div id="map"></div>
-    </section>
-
+        <h1 id="map-title"></h1>
+        <div id="map"></div>
+      </section>
     </main>
   </body>
   <script type="text/javascript" src="/scripts/app.js"></script>
+  <script type="text/javascript" src="scripts/testDisplayPoints.js"></script>
 </html>
