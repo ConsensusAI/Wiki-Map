@@ -33,6 +33,17 @@ module.exports = function (router, database) {
       });
   });
 
+  // Points for specific map
+  router.get("/user", function (req, res) {
+    database
+      .getAllMapsByUser(1)
+      .then((maps) => res.send({ maps }))
+      .catch((e) => {
+        console.error(e);
+        res.send(e);
+      });
+  });
+
   // Create new map
   router.post("/new", (req, res) => {
     let userId = Number(req.cookies["userId"]);
@@ -51,7 +62,10 @@ module.exports = function (router, database) {
       privacy: private,
     };
 
+    database.addMap(newMap);
+
     database.getMaxId().then((id) => {
+      console.log(id);
       let mapId = id[0]["max"];
       let newPoint = {
         mapId: Number(mapId),
@@ -70,7 +84,7 @@ module.exports = function (router, database) {
       database.addPoint(newPoint).then(() => {
         let contribution = { userId: Number(userId), mapId: Number(mapId) };
         database.addContribution(contribution);
-        // res.redirect("/");
+        res.redirect("/");
       });
     });
   });
