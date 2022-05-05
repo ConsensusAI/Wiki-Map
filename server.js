@@ -45,6 +45,7 @@ const createMap = require("./routes/createMap");
 const apiRoutes = require("./routes/apiRoutes");
 const profile = require("./routes/profile");
 const edit = require("./routes/edit");
+const test = require("./routes/testDisplayRoute");
 
 // Set up interaction with the database
 const database = require("./db/database");
@@ -59,6 +60,7 @@ app.use("/maps/new", createMap);
 app.use("/maps", expressRouter);
 app.use("/profile", profile);
 app.use("/edit", edit);
+app.use("/test", test);
 // Note: mount other resources here, using the same pattern above
 
 // Home page

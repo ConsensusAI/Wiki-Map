@@ -1,5 +1,4 @@
 const { Pool } = require("pg");
-const dbParams = require("../lib/db");
 
 const pool = new Pool({
   user: "vagrant",
@@ -24,6 +23,23 @@ const getAllMaps = function () {
 };
 
 exports.getAllMaps = getAllMaps;
+
+const getAllPointsByUserAndMap = (userId, mapId) => {
+  let queryString = `SELECT * FROM points WHERE created_by = $1 AND map_id = $2`;
+  let queryParams = [userId, mapId];
+
+  return pool
+    .query(queryString, queryParams)
+    .then((res) => {
+      console.log(res.rows);
+      return res.rows;
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+};
+
+exports.getAllPointsByUser = getAllPointsByUserAndMap;
 
 const addMap = (map) => {
   let queryString = `INSERT INTO maps (title, lat, lng, created_by, public)
