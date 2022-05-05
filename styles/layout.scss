@@ -13,7 +13,7 @@ nav {
   padding-left:1.5em;
   padding-right:1.5em;
   display: flex;
-  font-family: Source Sans Pro, sans-serif;
+  font-family: 'Bungee', cursive;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
@@ -81,6 +81,7 @@ nav {
     align-items: left;
     flex-direction: column;
     margin-left: 50px;
+    width: 25%;
 
   }
 
@@ -88,7 +89,6 @@ nav {
     font-family: 'Koulen', cursive;
     height: 50x;
     width:100%;
-    background-color: white;
     display: flex;
     flex-direction: row;
     justify-content: right;
