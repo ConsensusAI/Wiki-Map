@@ -65,6 +65,8 @@ const addPoint = (point) => {
     });
 };
 
+exports.addPoint = addPoint;
+
 const addContribution = (contribution) => {
   // TODO: Remove date_contributed so that it automatically inputs Now
   let queryString = `INSERT INTO maps_users (user_id, map_id, date_contributed, favourite)
@@ -86,6 +88,8 @@ const addContribution = (contribution) => {
     });
 };
 
+exports.addContribution = addContribution;
+
 const favouriteMap = (userId) => {
   let queryString = `UPDATE maps_users
   SET favourite = TRUE
@@ -101,6 +105,8 @@ const favouriteMap = (userId) => {
       console.log(err.message);
     });
 };
+
+exports.favouriteMap = favouriteMap;
 
 const getAllPublicMapsByUser = function (id) {
   return pool
