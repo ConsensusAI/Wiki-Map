@@ -35,6 +35,17 @@ module.exports = function (router, database) {
       });
   });
 
+  // Points for specific map
+  router.get("/points", function (req, res) {
+    database
+      .getAllPoints()
+      .then((points) => res.send({ points }))
+      .catch((e) => {
+        console.error(e);
+        res.send(e);
+      });
+  });
+
   return router;
 };
 

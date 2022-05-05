@@ -137,6 +137,10 @@ $(() => {
       })
     })
 
+  loadMaps();
+
+
+
   // // Click Event
   let clickedMapPopup = L.popup();
 
@@ -149,6 +153,21 @@ $(() => {
       .setLatLng(e.latlng)
       .setContent(popContent)
       .openOn(map);
+  }
+
+  // List of Maps (Ottawa, Montreal, etc)
+  function loadMaps() {
+    $("#maps-list").html("");
+    $.ajax('/maps')
+      .then(res => {
+        res.maps.map((m, index) => {
+          if(m.created_by === user_id) {
+            let node = $("<li></li>").text(m.title);
+            // node.click(`loadMapId(${m.id}, ${index})`);   //
+            $("#maps-list").append(node);
+          }
+        });
+      });
   }
 
 
@@ -217,18 +236,18 @@ $(() => {
 // Functions here -------------------------------------------------------------------------------------------
 
 // List of Maps (Ottawa, Montreal, etc)
-function loadMaps() {
-  document.getElementById("maps-list").innerHTML = "";
-  maps.map((m, index) => {
-    if (m.created_by === user_id) {
-      let node = document.createElement("li");
-      let nodeText = document.createTextNode(m.title);
-      node.setAttribute("onclick", `loadMapId(${m.id}, ${index})`);
-      node.appendChild(nodeText);
-      document.getElementById("maps-list").appendChild(node)
-    }
-  });
-}
+// function loadMaps() {
+//   document.getElementById("maps-list").innerHTML = "";
+//   maps.map((m, index) => {
+//     if (m.created_by === user_id) {
+//       let node = document.createElement("li");
+//       let nodeText = document.createTextNode(m.title);
+//       node.setAttribute("onclick", `loadMapId(${m.id}, ${index})`);
+//       node.appendChild(nodeText);
+//       document.getElementById("maps-list").appendChild(node)
+//     }
+//   });
+// }
 
 // List of points saved on the map (Point1, Point2, etc)
 function loadPoints() {

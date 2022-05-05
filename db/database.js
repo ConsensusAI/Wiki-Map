@@ -55,4 +55,17 @@ const getAllPublicMapsByUser = function (id) {
 
 exports.getAllPublicMapsByUser = getAllPublicMapsByUser;
 
+const getAllPoints = function () {
+  let queryString = `SELECT * FROM points;`;
 
+  return pool
+    .query(queryString)
+    .then((res) => {
+      return res.rows;
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+};
+
+exports.getAllPoints = getAllPoints;
