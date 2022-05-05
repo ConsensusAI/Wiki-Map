@@ -8,6 +8,10 @@ const express = require("express");
 const app = express();
 const morgan = require("morgan");
 
+// Cookie setup
+const cookieParser = require("cookie-parser");
+app.use(cookieParser());
+
 // Parse Information Sent in Body
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -49,6 +53,7 @@ const test = require("./routes/testDisplayRoute");
 
 // Set up interaction with the database
 const database = require("./db/database");
+const res = require("express/lib/response");
 const expressRouter = express.Router();
 apiRoutes(expressRouter, database);
 
@@ -68,6 +73,8 @@ app.use("/test", test);
 // Separate them into separate routes files (see above).
 
 app.get("/", (req, res) => {
+  res.cookie("userId", "1");
+  res.cookie("mapId", "1");
   res.render("index");
 });
 
