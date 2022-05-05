@@ -1,7 +1,12 @@
 const { Pool } = require("pg");
 const dbParams = require("../lib/db");
 
-const pool = new Pool({ dbParams });
+const pool = new Pool({
+  user: "vagrant",
+  password: "123",
+  host: "localhost",
+  database: "midterm",
+});
 
 const getAllMaps = function () {
   let queryString = `SELECT * FROM maps;`;
@@ -9,6 +14,7 @@ const getAllMaps = function () {
   return pool
     .query(queryString)
     .then((res) => {
+      console.log(res.rows);
       return res.rows;
     })
     .catch((err) => {
@@ -45,5 +51,3 @@ const getAllPublicMapsByUser = function (id) {
 };
 
 exports.getAllPublicMapsByUser = getAllPublicMapsByUser;
-
-
