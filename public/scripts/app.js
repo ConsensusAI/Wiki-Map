@@ -98,49 +98,42 @@ let points = [
   },
 ];
 
-
-
-
 $(() => {
-
   let map;
   let markers = [];
   let userMaps = [];
 
-  $.ajax('/maps')
-    .then(res => {
-      res.maps.map((m, index) => {
-        if(m.created_by === user_id) {
+  $.ajax("/maps").then((res) => {
+    res.maps.map((m, index) => {
+      if (m.created_by === user_id) {
+        // Start map by default: first map found for each user
+        if (userMaps.length === 0) {
+          map_id = m.id;
+          $("#map-title").html(m.title);
+          map = L.map("map").setView([Number(m.lat), Number(m.lng)], 13);
+          L.tileLayer(
+            "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}",
+            {
+              attribution:
+                'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+              maxZoom: 18,
+              id: "mapbox/streets-v11",
+              tileSize: 512,
+              zoomOffset: -1,
+              accessToken:
+                "pk.eyJ1IjoiaGVucmlxdWV0YWthIiwiYSI6ImNsMmlkZnVhMDAxcW0zZG50OHZkMmw2bjcifQ.sjkW4ZrEFg8NOCIKEQki1g",
+            }
+          ).addTo(map);
 
-          // Start map by default: first map found for each user
-          if(userMaps.length === 0) {
-            map_id = m.id;
-            $("#map-title").html(m.title);
-            map = L.map("map").setView([Number(m.lat), Number(m.lng)], 13);
-            L.tileLayer(
-              "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}",
-              {
-                attribution:
-                  'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-                maxZoom: 18,
-                id: "mapbox/streets-v11",
-                tileSize: 512,
-                zoomOffset: -1,
-                accessToken: "pk.eyJ1IjoiaGVucmlxdWV0YWthIiwiYSI6ImNsMmlkZnVhMDAxcW0zZG50OHZkMmw2bjcifQ.sjkW4ZrEFg8NOCIKEQki1g"
-              }
-              ).addTo(map)
-
-              map.on("click", onMapClick);
-          }
-          userMaps.push([m.id, index]);
+          map.on("click", onMapClick);
         }
-        console.log(Number(m.lat), Number(m.lng));
-      })
-    })
+        userMaps.push([m.id, index]);
+      }
+      console.log(Number(m.lat), Number(m.lng));
+    });
+  });
 
   loadMaps();
-
-
 
   // // Click Event
   let clickedMapPopup = L.popup();
@@ -150,54 +143,25 @@ $(() => {
     latlng = e.latlng;
     let popContent = `<p>Clicked on: ${e.latlng}</p></br><button onclick=saveMarker(latlng)>Save</button>`;
 
-    clickedMapPopup
-      .setLatLng(e.latlng)
-      .setContent(popContent)
-      .openOn(map);
+    clickedMapPopup.setLatLng(e.latlng).setContent(popContent).openOn(map);
   }
 
   // List of Maps (Ottawa, Montreal, etc)
   function loadMaps() {
     $("#maps-list").html("");
-    $.ajax('/maps')
-      .then(res => {
-        res.maps.map((m, index) => {
-          if(m.created_by === user_id) {
-            let node = $("<li></li>").text(m.title);
-            // node.click(`loadMapId(${m.id}, ${index})`);   // finish later
-            $("#maps-list").append(node);
-          }
-        });
+    $.ajax("/maps").then((res) => {
+      res.maps.map((m, index) => {
+        if (m.created_by === user_id) {
+          let node = $("<li></li>").text(m.title);
+          node.click(`loadMapId(${m.id}, ${m})`); // finish later
+          $("#maps-list").append(node);
+        }
       });
+    });
   }
-
-
-
-
-
-
-
-
-
 
   map.on("click", onMapClick);
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // // Map - initialize on "map"
 // let userMaps = [];
@@ -265,58 +229,85 @@ $(() => {
 // }
 
 // List of points saved on the map (Point1, Point2, etc)
-function loadPoints() {
-  document.getElementById("map-points").innerHTML = "";
-  /*$.ajax(url)
-  .then(res => {
-    res.points.map(p => {
-      if (p.map_id === map_id) {
-        let node = document.createElement("li");
-        let nodeText = document.createTextNode(p.title);
-        node.setAttribute("onclick", `showPopup(${p.id})`);
-        node.appendChild(nodeText);
-        document.getElementById("map-points").appendChild(node)
-      }
-    });
-  })*/
-  points.map((p) => {
-    if (p.map_id === map_id) {
-      let node = document.createElement("li");
-      let nodeText = document.createTextNode(p.title);
-      node.setAttribute("onclick", `showPopup(${p.id})`);
-      node.appendChild(nodeText);
-      document.getElementById("map-points").appendChild(node);
-    }
-  });
-}
+// function loadPoints() {
+//   document.getElementById("map-points").innerHTML = "";
+//   /*$.ajax(url)
+//   .then(res => {
+//     res.points.map(p => {
+//       if (p.map_id === map_id) {
+//         let node = document.createElement("li");
+//         let nodeText = document.createTextNode(p.title);
+//         node.setAttribute("onclick", `showPopup(${p.id})`);
+//         node.appendChild(nodeText);
+//         document.getElementById("map-points").appendChild(node)
+//       }
+//     });
+//   })*/
+//   points.map((p) => {
+//     if (p.map_id === map_id) {
+//       let node = document.createElement("li");
+//       let nodeText = document.createTextNode(p.title);
+//       node.setAttribute("onclick", `showPopup(${p.id})`);
+//       node.appendChild(nodeText);
+//       document.getElementById("map-points").appendChild(node);
+//     }
+//   });
+// }
 
 // Markers on the map from points table
-function loadMarkers() {
-  points.map((p) => {
-    if (p.map_id === map_id) {
-      console.log(p);
-      let tempMarker = L.marker([p.lat, p.lng]).addTo(map);
-      let content = `<p>${p.title}</p>
-        </br>
-        <p>${p.description}</p>
-        </br>
-        <img src="${p.image}" style="width:150px;height:150px;">
-        <button onclick="clearMarker(${p.id})">Remove</button>`;
-      tempMarker._id = p.id;
-      markers.push(tempMarker);
-      tempMarker.bindPopup(content);
-    }
-  });
-}
+// function loadMarkers() {
+//   points.map((p) => {
+//     if (p.map_id === map_id) {
+//       console.log(p);
+//       let tempMarker = L.marker([p.lat, p.lng]).addTo(map);
+//       let content = `<p>${p.title}</p>
+//         </br>
+//         <p>${p.description}</p>
+//         </br>
+//         <img src="${p.image}" style="width:150px;height:150px;">
+//         <button onclick="clearMarker(${p.id})">Remove</button>`;
+//       tempMarker._id = p.id;
+//       markers.push(tempMarker);
+//       tempMarker.bindPopup(content);
+//     }
+//   });
+// }
+
+const loadMarkers = (pointsJson) => {
+  let points = pointsJson["points"];
+  for (let point in points) {
+    let tempMarker = L.marker([points[point].lat, points[point].lng]).addTo(
+      map
+    );
+    let content = `<p>${points[point].title}</p></br>
+    <p>${points[point].description}<p><br>
+    <img src="${points[point].image}" style="width:150px;height:150px;">
+    <button onclick="clearMarker(${pointsp[point].id})">Remove</button>`;
+  }
+};
+
+$.ajax({
+  url: "/maps/pointsByMap",
+  success: function (json) {
+    loadMarkers(json);
+  },
+});
 
 // Load a new selected Map by ID - it loads again the markers and points
-function loadMapId(id, index) {
+// function loadMapId(id, index) {
+//   map_id = id;
+//   document.getElementById("map-title").innerHTML = maps[index].title;
+//   map.setView([maps[index].lat, maps[index].lng], 13);
+//   markers = []; // reset markers array
+//   loadMarkers();
+//   // loadPoints();
+// }
+
+function loadMapId(id, m) {
   map_id = id;
-  document.getElementById("map-title").innerHTML = maps[index].title;
-  map.setView([maps[index].lat, maps[index].lng], 13);
-  markers = []; // reset markers array
+  document.getElementById("map-title").innerHTML = m.title;
+  map.setView([m.lat, m.lng], 13);
   loadMarkers();
-  // loadPoints();
 }
 
 // Save point on map (creates a new marker and add to points table)
