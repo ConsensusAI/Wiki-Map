@@ -8,6 +8,13 @@ let user_email = 'alice@gmail.com';
 // let mapsDB = getMapsByUser(user_email);
 // console.log(mapsDB);
 
+let maps2 = [];
+$(() => {
+  $.ajax('/maps')
+    .then(res => res.maps)
+
+});
+
 let maps = [
   {
     id: 1,
@@ -140,14 +147,6 @@ function onMapClick(e) {
     .openOn(map);
 
 }
-
-$(() => {
-  getAllMaps()
-    .then(res => {
-      console.log(res);
-    });
-});
-
 
 
 // Functions here -------------------------------------------------------------------------------------------

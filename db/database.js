@@ -3,14 +3,13 @@ const dbParams = require("../lib/db");
 
 // const pool = new Pool({ dbParams });
 
+// console.log(dbParams);
 const pool = new Pool({
   user: "henrique",
   password: "123",
   host: "localhost",
   database: "midterm",
 });
-
-// const db = require('../server');
 
 
 const getAllMaps = function () {
