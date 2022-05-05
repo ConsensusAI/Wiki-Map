@@ -49,7 +49,8 @@ function saveMarker(latlng) {
 <button type="submit" class="btn btn-primary">Next</button>
 </div>
 <div hidden class="pointsForm">
-    <div class="form-group">
+<form action="/" method="GET">
+<div class="form-group">
     <label for="pointTitle">Point Title: </label>
     <input type="pointTitle" class="form-control" name="pointTitle" placeholder="Burger Joint">
   </div>
@@ -62,6 +63,7 @@ function saveMarker(latlng) {
 </div>
 <button type="createMap" class="btn btn-primary">Create Map!</button>
 </div>
+</form>
 <div hidden class="displayPoint">
 </div>
 `;
@@ -82,8 +84,6 @@ function saveMarker(latlng) {
     $(".pointsForm").show();
   });
 
-  // let newPointId;
-
   $("button[type=createMap]").click(function () {
     let pointTitle = $("input[type=pointTitle]").val();
     let pointDesc = $("input[type=pointDesc]").val();
@@ -101,12 +101,13 @@ function saveMarker(latlng) {
     <img src="${pointURL}" style="width:150px;height:150px;">
     <button onclick="clearMarker(${15})">Remove</button>`;
     $(".leaflet-popup-content").append(stuff);
+
+    $.get("/", function (data) {
+      $(".result").html(data);
+      alert("Load was performed.");
+    });
   });
 
-  // let mapName = prompt("Please enter the map name", "(New Map)");
-  // let pointTitle = prompt("Please enter the pointTitle", "Write...");
-  // let pointDesc = prompt("Brief description", "Write...");
-  // let content = `<p>${pointTitle}</p></br><p>${pointDesc}</p></br><button onclick="clearMarker(${newIdPoint})">Remove</button>`;
   tempMarker._id = newPointId;
   // markers.push(tempMarker);
 

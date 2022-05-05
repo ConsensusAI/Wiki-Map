@@ -4,7 +4,8 @@ const dbParams = require("../lib/db");
 const pool = new Pool({ dbParams });
 
 const getAllMaps = function () {
-  let queryString = `SELECT * FROM maps;`;
+  let queryString = `SELECT *
+  FROM maps;`;
 
   return pool
     .query(queryString)
@@ -19,8 +20,9 @@ const getAllMaps = function () {
 exports.getAllMaps = getAllMaps;
 
 const addMap = (map) => {
-  let queryString = `INSERT INTO maps (title, lat, lng, created_by, public) VALUES ($1, $2, $3, $4, $5)`;
-  let queryParams = [map.name, map.latitude, map.longitude, 666, map.privacy];
+  let queryString = `INSERT INTO maps (title, lat, lng, created_by, public)
+  VALUES ($1, $2, $3, $4, $5)`;
+  let queryParams = [map.name, map.latitude, map.longitude, 1, map.privacy];
 
   return pool
     .query(queryString, queryParams)
@@ -34,27 +36,77 @@ const addMap = (map) => {
 
 exports.addMap = addMap;
 
-// Query to send new map data to database
-// pool
-//   .query(
-//     "INSERT INTO maps (title, lat, lng, created_by, public) VALUES ($1, $2, $3, $4, $5)",
-//     [name, lat, lng, private]
-//   )
-//   .then((result) => {});
+const addPoint = (point) => {
+  let queryString = `INSERT INTO points (map_id, title, description, image, lat, lng, created_by)
+  VALUES ($1, $2, $3, $4, $5, $6, $7)`;
+  let queryParams = [
+    point.mapId,
+    point.title,
+    point.desc,
+    point.image,
+    point.lat,
+    point.lng,
+    point.createdBy,
+  ];
 
-// const getAllPublicMaps = function () {
-//   return pool
-//     .query("SELECT * FROM maps WHERE public = 1")
-//     .then((result) => {
-//       console.log("maps: ", result.rows);
-//       return result.rows;
-//     })
-//     .catch((err) => console.log(err));
-// };
+  return pool
+    .query(queryString, queryParams)
+    .then((res) => {
+      return res.rows;
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+};
 
-// (module.exports = router), getAllPublicMaps;
+const addContribution = (contribution) => {
+  // TODO: Remove date_contributed so that it automatically inputs Now
+  let queryString = `INSERT INTO maps_users (user_id, map_id, date_contributed, favourite)
+  VALUES ($1, $2, $3, $4);`;
+  let queryParams = [
+    contribution.userId,
+    contribution.mapId,
+    "04/28/2022",
+    false,
+  ];
 
-// res.send("Name: " + name + "\nLatitude: " + lat + "\nLongitude: " + lng);
+  return pool
+    .query(queryString, queryParams)
+    .then((res) => {
+      return res.rows;
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+};
+
+const favouriteMap = (userId) => {
+  let queryString = `UPDATE maps_users
+  SET favourite = TRUE
+  WHERE user_id = $1;`;
+  let queryParams = [userId];
+
+  return pool
+    .query(queryString, queryParams)
+    .then((res) => {
+      return res.rows;
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+};
+
+const getAllPublicMapsByUser = function (id) {
+  return pool
+    .query("SELECT * FROM maps WHERE public = TRUE AND created_by = $1, [id]")
+    .then((result) => {
+      console.log("maps: ", result.rows[0]);
+      return result.rows[0];
+    })
+    .catch((err) => console.log(err));
+};
+
+exports.getAllPublicMapsByUser = getAllPublicMapsByUser;
 
 // const getMapsByUser = function (email) {
 //   return pool
@@ -67,3 +119,20 @@ exports.addMap = addMap;
 // };
 
 // (module.exports = router), getMapsByUser;
+
+/*
+Queries for making new map, new point, new contribution
+New map:
+INSERT INTO maps (title, lat, lng, created_by, public) VALUES ($1, $2, $3, $4, $5);
+
+New point:
+INSERT INTO points (map_id, title, description, image, lat, lng, created_by) VALUES ($1, $2, $3, $4, $5, $6, $7)
+
+New contribution:                                        false by default
+INSERT INTO maps_users (user_id, map_id, date_contributed, favourite) VALUES ($1, $2, $3, $4);
+
+Favourited:
+UPDATE maps_users
+SET favourite = TRUE
+WHERE user_id = $1;
+*/
