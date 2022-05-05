@@ -104,6 +104,7 @@ let points = [
 $(() => {
 
   let map;
+  let map_id;
   let markers = [];
   let userMaps = [];
 
@@ -159,16 +160,23 @@ $(() => {
   // List of Maps (Ottawa, Montreal, etc)
   function loadMaps() {
     $("#maps-list").html("");
-    $.ajax('/maps')
-      .then(res => {
-        res.maps.map((m, index) => {
-          if(m.created_by === user_id) {
-            let node = $("<li></li>").text(m.title);
-            // node.click(`loadMapId(${m.id}, ${index})`);   // finish later
-            $("#maps-list").append(node);
-          }
-        });
-      });
+    $.ajax({
+      url: "/maps/user",
+      success: function (json) {
+        addMapsList(json);
+      },
+    });
+
+    // $.ajax('/maps')
+    //   .then(res => {
+    //     res.maps.map((m, index) => {
+    //       if(m.created_by === user_id) {
+    //         let node = $("<li></li>").text(m.title);
+    //         // node.click(`loadMapId(${m.id}, ${index})`);   // finish later
+    //         $("#maps-list").append(node);
+    //       }
+    //     });
+    //   });
   }
 
 
@@ -180,20 +188,8 @@ $(() => {
 
 
 
-  map.on("click", onMapClick);
+  // map.on("click", onMapClick);
 });
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

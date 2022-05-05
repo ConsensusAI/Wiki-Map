@@ -1,9 +1,9 @@
-$.ajax({
-  url: "/maps",
-  success: function (json) {
-    addMapsList(json);
-  },
-});
+// $.ajax({
+//   url: "/maps",
+//   success: function (json) {
+//     addMapsList(json);
+//   },
+// });
 
 $.ajax({
   url: "/maps/points",

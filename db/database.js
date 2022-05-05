@@ -24,6 +24,24 @@ const getAllMaps = function () {
 
 exports.getAllMaps = getAllMaps;
 
+const getAllMapsByUser = function (userId) {
+  let queryString = `SELECT * FROM maps WHERE created_by = $1;`;
+  let queryParams = [userId];
+
+  return pool
+    .query(queryString, queryParams)
+    .then((res) => {
+      console.log(res.rows);
+      return res.rows;
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+};
+
+exports.getAllMapsByUser = getAllMapsByUser;
+
+
 const getAllPointsByUserAndMap = (userId, mapId) => {
   let queryString = `SELECT * FROM points WHERE created_by = $1 AND map_id = $2`;
   let queryParams = [userId, mapId];
