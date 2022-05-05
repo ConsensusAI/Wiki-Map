@@ -1,5 +1,5 @@
 // require("dotenv").config(); Ask Taiwo how to config this...
-// const getMapsByUser = require('../../routes/maps');
+
 
 // dummy database
 let user_id = 1;
@@ -140,6 +140,14 @@ function onMapClick(e) {
     .openOn(map);
 
 }
+
+$(() => {
+  getAllMaps()
+    .then(res => {
+      console.log(res);
+    });
+});
+
 
 
 // Functions here -------------------------------------------------------------------------------------------
