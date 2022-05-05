@@ -44,17 +44,6 @@ const getAllPublicMapsByUser = function (id) {
     .catch((err) => console.log(err));
 };
 
-(module.exports = router), getAllPublicMapsByUser;
+exports.getAllPublicMapsByUser = getAllPublicMapsByUser;
 
 
-const getAllPublicMaps = function () {
-  return pool
-    .query("SELECT * FROM maps WHERE public = 1")
-    .then((result) => {
-      console.log("maps: ", result.rows);
-      return result.rows;
-    })
-    .catch((err) => console.log(err));
-};
-
-(module.exports = router), getAllPublicMaps;
