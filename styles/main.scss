@@ -1,19 +1,21 @@
-body {
-  display: flex;
-  justify-content: space-between;
-  min-height: 100vh;
+// body {
+//   display: flex;
+//   // justify-content: space-between;
+//   // flex-direction: column;
+//   // justify-content: flex-end;
+//    min-height: 50vh;
 
-  background: rgb(163, 208, 219);
-  background: linear-gradient(
-    227deg,
-    rgba(163, 208, 219, 1) 0%,
-    rgba(163, 176, 219, 1) 20%,
-    rgba(163, 173, 219, 1) 34%,
-    rgba(163, 219, 208, 1) 59%,
-    rgba(163, 208, 219, 1) 74%,
-    rgba(163, 208, 219, 1) 100%
-  );
-}
+//   background: rgb(163, 208, 219);
+//   background: linear-gradient(
+//     227deg,
+//     rgba(163, 208, 219, 1) 0%,
+//     rgba(163, 176, 219, 1) 20%,
+//     rgba(163, 173, 219, 1) 34%,
+//     rgba(163, 219, 208, 1) 59%,
+//     rgba(163, 208, 219, 1) 74%,
+//     rgba(163, 208, 219, 1) 100%
+//   );
+// }
 
 #map {
   height: 500px;
@@ -28,4 +30,13 @@ li :hover {
 ul :hover {
   cursor: pointer;
   color: aqua;
+}
+
+h1 {
+  font-family: 'Koulen', cursive;
+}
+
+h2 {
+  font-family: 'Koulen', cursive;
+
 }
