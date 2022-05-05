@@ -51,7 +51,10 @@ module.exports = function (router, database) {
       privacy: private,
     };
 
+    database.addMap(newMap);
+
     database.getMaxId().then((id) => {
+      console.log(id);
       let mapId = id[0]["max"];
       let newPoint = {
         mapId: Number(mapId),

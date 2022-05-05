@@ -62,7 +62,7 @@ function saveMarker(latlng) {
   <label for="pointDesc">Description: </label>
   <input type="pointDesc" class="form-control" name="pointDesc" placeholder="Best place to eat">
   <div class="form-group">
-  <label for="pointURL">Description: </label>
+  <label for="pointURL">Image URL: </label>
   <input type="pointURL" class="form-control" name="pointURL" value=${DEFAULT_IMAGE}>
 </div>
 <button type="submit" class="btn btn-primary">Create Map!</button>
