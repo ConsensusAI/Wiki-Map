@@ -25,7 +25,7 @@ const getAllMaps = function () {
 exports.getAllMaps = getAllMaps;
 
 const getAllPointsByUserAndMap = (userId, mapId) => {
-  let queryString = `SELECT * FROM points WHERE created_by = $1 AND map_id = $2`;
+  let queryString = `SELECT * FROM points WHERE created_by = $1 AND map_id = $2;`;
   let queryParams = [userId, mapId];
 
   return pool
@@ -42,7 +42,7 @@ const getAllPointsByUserAndMap = (userId, mapId) => {
 exports.getAllPointsByUserAndMap = getAllPointsByUserAndMap;
 
 const getAllPointsByMap = (mapId) => {
-  let queryString = `SELECT * FROM points WHERE map_id = $1`;
+  let queryString = `SELECT * FROM points WHERE map_id = $1;`;
   let queryParams = [mapId];
 
   return pool
@@ -60,8 +60,15 @@ exports.getAllPointsByMap = getAllPointsByMap;
 
 const addMap = (map) => {
   let queryString = `INSERT INTO maps (title, lat, lng, created_by, public)
-  VALUES ($1, $2, $3, $4, $5)`;
-  let queryParams = [map.name, map.latitude, map.longitude, 1, map.privacy];
+  VALUES ($1, $2, $3, $4, $5)
+  SELECT SCOPE_IDENTITY();`;
+  let queryParams = [
+    map.name,
+    map.latitude,
+    map.longitude,
+    map.userId,
+    map.privacy,
+  ];
 
   return pool
     .query(queryString, queryParams)
@@ -77,7 +84,7 @@ exports.addMap = addMap;
 
 const addPoint = (point) => {
   let queryString = `INSERT INTO points (map_id, title, description, image, lat, lng, created_by)
-  VALUES ($1, $2, $3, $4, $5, $6, $7)`;
+  VALUES ($1, $2, $3, $4, $5, $6, $7);`;
   let queryParams = [
     point.mapId,
     point.title,

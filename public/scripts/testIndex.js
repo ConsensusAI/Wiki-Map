@@ -25,12 +25,13 @@ const addPointsList = (pointsJson) => {
   }
 };
 
-$(() => {
-  getAllMaps().then((mapsJson) => {
-    addMapsList(mapsJson);
-  });
+// $(() => {
+//   getAllMaps().then((mapsJson) => {
+//     addMapsList(mapsJson);
+//     let maps = mapsJson;
+//   });
 
-  getAllPointsByMap().then((pointsJson) => {
-    addPointsList(pointsJson);
-  });
-});
+//   getAllPointsByMap().then((pointsJson) => {
+//     addPointsList(pointsJson);
+//   });
+// });
