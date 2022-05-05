@@ -27,7 +27,7 @@ module.exports = function (router, database) {
     database
       .addMap(newMap)
       .then((map) => {
-        res.render("index");
+        // res.render("index");
       })
       .catch((e) => {
         console.error(e);

@@ -31,26 +31,52 @@ function saveMarker(latlng) {
   let tempMarker = L.marker([latlng.lat, latlng.lng]).addTo(map);
   let lat = latlng.lat;
   let lng = latlng.lng;
-  let formContent = `<form action="/maps" method="POST">
-  <div class="form-group">
-    <label for="newMapName">Map Name</label>
-    <input type="newMapName" class="form-control" name="newMapName" placeholder="My Favourite Map">
-  </div>
-  <div class="form-check">
-    <input type="checkbox" class="form-check-input" name="privateMap" id="privateMap">
-    <label class="form-check-label" for="privateMap">Private Map</label>
-  </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
-</form>`;
+  let formContent = `<div class="form-group">
+  <label for="newMapName">Map Name</label>
+  <input type="newMapName" id="test" class="form-control" name="newMapName" placeholder="My Favourite Map">
+</div>
+<div class="form-check">
+  <input type="checkbox" class="form-check-input" name="privateMap" id="privateMap">
+  <label class="form-check-label" for="privateMap">Private Map</label>
+</div>
+<button type="submit" class="btn btn-primary">Next</button>
+`;
+
+  {
+    /* <input type="checkbox" class="form-check-input" name="privateMap" id="privateMap">
+        <label class="form-check-label" for="privateMap">Private Map</label> */
+  }
   tempMarker.bindPopup(formContent).openPopup();
+
+  let private = false;
+
+  $("input[type=checkbox]").click(function () {
+    private = true;
+  });
+
+  $("button[type=submit]").click(function () {
+    let mapName = $("input[type=newMapName]").val();
+    console.log(mapName);
+    console.log(private);
+    let content = `<div class="form-group">
+    <label for="pointTitle">Point Title: </label>
+    <input type="pointTitle" id="test" class="form-control" name="pointTitle" placeholder="Burger Joint">
+  </div>
+  <div class="form-group">
+  <label for="pointDesc">Description: </label>
+  <input type="pointDesc" id="test" class="form-control" name="pointDesc" placeholder="Best place to eat">
+</div>
+<button type="submit" class="btn btn-primary">Create Map!</button>`;
+    tempMarker.bindPopup(content).openPopup();
+  });
+
   // let mapName = prompt("Please enter the map name", "(New Map)");
   // let title = prompt("Please enter the title", "Write...");
   // let desc = prompt("Brief description", "Write...");
   let newPointId = testID + 1;
-  let content = `<p>${title}</p></br><p>${desc}</p></br><button onclick="clearMarker(${newIdPoint})">Remove</button>`;
+  // let content = `<p>${title}</p></br><p>${desc}</p></br><button onclick="clearMarker(${newIdPoint})">Remove</button>`;
   tempMarker._id = newIdPoint;
   // markers.push(tempMarker);
-  tempMarker.bindPopup(content).openPopup();
 
   // Implement on Database - points table
   // points.push({
