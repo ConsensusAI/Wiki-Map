@@ -5,25 +5,28 @@
 //   },
 // });
 
-$.ajax({
-  url: "/maps/points",
-  success: function (json) {
-    addPointsList(json);
-  },
-});
+// $.ajax({
+//   url: "/maps/points",
+//   success: function (json) {
+//     addPointsList(json);
+//   },
+// });
 
 const addMapsList = (mapsJson) => {
   let maps = mapsJson["maps"];
   for (let map in maps) {
-    $("#maps-list").append(`<li>${maps[map]["title"]}</li>`);
-    console.log("map", map);
+    $("#maps-list").append(`<li>${maps[map]["title"]}</li>`).click(function() {
+      alert( "Handler for .click() called." );
+    });
+    // node.click(`loadMapId(${m.id}, ${index})`);   // finish later
   }
 };
 
 const addPointsList = (pointsJson) => {
   let points = pointsJson["points"];
   for (let point in points) {
-    $("#map-points").append(`<li>${points[point]["title"]}</li>`);
+    // console.log("the point-", point);
+    $("#map-points").append(`<li>${points[point]["title"]}</li>`).click(); //`showPopup(${point.id})`
   }
 };
 
