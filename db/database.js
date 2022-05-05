@@ -60,8 +60,7 @@ exports.getAllPointsByMap = getAllPointsByMap;
 
 const addMap = (map) => {
   let queryString = `INSERT INTO maps (title, lat, lng, created_by, public)
-  VALUES ($1, $2, $3, $4, $5)
-  SELECT SCOPE_IDENTITY();`;
+  VALUES ($1, $2, $3, $4, $5);`;
   let queryParams = [
     map.name,
     map.latitude,
@@ -73,6 +72,7 @@ const addMap = (map) => {
   return pool
     .query(queryString, queryParams)
     .then((res) => {
+      console.log(res.rows);
       return res.rows;
     })
     .catch((err) => {
@@ -81,6 +81,21 @@ const addMap = (map) => {
 };
 
 exports.addMap = addMap;
+
+const getMaxId = () => {
+  let queryString = `SELECT MAX(id) FROM maps;`;
+
+  return pool
+    .query(queryString)
+    .then((res) => {
+      return res.rows;
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+};
+
+exports.getMaxId = getMaxId;
 
 const addPoint = (point) => {
   let queryString = `INSERT INTO points (map_id, title, description, image, lat, lng, created_by)

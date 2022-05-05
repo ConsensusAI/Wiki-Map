@@ -11,8 +11,8 @@ module.exports = function (router, database) {
   });
 
   router.get("/points", (req, res) => {
-    let userId = req.cookies["userId"];
-    let mapId = req.cookies["mapId"];
+    let userId = Number(req.cookies["userId"]);
+    let mapId = Number(req.cookies["mapId"]);
     database
       .getAllPointsByUserAndMap(userId, mapId)
       .then((points) => res.send({ points }))
@@ -35,7 +35,7 @@ module.exports = function (router, database) {
 
   // Create new map
   router.post("/new", (req, res) => {
-    let userId = req.cookies["userId"];
+    let userId = Number(req.cookies["userId"]);
 
     let details = req.body;
     let private = false;
@@ -45,29 +45,34 @@ module.exports = function (router, database) {
 
     let newMap = {
       name: details.newMapName,
-      userId: userId,
-      latitude: details.hiddenlat,
-      longitude: details.hiddenlng,
+      userId: Number(userId),
+      latitude: Number(details.hiddenlat),
+      longitude: Number(details.hiddenlng),
       privacy: private,
     };
 
-    // let mapId = database.addMap(newMap);
-    let mapId = req.cookies["mapId"];
+    database.getMaxId().then((id) => {
+      let mapId = id[0]["max"];
+      let newPoint = {
+        mapId: Number(mapId),
+        title: details.pointTitle,
+        desc: details.pointDesc,
+        image: details.pointURL,
+        lat: Number(details.hiddenlat),
+        lng: Number(details.hiddenlng),
+        createdBy: Number(userId),
+      };
 
-    let newPoint = {
-      mapId: mapId,
-      title: details.pointTitle,
-      desc: details.pointDesc,
-      image: details.pointURL,
-      lat: details.hiddenlat,
-      lng: details.hiddenlng,
-      createdBy: userId,
-    };
+      console.log(newMap);
+      console.log(newPoint);
+      console.log(mapId);
 
-    console.log(newMap);
-    console.log(newPoint);
-
-    // database.addPoint(newPoint);
+      database.addPoint(newPoint).then(() => {
+        let contribution = { userId: Number(userId), mapId: Number(mapId) };
+        database.addContribution(contribution);
+        // res.redirect("/");
+      });
+    });
   });
 
   return router;

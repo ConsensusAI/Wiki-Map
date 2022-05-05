@@ -73,8 +73,8 @@ app.use("/test", test);
 // Separate them into separate routes files (see above).
 
 app.get("/", (req, res) => {
-  res.cookie("userId", "1");
-  res.cookie("mapId", "1");
+  res.cookie("userId", 1);
+  res.cookie("mapId", 1);
   res.render("index");
 });
 
