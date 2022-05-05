@@ -1,103 +1,6 @@
-// require("dotenv").config(); Ask Taiwo how to config this...
-// const getMapsByUser = require('../../routes/maps');
-// const getAllPublicMapsByUser = require("../../db/database");
-
 // dummy database
 let user_id = 1;
 let user_email = "alice@gmail.com";
-
-// let mapsDB = getMapsByUser(user_email);
-// console.log(mapsDB);
-
-// let maps = [
-//   {
-//     id: 1,
-//     title: "Best Places in Ottawa",
-//     lat: 45.4236237996463,
-//     lng: -75.70106847644017,
-//     public: true,
-//     created_by: 1,
-//   },
-//   {
-//     id: 2,
-//     title: "Best Places in Montreal",
-//     lat: 45.508091,
-//     lng: -73.599874,
-//     public: true,
-//     created_by: 1,
-//   },
-//   {
-//     id: 3,
-//     title: "Best Places in Toronto",
-//     lat: 43.642555,
-//     lng: -79.387109,
-//     public: true,
-//     created_by: 2,
-//   },
-// ];
-
-// let mapsTest = getAllPublicMapsByUser(user_id);
-// console.log(mapsTest);
-
-// let points = [
-//   {
-//     id: 1,
-//     title: "Point1",
-//     description: "description1...",
-//     lat: 45.4236237996463,
-//     lng: -75.70106847644017,
-//     image: "",
-//     map_id: 1,
-//   },
-//   {
-//     id: 2,
-//     title: "Point2",
-//     description: "description2...",
-//     lat: 45.436767,
-//     lng: -75.739633,
-//     image: "",
-//     map_id: 1,
-//   },
-//   {
-//     id: 3,
-//     title: "Point3",
-//     description: "description3...",
-//     lat: 45.508091,
-//     lng: -73.599874,
-//     image: "",
-//     map_id: 2,
-//   },
-//   {
-//     id: 4,
-//     title: "Point4",
-//     description: "description4...",
-//     lat: 45.409357,
-//     lng: -75.719346,
-//     image: "",
-//     map_id: 1,
-//   },
-//   {
-//     id: 5,
-//     title: "CN Tower",
-//     description: "Most iconic tower of Canada.",
-//     lat: 43.642555,
-//     lng: -79.387109,
-//     image: "https://media.istockphoto.com/photos/tower-picture-id483465910", //https://media.istockphoto.com/photos/tower-picture-id483465910
-//     map_id: 3,
-//   },
-//   {
-//     id: 6,
-//     title: "High Park",
-//     description:
-//       "The High Park is one of the biggest parks in the Toronto region.",
-//     lat: 43.645905,
-//     lng: -79.463374,
-//     image:
-//       "https://media.istockphoto.com/photos/toronto-postcard-picture-id803293832?s=612x612", //https://media.istockphoto.com/photos/toronto-postcard-picture-id803293832?s=612x612
-//     map_id: 3,
-//   },
-// ];
-
 
 $(() => {
 
@@ -140,7 +43,7 @@ $(() => {
   loadPoints();
   loadMarkers();
 
-  // // Click Event
+  // Click Event
   let clickedMapPopup = L.popup();
   let latlng;
   function onMapClick(e) {
@@ -193,16 +96,26 @@ $(() => {
           console.log("point: ", p, "p.map_id: ", p.map_id, "map_id: ", map_id);
           if (p.map_id === map_id) {
             let tempMarker = L.marker([p.lat, p.lng]).addTo(map);
-            let content = `
+
+            let popContent = document.createElement('div')
+            let pTag = document.createElement('p').textContent(`
               <p>${p.title}</p>
               </br>
               <p>${p.description}</p>
               </br>
               <img src="${p.image}" style="width:150px;height:150px;">
-              <button onclick="clearMarker(${p.id})">Remove</button>`;
+            `);
+            popContent.appendChild(pTag)
+            let button = document.createElement('button')
+            button.textContent = 'Remove'
+            button.addEventListener('click', () => {
+              // console.log('button clicked')
+              clearMarker(p.id)
+            })
+            popContent.appendChild(button)
             tempMarker._id = p.id;
             markers.push(tempMarker);
-            tempMarker.bindPopup(content);
+            tempMarker.bindPopup(popContent);
           }
         }
       )})
