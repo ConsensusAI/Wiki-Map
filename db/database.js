@@ -39,6 +39,23 @@ const getAllPointsByUserAndMap = (userId, mapId) => {
     });
 };
 
+const getAllMapsByUser = function (userId) {
+  let queryString = `SELECT * FROM maps WHERE created_by = $1;`;
+  let queryParams = [userId];
+
+  return pool
+    .query(queryString, queryParams)
+    .then((res) => {
+      console.log(res.rows);
+      return res.rows;
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+};
+
+exports.getAllMapsByUser = getAllMapsByUser;
+
 exports.getAllPointsByUserAndMap = getAllPointsByUserAndMap;
 
 const getAllPointsByMap = (mapId) => {

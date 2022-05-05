@@ -33,6 +33,17 @@ module.exports = function (router, database) {
       });
   });
 
+  // Points for specific map
+  router.get("/user", function (req, res) {
+    database
+      .getAllMapsByUser(1)
+      .then((maps) => res.send({ maps }))
+      .catch((e) => {
+        console.error(e);
+        res.send(e);
+      });
+  });
+
   // Create new map
   router.post("/new", (req, res) => {
     let userId = Number(req.cookies["userId"]);
