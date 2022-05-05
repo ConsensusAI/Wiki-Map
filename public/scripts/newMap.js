@@ -31,7 +31,8 @@ function saveMarker(latlng) {
   let tempMarker = L.marker([latlng.lat, latlng.lng]).addTo(map);
   let lat = latlng.lat;
   let lng = latlng.lng;
-  let formContent = `<div class="form-group">
+  let formContent = `<div class="mapForm">
+  <div class="form-group">
   <label for="newMapName">Map Name</label>
   <input type="newMapName" class="form-control" name="newMapName" placeholder="My Favourite Map">
 </div>
@@ -40,12 +41,20 @@ function saveMarker(latlng) {
   <label class="form-check-label" for="privateMap">Private Map</label>
 </div>
 <button type="submit" class="btn btn-primary">Next</button>
+</div>
+<div hidden class="pointsForm">
+    <div class="form-group">
+    <label for="pointTitle">Point Title: </label>
+    <input type="pointTitle" class="form-control" name="pointTitle" placeholder="Burger Joint">
+  </div>
+  <div class="form-group">
+  <label for="pointDesc">Description: </label>
+  <input type="pointDesc" class="form-control" name="pointDesc" placeholder="Best place to eat">
+</div>
+<button type="createMap" class="btn btn-primary">Create Map!</button>
+</div>
 `;
 
-  {
-    /* <input type="checkbox" class="form-check-input" name="privateMap" id="privateMap">
-        <label class="form-check-label" for="privateMap">Private Map</label> */
-  }
   tempMarker.bindPopup(formContent).openPopup();
 
   let private = false;
@@ -58,17 +67,11 @@ function saveMarker(latlng) {
     let mapName = $("input[type=newMapName]").val();
     console.log(mapName);
     console.log(private);
-    let content = `<div class="form-group">
-    <label for="pointTitle">Point Title: </label>
-    <input type="pointTitle" class="form-control" name="pointTitle" placeholder="Burger Joint">
-  </div>
-  <div class="form-group">
-  <label for="pointDesc">Description: </label>
-  <input type="pointDesc" class="form-control" name="pointDesc" placeholder="Best place to eat">
-</div>
-<button type="createMap" class="btn btn-primary">Create Map!</button>`;
-    tempMarker.bindPopup(content).openPopup();
+    $(".mapForm").hide();
+    $(".pointsForm").show();
   });
+
+  // tempMarker.bindPopup(content).openPopup();
 
   $("button[type=createMap]").click(function () {
     let pointTitle = $("input[type=pointTitle]").val();
