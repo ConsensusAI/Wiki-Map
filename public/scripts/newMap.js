@@ -37,7 +37,12 @@ function saveMarker(latlng) {
   let pointTitle;
   let pointDesc;
   let newPointId;
-  let formContent = `<div class="mapForm">
+  let formContent = `<form action="/maps/new" method="POST">
+  <div hidden class="form-group">
+  <input type="hiddenlat" class="form-control" name="hiddenlat" value="${lat}">
+  <input type="hiddenlng" class="form-control" name="hiddenlng" value="${lng}">
+  </div>
+  <div class="mapForm">
   <div class="form-group">
   <label for="newMapName">Map Name</label>
   <input type="newMapName" class="form-control" name="newMapName" placeholder="My Favourite Map">
@@ -49,7 +54,6 @@ function saveMarker(latlng) {
 <button type="submit" class="btn btn-primary">Next</button>
 </div>
 <div hidden class="pointsForm">
-<form action="/" method="GET">
 <div class="form-group">
     <label for="pointTitle">Point Title: </label>
     <input type="pointTitle" class="form-control" name="pointTitle" placeholder="Burger Joint">
@@ -101,28 +105,7 @@ function saveMarker(latlng) {
     <img src="${pointURL}" style="width:150px;height:150px;">
     <button onclick="clearMarker(${15})">Remove</button>`;
     $(".leaflet-popup-content").append(stuff);
-
-    $.get("/", function (data) {
-      $(".result").html(data);
-      alert("Load was performed.");
-    });
   });
-
-  tempMarker._id = newPointId;
-  // markers.push(tempMarker);
-
-  // Implement on Database - points table
-  // points.push({
-  //   id: newIdPoint,
-  //   pointTitle: pointTitle,
-  //   description: pointDesc,
-  //   lat: latlng.lat,
-  //   lng: latlng.lng,
-  //   map_id: map_id,
-  // });
-
-  // loadPoints();
-  console.log("<<saveMarkers>> markers: ", markers, " --- points: ", points);
 }
 
 function showPopup(id) {
