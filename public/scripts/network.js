@@ -4,3 +4,11 @@ function getAllMaps() {
     url,
   });
 }
+
+function getAllPointsByUserAndMap() {
+  return $.ajax("/points");
+}
+
+function getAllPointsByMap() {
+  return $.ajax("/maps/pointsByMap");
+}

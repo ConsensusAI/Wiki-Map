@@ -11,8 +11,10 @@ module.exports = function (router, database) {
   });
 
   router.get("/points", (req, res) => {
+    let userId = 1;
+    let mapId = 1;
     database
-      .getAllPointsByUser(1, 1)
+      .getAllPointsByUserAndMap(userId, mapId)
       .then((points) => res.send({ points }))
       .catch((e) => {
         console.error(e);
@@ -21,8 +23,9 @@ module.exports = function (router, database) {
   });
 
   router.get("/pointsByMap", (req, res) => {
+    let mapId = 1;
     database
-      .getAllPointsByMap(1)
+      .getAllPointsByMap(mapId)
       .then((points) => res.send({ points }))
       .catch((e) => {
         console.error(e);
@@ -49,17 +52,6 @@ module.exports = function (router, database) {
       .then((map) => {
         // res.render("index");
       })
-      .catch((e) => {
-        console.error(e);
-        res.send(e);
-      });
-  });
-
-  // Points for specific map
-  router.get("/points", function (req, res) {
-    database
-      .getAllPoints()
-      .then((points) => res.send({ points }))
       .catch((e) => {
         console.error(e);
         res.send(e);

@@ -1,13 +1,3 @@
-// Set up map
-// $.ajax("/maps")
-
-// $.ajax({
-//   url: "/maps",
-//   success: function (json) {
-//     addMapsList(json);
-//   },
-// });
-
 $(() => {
   let MAP;
 
@@ -74,8 +64,7 @@ const renderMap = (lat, lng) => {
   // let latlng;
   function onMapClick(e) {
     let latlng = e.latlng;
-    let hello = "hello";
-    let popContent = `<p>Clicked on: ${e.latlng.lat},  ${e.latlng.lng}</p></br><button onclick=testClick()>Save</button>`;
+    let popContent = `<p>Clicked on: ${e.latlng.lat},  ${e.latlng.lng}</p></br><button onclick=testClick(${latlng})>Save</button>`;
 
     clickedMapPopup.setLatLng(e.latlng).setContent(popContent).openOn(map);
   }
@@ -83,8 +72,9 @@ const renderMap = (lat, lng) => {
   map.on("click", onMapClick);
 };
 
-function testClick(hello) {
-  alert("Working");
+function testClick(latlng) {
+  alert(latlng);
+  console.log(latlng);
 }
 
 // // Click Event
@@ -104,9 +94,8 @@ function testClick(hello) {
 // }
 
 // Save point on map (creates a new marker and add to points table)
-function saveMarker() {
-  // let tempMarker = L.marker([latlng.lat, latlng.lng]).addTo(map);
-  let tempMarker = L.marker([45.42, -75.7]).addTo(map);
+function saveMarker(latlng) {
+  let tempMarker = L.marker([latlng.lat, latlng.lng]).addTo(map);
   let title = prompt("Please enter the title", "Write...");
   let desc = prompt("Brief description", "Write...");
   let newIdPoint = 5;
@@ -124,40 +113,6 @@ function saveMarker() {
 //     addPointsList(json);
 //   },
 // });
-
-$.ajax({
-  url: "/maps/pointsByMap",
-  success: function (json) {
-    newAddPoints(json);
-  },
-});
-
-const newAddPoints = (pointsJson) => {
-  let points = pointsJson["points"];
-  for (let point in points) {
-    console.log("newAddPoints", points[point]);
-    let node = document.createElement("li");
-    let nodeText = document.createTextNode(points[point].title);
-    node.setAttribute("onclick", `showPopup(${points[point].id})`);
-    node.appendChild(nodeText);
-    document.getElementById("map-points").appendChild(node);
-  }
-};
-
-const addMapsList = (mapsJson) => {
-  let maps = mapsJson["maps"];
-  for (let map in maps) {
-    $("#maps-list").append(`<li>${maps[map]["title"]}</li>`);
-    // console.log("map", maps[map]);
-  }
-};
-
-const addPointsList = (pointsJson) => {
-  let points = pointsJson["points"];
-  for (let point in points) {
-    $("#map-points").append(`<li>${points[point]["title"]}</li>`);
-  }
-};
 
 // IMPORTANT
 // console.log("result:", result["maps"][0]);

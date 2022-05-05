@@ -39,7 +39,7 @@ const getAllPointsByUserAndMap = (userId, mapId) => {
     });
 };
 
-exports.getAllPointsByUser = getAllPointsByUserAndMap;
+exports.getAllPointsByUserAndMap = getAllPointsByUserAndMap;
 
 const getAllPointsByMap = (mapId) => {
   let queryString = `SELECT * FROM points WHERE map_id = $1`;
