@@ -3,11 +3,7 @@ const router = express.Router();
 
 // Create New Map Forms
 router.get("/", function (req, res) {
-  res.render("create");
-});
-
-router.get("/WIP", (req, res) => {
-  res.render("newMap");
+  res.render("testDisplay");
 });
 
 module.exports = router;
