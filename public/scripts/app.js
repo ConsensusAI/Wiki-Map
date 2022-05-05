@@ -8,39 +8,39 @@ let user_email = 'alice@gmail.com';
 // let mapsDB = getMapsByUser(user_email);
 // console.log(mapsDB);
 
-let maps2 = [];
-$(() => {
-  $.ajax('/maps')
-    .then(res => res.maps)
+// let maps2 = [];
+// $(() => {
+//   $.ajax('/maps')
+//     .then(res => res.maps)
 
-});
+// });
 
-let maps = [
-  {
-    id: 1,
-    title: 'Best Places in Ottawa',
-    lat: 45.4236237996463,
-    lng: -75.70106847644017,
-    public: true,
-    created_by: 1
-  },
-  {
-    id: 2,
-    title: 'Best Places in Montreal',
-    lat: 45.508091,
-    lng: -73.599874,
-    public: true,
-    created_by: 1
-  },
-  {
-    id: 3,
-    title: 'Best Places in Toronto',
-    lat: 43.642555,
-    lng: -79.387109,
-    public: true,
-    created_by: 2
-  }
-];
+// let maps = [
+//   {
+//     id: 1,
+//     title: 'Best Places in Ottawa',
+//     lat: 45.4236237996463,
+//     lng: -75.70106847644017,
+//     public: true,
+//     created_by: 1
+//   },
+//   {
+//     id: 2,
+//     title: 'Best Places in Montreal',
+//     lat: 45.508091,
+//     lng: -73.599874,
+//     public: true,
+//     created_by: 1
+//   },
+//   {
+//     id: 3,
+//     title: 'Best Places in Toronto',
+//     lat: 43.642555,
+//     lng: -79.387109,
+//     public: true,
+//     created_by: 2
+//   }
+// ];
 
 let points = [
   {
@@ -99,54 +99,119 @@ let points = [
   },
 ]
 
-// Map - initialize on "map"
-let userMaps = [];
-maps.forEach((m, index) => {
-  if(m.created_by === user_id) {
-    userMaps.push([m.id, index]);
+
+$(() => {
+
+  let map;
+  let markers = [];
+  let userMaps = [];
+
+  $.ajax('/maps')
+    .then(res => {
+      res.maps.map((m, index) => {
+        if(m.created_by === user_id) {
+
+          // Start map by default: first map found for each user
+          if(userMaps.length === 0) {
+            map_id = m.id;
+            $("#map-title").html(m.title);
+            map = L.map("map").setView([Number(m.lat), Number(m.lng)], 13);
+            L.tileLayer(
+              "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}",
+              {
+                attribution:
+                  'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                maxZoom: 18,
+                id: "mapbox/streets-v11",
+                tileSize: 512,
+                zoomOffset: -1,
+                accessToken: "pk.eyJ1IjoiaGVucmlxdWV0YWthIiwiYSI6ImNsMmlkZnVhMDAxcW0zZG50OHZkMmw2bjcifQ.sjkW4ZrEFg8NOCIKEQki1g"
+              }
+              ).addTo(map)
+
+              map.on("click", onMapClick);
+          }
+          userMaps.push([m.id, index]);
+        }
+        console.log(Number(m.lat), Number(m.lng));
+      })
+    })
+
+  // // Click Event
+  let clickedMapPopup = L.popup();
+
+  let latlng;
+  function onMapClick(e) {
+    latlng = e.latlng;
+    let popContent = `<p>Clicked on: ${e.latlng}</p></br><button onclick=saveMarker(latlng)>Save</button>`;
+
+    clickedMapPopup
+      .setLatLng(e.latlng)
+      .setContent(popContent)
+      .openOn(map);
   }
+
+
+
+
+
+
+
+
+
+
+
 });
 
-// By default we are displaying the first map found for each user
-map_id = userMaps[0][0];
-document.getElementById("map-title").innerHTML = maps[userMaps[0][1]].title;
-let map = L.map("map").setView([maps[userMaps[0][1]].lat, maps[userMaps[0][1]].lng], 13);
-let markers = [];
+
+// // Map - initialize on "map"
+// let userMaps = [];
+// maps.forEach((m, index) => {
+//   if(m.created_by === user_id) {
+//     userMaps.push([m.id, index]);
+//   }
+// });
+
+// // By default we are displaying the first map found for each user
+// map_id = userMaps[0][0];
+// document.getElementById("map-title").innerHTML = maps[userMaps[0][1]].title;
+// map = L.map("map").setView([maps[userMaps[0][1]].lat, maps[userMaps[0][1]].lng], 13);
+// let markers = [];
 
 // Tile Layer
-L.tileLayer(
-  "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}",
-  {
-    attribution:
-      'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-    maxZoom: 18,
-    id: "mapbox/streets-v11",
-    tileSize: 512,
-    zoomOffset: -1,
-    accessToken: "pk.eyJ1IjoiaGVucmlxdWV0YWthIiwiYSI6ImNsMmlkZnVhMDAxcW0zZG50OHZkMmw2bjcifQ.sjkW4ZrEFg8NOCIKEQki1g"
-  }
-).addTo(map);
+// L.tileLayer(
+//   "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}",
+//   {
+//     attribution:
+//       'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+//     maxZoom: 18,
+//     id: "mapbox/streets-v11",
+//     tileSize: 512,
+//     zoomOffset: -1,
+//     accessToken: "pk.eyJ1IjoiaGVucmlxdWV0YWthIiwiYSI6ImNsMmlkZnVhMDAxcW0zZG50OHZkMmw2bjcifQ.sjkW4ZrEFg8NOCIKEQki1g"
+//   }
+// ).addTo(map);
 
-loadMaps(); // List of maps for the user e.g. Best Places in Ottawa/Montreal
-loadMarkers(); // Place the markers in the map from points table
-loadPoints(); // List of points(places) saved on the map e.g. Point1, Point2, etc
+// loadMaps(); // List of maps for the user e.g. Best Places in Ottawa/Montreal
+// loadMarkers(); // Place the markers in the map from points table
+// loadPoints(); // List of points(places) saved on the map e.g. Point1, Point2, etc
 
-console.log("markers: ", markers, " --- points: ", points);
+// console.log("markers: ", markers, " --- points: ", points);
 
-// Click Event
-let clickedMapPopup = L.popup();
+// // // Click Event
+// let clickedMapPopup = L.popup();
 
-let latlng;
-function onMapClick(e) {
-  latlng = e.latlng;
-  let popContent = `<p>Clicked on: ${e.latlng}</p></br><button onclick=saveMarker(latlng)>Save</button>`;
+// let latlng;
+// function onMapClick(e) {
+//   latlng = e.latlng;
+//   let popContent = `<p>Clicked on: ${e.latlng}</p></br><button onclick=saveMarker(latlng)>Save</button>`;
 
-  clickedMapPopup
-    .setLatLng(e.latlng)
-    .setContent(popContent)
-    .openOn(map);
+//   clickedMapPopup
+//     .setLatLng(e.latlng)
+//     .setContent(popContent)
+//     .openOn(map);
 
-}
+// }
 
 
 // Functions here -------------------------------------------------------------------------------------------
@@ -277,6 +342,6 @@ function showPopup(id) {
   });
 }
 
-map.on("click", onMapClick);
+// map.on("click", onMapClick);
 
 
