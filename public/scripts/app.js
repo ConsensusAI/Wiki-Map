@@ -213,7 +213,9 @@ $(() => {
     let tempMarker = L.marker([latlng.lat, latlng.lng]).addTo(map);
     let title = prompt("Please enter the title", "Write...");
     let desc = prompt("Brief description", "Write...");
+
     let newIdPoint = points[Object.keys(points).length - 1].id + 1;
+
     let content = `<p>${title}</p></br><p>${desc}</p></br><button onclick="clearMarker(${newIdPoint})">Remove</button>`;
     tempMarker._id = newIdPoint;
     markers.push(tempMarker);
