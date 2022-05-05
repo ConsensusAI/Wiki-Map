@@ -19,7 +19,7 @@ let clickedMapPopup = L.popup();
 let latlng;
 function onMapClick(e) {
   latlng = e.latlng;
-  let popContent = `<p>Clicked on: ${e.latlng}</p></br><button onclick=saveMarker(latlng)>Save</button>`;
+  let popContent = `<p>Clicked on: Latitude: ${latlng.lat}, Longitude: ${latlng.lng}</p></br><button onclick=saveMarker(latlng)>Save</button>`;
 
   clickedMapPopup.setLatLng(e.latlng).setContent(popContent).openOn(map);
 }
@@ -33,7 +33,7 @@ function saveMarker(latlng) {
   let lng = latlng.lng;
   let formContent = `<div class="form-group">
   <label for="newMapName">Map Name</label>
-  <input type="newMapName" id="test" class="form-control" name="newMapName" placeholder="My Favourite Map">
+  <input type="newMapName" class="form-control" name="newMapName" placeholder="My Favourite Map">
 </div>
 <div class="form-check">
   <input type="checkbox" class="form-check-input" name="privateMap" id="privateMap">
@@ -60,14 +60,21 @@ function saveMarker(latlng) {
     console.log(private);
     let content = `<div class="form-group">
     <label for="pointTitle">Point Title: </label>
-    <input type="pointTitle" id="test" class="form-control" name="pointTitle" placeholder="Burger Joint">
+    <input type="pointTitle" class="form-control" name="pointTitle" placeholder="Burger Joint">
   </div>
   <div class="form-group">
   <label for="pointDesc">Description: </label>
-  <input type="pointDesc" id="test" class="form-control" name="pointDesc" placeholder="Best place to eat">
+  <input type="pointDesc" class="form-control" name="pointDesc" placeholder="Best place to eat">
 </div>
-<button type="submit" class="btn btn-primary">Create Map!</button>`;
+<button type="createMap" class="btn btn-primary">Create Map!</button>`;
     tempMarker.bindPopup(content).openPopup();
+  });
+
+  $("button[type=createMap]").click(function () {
+    let pointTitle = $("input[type=pointTitle]").val();
+    let pointDesc = $("input[type=pointDesc]").val();
+    console.log(pointTitle);
+    console.log(pointDesc);
   });
 
   // let mapName = prompt("Please enter the map name", "(New Map)");
