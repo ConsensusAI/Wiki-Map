@@ -51,7 +51,7 @@ function saveMarker(latlng) {
   <input type="checkbox" class="form-check-input" name="privateMap" id="privateMap">
   <label class="form-check-label" for="privateMap">Private Map</label>
 </div>
-<button type="submit" class="btn btn-primary">Next</button>
+<button type="button" class="btn btn-primary">Next</button>
 </div>
 <div hidden class="pointsForm">
 <div class="form-group">
@@ -65,7 +65,7 @@ function saveMarker(latlng) {
   <label for="pointURL">Description: </label>
   <input type="pointURL" class="form-control" name="pointURL" value=${DEFAULT_IMAGE}>
 </div>
-<button type="createMap" class="btn btn-primary">Create Map!</button>
+<button type="submit" class="btn btn-primary">Create Map!</button>
 </div>
 </form>
 <div hidden class="displayPoint">
@@ -80,7 +80,7 @@ function saveMarker(latlng) {
     private = true;
   });
 
-  $("button[type=submit]").click(function () {
+  $("button[type=button]").click(function () {
     let mapName = $("input[type=newMapName]").val();
     console.log(mapName);
     console.log(private);
@@ -88,7 +88,7 @@ function saveMarker(latlng) {
     $(".pointsForm").show();
   });
 
-  $("button[type=createMap]").click(function () {
+  $("button[type=submit]").click(function () {
     let pointTitle = $("input[type=pointTitle]").val();
     let pointDesc = $("input[type=pointDesc]").val();
     let pointURL = $("input[type=pointURL]").val();
