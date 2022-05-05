@@ -1,3 +1,6 @@
+let DEFAULT_IMAGE =
+  "https://i.pinimg.com/originals/0f/61/ba/0f61ba72e0e12ba59d30a50295964871.png";
+
 var map = L.map("map").setView([51.505, -0.09], 13);
 L.tileLayer(
   "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}",
@@ -31,6 +34,9 @@ function saveMarker(latlng) {
   let tempMarker = L.marker([latlng.lat, latlng.lng]).addTo(map);
   let lat = latlng.lat;
   let lng = latlng.lng;
+  let pointTitle;
+  let pointDesc;
+  let newPointId;
   let formContent = `<div class="mapForm">
   <div class="form-group">
   <label for="newMapName">Map Name</label>
@@ -50,8 +56,13 @@ function saveMarker(latlng) {
   <div class="form-group">
   <label for="pointDesc">Description: </label>
   <input type="pointDesc" class="form-control" name="pointDesc" placeholder="Best place to eat">
+  <div class="form-group">
+  <label for="pointURL">Description: </label>
+  <input type="pointURL" class="form-control" name="pointURL" value=${DEFAULT_IMAGE}>
 </div>
 <button type="createMap" class="btn btn-primary">Create Map!</button>
+</div>
+<div hidden class="displayPoint">
 </div>
 `;
 
@@ -71,28 +82,39 @@ function saveMarker(latlng) {
     $(".pointsForm").show();
   });
 
-  // tempMarker.bindPopup(content).openPopup();
+  // let newPointId;
 
   $("button[type=createMap]").click(function () {
     let pointTitle = $("input[type=pointTitle]").val();
     let pointDesc = $("input[type=pointDesc]").val();
+    let pointURL = $("input[type=pointURL]").val();
+    let newPointId = testID + 1;
     console.log(pointTitle);
     console.log(pointDesc);
+    console.log(pointURL);
+    $(".pointsForm").hide();
+    $(".displayPoint").show();
+    let stuff = `<p>${pointTitle}</p>
+    </br>
+    <p>${pointDesc}</p>
+    </br>
+    <img src="${pointURL}" style="width:150px;height:150px;">
+    <button onclick="clearMarker(${15})">Remove</button>`;
+    $(".leaflet-popup-content").append(stuff);
   });
 
   // let mapName = prompt("Please enter the map name", "(New Map)");
-  // let title = prompt("Please enter the title", "Write...");
-  // let desc = prompt("Brief description", "Write...");
-  let newPointId = testID + 1;
-  // let content = `<p>${title}</p></br><p>${desc}</p></br><button onclick="clearMarker(${newIdPoint})">Remove</button>`;
-  tempMarker._id = newIdPoint;
+  // let pointTitle = prompt("Please enter the pointTitle", "Write...");
+  // let pointDesc = prompt("Brief description", "Write...");
+  // let content = `<p>${pointTitle}</p></br><p>${pointDesc}</p></br><button onclick="clearMarker(${newIdPoint})">Remove</button>`;
+  tempMarker._id = newPointId;
   // markers.push(tempMarker);
 
   // Implement on Database - points table
   // points.push({
   //   id: newIdPoint,
-  //   title: title,
-  //   description: desc,
+  //   pointTitle: pointTitle,
+  //   description: pointDesc,
   //   lat: latlng.lat,
   //   lng: latlng.lng,
   //   map_id: map_id,
