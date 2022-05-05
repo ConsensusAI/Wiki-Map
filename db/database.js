@@ -1,11 +1,7 @@
 const { Pool } = require("pg");
+const dbParams = require("./lib/db.js");
 
-const pool = new Pool({
-  user: "vagrant",
-  password: "123",
-  host: "localhost",
-  database: "template1",
-});
+const pool = new Pool({ dbParams });
 
 const getAllMaps = function () {
   let queryString = `SELECT * FROM maps;`;
