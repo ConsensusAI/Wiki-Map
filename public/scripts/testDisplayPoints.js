@@ -20,11 +20,7 @@ $(() => {
     lat = currentMap.lat;
     lng = currentMap.lng;
     renderMap(lat, lng);
-    // MAP = L.map("map").setView([
-    //   Number(currentMap.lat),
-    //   Number(currentMap.lng),
-    //   13,
-    // ]);
+    // let map = L.map("map").setView([45.42, -72.7, 13]);
     // L.tileLayer(
     //   "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}",
     //   {
@@ -37,9 +33,9 @@ $(() => {
     //     accessToken:
     //       "pk.eyJ1IjoiaGVucmlxdWV0YWthIiwiYSI6ImNsMmlkZnVhMDAxcW0zZG50OHZkMmw2bjcifQ.sjkW4ZrEFg8NOCIKEQki1g",
     //   }
-    // ).addTo(MAP);
+    // ).addTo(map);
 
-    // MAP.on("click", onMapClick);
+    // map.on("click", onMapClick);
 
     // // // Click Event
     // let clickedMapPopup = L.popup();
@@ -48,7 +44,7 @@ $(() => {
     //   latlng = e.latlng;
     //   let popContent = `<p>Clicked on: ${e.latlng}</p></br><button onclick=saveMarker(latlng)>Save</button>`;
 
-    //   clickedMapPopup.setLatLng(e.latlng).setContent(popContent).openOn(MAP);
+    //   clickedMapPopup.setLatLng(e.latlng).setContent(popContent).openOn(map);
     // }
   });
 });
@@ -70,37 +66,53 @@ const renderMap = (lat, lng) => {
     }
   ).addTo(map);
 
-  let marker = L.marker([45.42, -75.7]).addTo(map);
+  // let marker = L.marker([45.42, -75.7]).addTo(map);
 
   // Click Event
   let clickedMapPopup = L.popup();
 
-  function testClick() {
-    prompt("Test");
-  }
-
-  let latlng;
+  // let latlng;
   function onMapClick(e) {
-    latlng = e.latlng;
-    let popContent = `<p>Clicked on: ${e.latlng.lat},  ${e.latlng.lng}</p></br><button onclick=saveMarker(latlng)>Save</button>`;
+    let latlng = e.latlng;
+    let hello = "hello";
+    let popContent = `<p>Clicked on: ${e.latlng.lat},  ${e.latlng.lng}</p></br><button onclick=testClick()>Save</button>`;
 
     clickedMapPopup.setLatLng(e.latlng).setContent(popContent).openOn(map);
   }
 
-  // Save point on map (creates a new marker and add to points table)
-  function saveMarker(latlng) {
-    let tempMarker = L.marker([latlng.lat, latlng.lng]).addTo(map);
-    let title = prompt("Please enter the title", "Write...");
-    let desc = prompt("Brief description", "Write...");
-    let newIdPoint = points[Object.keys(points).length - 1].id + 1;
-    let content = `<p>${title}</p></br><p>${desc}</p></br><button onclick="clearMarker(${newIdPoint})">Remove</button>`;
-    tempMarker._id = newIdPoint;
-    markers.push(tempMarker);
-    tempMarker.bindPopup(content).openPopup();
-  }
-
   map.on("click", onMapClick);
 };
+
+function testClick(hello) {
+  alert("Working");
+}
+
+// // Click Event
+// let clickedMapPopup = L.popup();
+
+// function testClick() {
+//   prompt("Test");
+// }
+
+// let latlng;
+// function onMapClick(e) {
+//   latlng = e.latlng;
+//   let marker = L.marker([45.42, -75.7]).addTo(map);
+//   let popContent = `<p>Clicked on: ${e.latlng.lat},  ${e.latlng.lng}</p></br><button onclick=saveMarker(marker)>Save</button>`;
+
+//   clickedMapPopup.setLatLng(e.latlng).setContent(popContent).openOn(map);
+// }
+
+// Save point on map (creates a new marker and add to points table)
+function saveMarker() {
+  // let tempMarker = L.marker([latlng.lat, latlng.lng]).addTo(map);
+  let tempMarker = L.marker([45.42, -75.7]).addTo(map);
+  let title = prompt("Please enter the title", "Write...");
+  let desc = prompt("Brief description", "Write...");
+  let newIdPoint = 5;
+  let content = `<p>${title}</p></br><p>${desc}</p></br><button onclick="clearMarker(${newIdPoint})">Remove</button>`;
+  tempMarker.bindPopup(content).openPopup();
+}
 
 // $.ajax("/maps").then((res) => {
 //   addMapsList(res);
@@ -136,7 +148,7 @@ const addMapsList = (mapsJson) => {
   let maps = mapsJson["maps"];
   for (let map in maps) {
     $("#maps-list").append(`<li>${maps[map]["title"]}</li>`);
-    console.log("map", map);
+    // console.log("map", maps[map]);
   }
 };
 
