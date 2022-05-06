@@ -77,9 +77,9 @@ module.exports = function (router, database) {
         createdBy: Number(userId),
       };
 
-      console.log(newMap);
-      console.log(newPoint);
-      console.log(mapId);
+      // console.log(newMap);
+      // console.log(newPoint);
+      // console.log(mapId);
 
       database.addPoint(newPoint).then(() => {
         let contribution = { userId: Number(userId), mapId: Number(mapId) };
@@ -87,6 +87,14 @@ module.exports = function (router, database) {
         res.redirect("/");
       });
     });
+  });
+
+  router.get("/favourites", (req, res) => {});
+
+  router.post("/favourites", (req, res) => {
+    let mapId = "1";
+
+    database.favouriteMap(mapId);
   });
 
   return router;
