@@ -1,22 +1,24 @@
-$.ajax("/cookies").then((res) => {
-  let mapId = res.mapId;
-  console.log(res);
-  $.ajax("/maps/favourites").then((res) => {
-    let allFavouriteMaps = res["favouriteMaps"];
-    console.log(allFavouriteMaps);
-    console.log(mapId);
-    for (let index in allFavouriteMaps) {
-      let faveMap = allFavouriteMaps[index];
-      if (faveMap.id == mapId) {
-        $(".fave-button").addClass("btn-success");
-        $(".fave-button").removeClass("btn-outline-success");
-        $(".fave-button").html("Favourited!");
-        console.log("YES");
-      } else {
-        console.log("NO");
+$(document).ready(function () {
+  $.ajax("/cookies").then((res) => {
+    let mapId = res.mapId;
+    console.log(res);
+    $.ajax("/maps/favourites").then((res) => {
+      let allFavouriteMaps = res["favouriteMaps"];
+      console.log(allFavouriteMaps);
+      console.log(mapId);
+      for (let index in allFavouriteMaps) {
+        let faveMap = allFavouriteMaps[index];
+        if (faveMap.id == mapId) {
+          $(".fave-button").addClass("btn-success");
+          $(".fave-button").removeClass("btn-outline-success");
+          $(".fave-button").html("Favourited!");
+          console.log("YES");
+        } else {
+          console.log("NO");
+        }
       }
-    }
-    // $(".fave-button").click(clickFavourite); // <-------------------
+      // $(".fave-button").click(clickFavourite); // <-------------------
+    });
   });
 });
 
