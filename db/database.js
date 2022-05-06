@@ -24,6 +24,24 @@ const getAllMaps = function () {
 
 exports.getAllMaps = getAllMaps;
 
+const getMapInfo = (mapId) => {
+  let queryString = `SELECT * FROM maps
+  WHERE maps.id = $1`;
+  let queryParams = [mapId];
+
+  return pool
+    .query(queryString, queryParams)
+    .then((res) => {
+      console.log(res.rows);
+      return res.rows;
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+};
+
+exports.getMapInfo = getMapInfo;
+
 const getAllPointsByUserAndMap = (userId, mapId) => {
   let queryString = `SELECT * FROM points WHERE created_by = $1 AND map_id = $2;`;
   let queryParams = [userId, mapId];
@@ -157,10 +175,10 @@ const addContribution = (contribution) => {
 
 exports.addContribution = addContribution;
 
-const addToFavouritesTableOnContribution = (userId, mapId) => {
+const addToFavouritesTableOnContribution = (contribution) => {
   let queryString = `INSERT INTO favourites (user_id, map_id, favourite)
   VALUES ($1, $2, FALSE);`;
-  let queryParams = [userId, mapId];
+  let queryParams = [contribution.userId, contribution.mapId];
 
   return pool
     .query(queryString, queryParams)
@@ -213,11 +231,27 @@ const getFavouriteMaps = (userId) => {
 
 exports.getFavouriteMaps = getFavouriteMaps;
 
-const favouriteMap = (userId, mapId) => {
-  let queryString = `UPDATE maps_users
-  SET favourite = TRUE
+const checkIfFavouriteExists = (userId, mapId) => {
+  let queryString = `SELECT COUNT(*)
+  FROM favourites
   WHERE user_id = $1
-  AND mapId = $2;`;
+  AND map_id = $2`;
+  let queryParams = [userId, mapId];
+  return pool
+    .query(queryString, queryParams)
+    .then((res) => {
+      return res.rows;
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+};
+
+exports.checkIfFavouriteExists = checkIfFavouriteExists;
+
+const favouriteMap = (userId, mapId) => {
+  let queryString = `INSERT INTO favourites (user_id, map_id, favourite)
+  VALUES ($1, $2, TRUE);`;
   let queryParams = [userId, mapId];
 
   return pool

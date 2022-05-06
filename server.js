@@ -76,7 +76,6 @@ app.use("/cookies", cookiesRoute);
 
 app.get("/", (req, res) => {
   res.cookie("userId", 1);
-  res.cookie("mapId", 1);
   res.render("index");
 });
 

@@ -44,12 +44,18 @@ module.exports = function (router, database) {
   router.post("/maps/favourites", (req, res) => {
     let userId = Number(req.cookies["userId"]);
     let mapId = Number(req.cookies["mapId"]);
-    console.log("user", userId);
-    console.log("map", mapId);
-    database.toggleFavouriteMap(userId, mapId).then(() => {
-      console.log("DONE!");
-      res.redirect("/");
+    database.checkIfFavouriteExists(userId, mapId).then((count) => {
+      if (count > 0) {
+        database.toggleFavouriteMap(userId, mapId).then(() => {
+          res.redirect("/");
+        });
+      } else {
+        database.favouriteMap(userId, mapId).then(() => {
+          res.redirect("/");
+        });
+      }
     });
+
     console.log("====Favourited!=====");
 
     // req.mapId = 2;
@@ -106,7 +112,6 @@ module.exports = function (router, database) {
       .removePoint(Number(pointId))
       .then((points) => {
         console.log("Removed");
-        // res.send("OK");
         res.redirect("/");
       })
       .catch((e) => {
@@ -159,17 +164,10 @@ module.exports = function (router, database) {
         createdBy: Number(userId),
       };
 
-      // console.log(newMap);
-      // console.log(newPoint);
-      // console.log(mapId);
-
       database.addPoint(newPoint).then(() => {
         let contribution = { userId: Number(userId), mapId: Number(mapId) };
         database.addContribution(contribution);
-        database.addToFavouritesTableOnContribution([
-          Number(userId),
-          Number(mapId),
-        ]);
+        database.addToFavouritesTableOnContribution(contribution);
         res.redirect("/");
       });
     });
@@ -177,11 +175,13 @@ module.exports = function (router, database) {
 
   // Select Current Map
   router.post("/selectedMap", (req, res) => {
-    res.cookie("mapID", req.body.selectedMapId);
-    console.log("-----------------------------------------------------");
-    console.log(req.body.selectedMapId);
-    console.log("-----------------------------------------------------");
+    res.cookie("mapId", req.body.selectedMapId);
     res.redirect("/");
+  });
+
+  router.get("/selectedMap", (req, res) => {
+    let mapId = req.cookies["mapId"];
+    database.getMapInfo(mapId).then((mapInfo) => res.send({ mapInfo }));
   });
 
   // Get User Info

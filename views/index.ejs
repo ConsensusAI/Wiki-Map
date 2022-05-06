@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
     <link rel="stylesheet" href="/styles/main.css" type="text/css" />
     <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/hiddenButtons.css" type="text/css" />
     <link
       rel="stylesheet"
       href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
@@ -83,7 +84,9 @@
     <main class="container">
       <section id="list-container">
         <h2>Maps:</h2>
-        <ul id="maps-list"></ul>
+        <form action="/selectedMap" method="POST">
+          <ul id="maps-list"></ul>
+        </form>
 
         <h2>Saved locations:</h2>
         <ul id="map-points"></ul>
@@ -94,8 +97,8 @@
       </section>
     </main>
   </body>
-  <script type="text/javascript" src="/scripts/loadUsername.js"></script>
+  <script type="text/javascript" src="/scripts/loadMapTitle.js"></script>
   <script type="text/javascript" src="/scripts/app.js"></script>
-  <script type="text/javascript" src="/scripts/testDisplayPoints.js"></script>
+  <!-- <script type="text/javascript" src="/scripts/testDisplayPoints.js"></script> -->
   <script type="text/javascript" src="/scripts/favouriteButton.js"></script>
 </html>
