@@ -162,16 +162,59 @@ $(() => {
         markers.push(tempMarker);
         tempMarker.bindPopup(popContent).openPopup();
 
-        let newPoint = {
-          mapId: map_id,
-          title: title,
-          desc: desc,
-          image: "",
-          lat: latlng.lat,
-          lng: latlng.lng,
-          createdBy: user_id,
-        };
-        addToPointTable(newPoint);
+        let newFormAdd = document.createElement("form");
+        newFormAdd.action = "/maps/points/add";
+        newFormAdd.method = "post";
+
+        let hiddenMapId = document.createElement("input");
+        hiddenMapId.name = "mapId";
+        hiddenMapId.value = map_id;
+        newFormAdd.appendChild(hiddenMapId);
+
+        let hiddenMapTitle = document.createElement("input");
+        hiddenMapTitle.name = "title";
+        hiddenMapTitle.value = map_id;
+        newFormAdd.appendChild(hiddenMapTitle);
+
+        let hiddenMapDesc = document.createElement("input");
+        hiddenMapDesc.name = "desc";
+        hiddenMapDesc.value = map_id;
+        newFormAdd.appendChild(hiddenMapDesc);
+
+        let hiddenMapImg = document.createElement("input");
+        hiddenMapImg.name = "image";
+        hiddenMapImg.value = map_id;
+        newFormAdd.appendChild(hiddenMapImg);
+
+        let hiddenMapLat = document.createElement("input");
+        hiddenMapLat.name = "lat";
+        hiddenMapLat.value = map_id;
+        newFormAdd.appendChild(hiddenMapLat);
+
+        let hiddenMapLng = document.createElement("input");
+        hiddenMapLng.name = "lng";
+        hiddenMapLng.value = map_id;
+        newFormAdd.appendChild(hiddenMapLng);
+
+        let hiddenMapCreatedBy = document.createElement("input");
+        hiddenMapCreatedBy.name = "createdBy";
+        hiddenMapCreatedBy.value = map_id;
+        newFormAdd.appendChild(hiddenMapCreatedBy);
+
+        newFormAdd.submit();
+
+        console.log("newform", newFormAdd);
+
+        // let newPoint = {
+        //   mapId: map_id,
+        //   title: title,
+        //   desc: desc,
+        //   image: "",
+        //   lat: latlng.lat,
+        //   lng: latlng.lng,
+        //   createdBy: user_id,
+        // };
+        // addToPointTable(newPoint);
       },
     });
 

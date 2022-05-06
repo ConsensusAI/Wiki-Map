@@ -1,7 +1,7 @@
 const { Pool } = require("pg");
 
 const pool = new Pool({
-  user: "vagrant",
+  user: "henrique",
   password: "123",
   host: "localhost",
   database: "midterm",
@@ -144,7 +144,7 @@ const addPoint = (point) => {
     point.lng,
     point.createdBy,
   ];
-
+  console.log("queryStr", queryString);
   return pool
     .query(queryString, queryParams)
     .then((res) => {
