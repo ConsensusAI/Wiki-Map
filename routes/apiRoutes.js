@@ -44,10 +44,14 @@ module.exports = function (router, database) {
   router.post("/maps/favourites", (req, res) => {
     let userId = Number(req.cookies["userId"]);
     let mapId = Number(req.cookies["mapId"]);
-    database.checkIfFavouriteExists(userId, mapId).then((count) => {
+    database.checkIfFavouriteExists(userId, mapId).then((counts) => {
+      let count = Number(counts[0]["count"]);
+      console.log("COUNT:-----------------", count);
       if (count > 0) {
-        database.toggleFavouriteMap(userId, mapId).then(() => {
-          res.redirect("/");
+        database.toggleFavouriteMap(userId, mapId).then((rows) => {
+          setTimeout(function () {
+            res.redirect("/");
+          }, 10);
         });
       } else {
         database.favouriteMap(userId, mapId).then(() => {
