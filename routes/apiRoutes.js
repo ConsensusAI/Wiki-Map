@@ -44,6 +44,17 @@ module.exports = function (router, database) {
       });
   });
 
+  // Add point to points table
+  router.post("/points/add/:point", function (req, res) {
+    database
+      .addPoint(req.params['point'])
+      .then((points) => res.send({ points }))
+      .catch((e) => {
+        console.error(e);
+        res.send(e);
+      });
+  });
+
   // Last point ID
   router.get("/points/last", function (req, res) {
     database

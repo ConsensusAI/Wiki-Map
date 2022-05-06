@@ -1,11 +1,8 @@
-// dummy database
-let user_id = 1;
-let user_email = "alice@gmail.com";
-
 $(() => {
 
   let map;
   let map_id;
+  let user_id = 1;
   let markers = [];
   let userMaps = [];
 
@@ -133,23 +130,57 @@ $(() => {
     let title = prompt("Please enter the title", "Write...");
     let desc = prompt("Brief description", "Write...");
 
-    // $.ajax({
-    //   url: "/maps/points",
-    //   success: function (json) {
-    //     getLastPointId(json);
-    //   },
-    // });
+    $.ajax({
+      url: "/maps/points/last",
+      success: function (json) {
+        let newIdPoint = json.points.id + 1;
 
-    let newIdPoint = points[Object.keys(points).length - 1].id + 1;
+        let popContent = document.createElement('div');
+        let btnTag = document.createElement('button');
+        btnTag.textContent = "Remove";
+        btnTag.addEventListener('click', () => {
+          clearMarker(newIdPoint)
+        })
+        popContent.appendChild(btnTag);
+        let pTag = document.createElement('p');
+        pTag.textContent = title;
+        popContent.appendChild(pTag);
+        let descTag = document.createElement('p');
+        descTag.textContent = desc;
+        popContent.appendChild(descTag);
+        let imgTag = document.createElement('img');
+        imgTag.src = 'https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80';
+        imgTag.style.width = "150px";
+        imgTag.style.height = "150px";
+        popContent.appendChild(imgTag);
+        tempMarker._id = newIdPoint;
+        markers.push(tempMarker);
+        tempMarker.bindPopup(popContent).openPopup();
 
-    let content = `<p>${title}</p></br><p>${desc}</p></br><button onclick="clearMarker(${newIdPoint})">Remove</button>`;
-    tempMarker._id = newIdPoint;
-    markers.push(tempMarker);
-    tempMarker.bindPopup(content).openPopup();
+        let newPoint = {
+          mapId: map_id,
+          title: title,
+          desc: desc,
+          image: '',
+          lat: latlng.lat,
+          lng: latlng.lng,
+          createdBy: user_id,
+        };
+        addToPointTable(newPoint);
+      },
+    });
 
     // Implement on Database - points table 'New QUERY INSERT INTO ...
 
-    console.log("<<saveMarkers>> markers: ", markers, " --- points: ", points);
+
+    // console.log("<<saveMarkers>> markers: ", markers);
+  }
+
+  function addToPointTable(newPoint) {
+    $.ajax(`/points/add/${newPoint}`)
+      .then(res => {
+        console.log(res);
+      });
   }
 
   // Clear marker
