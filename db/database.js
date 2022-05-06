@@ -162,6 +162,24 @@ const addContribution = (contribution) => {
 
 exports.addContribution = addContribution;
 
+const getFavouriteMaps = (userId) => {
+  let queryString = `SELECT * FROM maps_users
+  WHERE user_id = $1
+  AND favourite = TRUE;`;
+  let queryParams = [userId];
+
+  return pool
+    .query(queryString, queryParams)
+    .then((res) => {
+      return res.rows;
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+};
+
+exports.getFavouriteMaps = getFavouriteMaps;
+
 const favouriteMap = (userId, mapId) => {
   let queryString = `UPDATE maps_users
   SET favourite = TRUE

@@ -33,6 +33,14 @@ module.exports = function (router, database) {
       });
   });
 
+  // Get Favourite Maps
+  router.get("/favourites", (req, res) => {
+    let userId = Number(req.cookies["userId"]);
+    database
+      .getFavouriteMaps(userId)
+      .then((favouriteMaps) => res.send({ favouriteMaps }));
+  });
+
   // Points for specific map
   router.get("/user", function (req, res) {
     database
