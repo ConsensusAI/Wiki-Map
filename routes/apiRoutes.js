@@ -41,6 +41,11 @@ module.exports = function (router, database) {
       .then((favouriteMaps) => res.send({ favouriteMaps }));
   });
 
+  router.post("/favourites", (req, res) => {
+    console.log("====Favourited!=====");
+    // res.send("Favourited map!");
+  });
+
   // Points for specific map
   router.get("/user", function (req, res) {
     database
