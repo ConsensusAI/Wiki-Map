@@ -3,7 +3,13 @@ const addFavouriteMapsList = (mapsJson) => {
   for (let favouriteMap in maps) {
     console.log(maps[favouriteMap]);
     $("#favourited-maps")
-      .append(`<li>${maps[favouriteMap]["title"]}</li>`)
+      .append(
+        `<li>
+      <button type="submit" name="selectedMapId" value="${maps[favouriteMap]["id"]}" class="link-button">
+      ${maps[favouriteMap]["title"]}
+      </button>
+      </li>`
+      )
       .click(function () {
         alert("Handler for .click() called.");
       });
@@ -26,11 +32,16 @@ const addContributionsList = (mapsJson) => {
   let maps = mapsJson["contributedMaps"];
   for (let contributedMap in maps) {
     console.log(maps[contributedMap]);
-    $("#contributed-maps")
-      .append(`<li>${maps[contributedMap]["title"]}</li>`)
-      .click(function () {
-        alert("Handler for .click() called.");
-      });
+    $("#contributed-maps").append(
+      `<li>
+      <button type="submit" name="selectedMapId" value="${maps[contributedMap]["id"]}" class="link-button">
+      ${maps[contributedMap]["title"]}
+      </button>
+      </li>`
+    );
+    // .click(function () {
+    //   alert("Handler for .click() called.");
+    // });
     // node.click(`loadMapId(${m.id}, ${index})`);   // finish later
   }
 };
@@ -49,3 +60,11 @@ function loadContributions() {
 
 loadFavouriteMaps();
 loadContributions();
+
+/*
+      <input type="hidden" name="extra_submit_param" value="extra_submit_value">
+      <button type="submit" name="submit_param" value="submit_value" class="link-button">
+        This is a link that sends a POST request
+      </button>
+    </form>
+*/

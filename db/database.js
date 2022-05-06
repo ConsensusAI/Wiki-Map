@@ -141,9 +141,9 @@ exports.addPoint = addPoint;
 
 const addContribution = (contribution) => {
   // TODO: Remove date_contributed so that it automatically inputs Now
-  let queryString = `INSERT INTO maps_users (user_id, map_id, favourite)
-  VALUES ($1, $2, $3);`;
-  let queryParams = [contribution.userId, contribution.mapId, false];
+  let queryString = `INSERT INTO maps_users (user_id, map_id)
+  VALUES ($1, $2);`;
+  let queryParams = [contribution.userId, contribution.mapId];
 
   return pool
     .query(queryString, queryParams)
@@ -156,6 +156,14 @@ const addContribution = (contribution) => {
 };
 
 exports.addContribution = addContribution;
+
+const addToFavouritesTableOnContribution = (userId, mapId) => {
+  let queryString = `INSERT INTO favourites (user_id, map_id, favourite)
+  VALUES ($1, $2, FALSE)`;
+  let queryParams = [userId, mapId];
+};
+
+exports.addToFavouritesTableOnContribution = addToFavouritesTableOnContribution;
 
 const getContributions = (userId) => {
   let queryString = `SELECT DISTINCT maps.id, title, lat, lng, created_by, public FROM maps
@@ -178,7 +186,7 @@ exports.getContributions = getContributions;
 
 const getFavouriteMaps = (userId) => {
   let queryString = `SELECT DISTINCT maps.id, title, lat, lng, created_by, public FROM maps
-  JOIN maps_users ON maps.id = map_id
+  JOIN favourites ON maps.id = map_id
   JOIN users ON users.id = user_id
   WHERE user_id = $1
   AND favourite = TRUE;`;
@@ -216,7 +224,7 @@ const favouriteMap = (userId, mapId) => {
 exports.favouriteMap = favouriteMap;
 
 const unFavouriteMap = (userId, mapId) => {
-  let queryString = `UPDATE maps_users
+  let queryString = `UPDATE favourites
   SET favourite = FALSE
   WHERE user_id = $1
   AND mapId = $2;`;
@@ -235,7 +243,7 @@ const unFavouriteMap = (userId, mapId) => {
 exports.unFavouriteMap = unFavouriteMap;
 
 const toggleFavouriteMap = (userId, mapId) => {
-  let queryString = `UPDATE maps_users
+  let queryString = `UPDATE favourites
   SET favourite = NOT favourite
   WHERE user_id = $1
   AND map_id = $2;`;
