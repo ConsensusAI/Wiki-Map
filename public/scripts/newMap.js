@@ -38,7 +38,7 @@ function saveMarker(latlng) {
   let pointDesc;
   let newPointId;
   let formContent = `<form action="/maps/new" method="POST">
-  <div hidden class="form-group">
+  <div class="form-group d-none">
   <input type="hiddenlat" class="form-control" name="hiddenlat" value="${lat}">
   <input type="hiddenlng" class="form-control" name="hiddenlng" value="${lng}">
   </div>
@@ -51,9 +51,9 @@ function saveMarker(latlng) {
   <input type="checkbox" class="form-check-input" name="privateMap" id="privateMap">
   <label class="form-check-label" for="privateMap">Private Map</label>
 </div>
-<button type="button" class="btn btn-primary">Next</button>
+<button type="button" class="btn btn-danger">Next</button>
 </div>
-<div hidden class="pointsForm">
+<div class="pointsForm d-none">
 <div class="form-group">
     <label for="pointTitle">Point Title: </label>
     <input type="pointTitle" class="form-control" name="pointTitle" placeholder="Burger Joint">
@@ -65,10 +65,10 @@ function saveMarker(latlng) {
   <label for="pointURL">Image URL: </label>
   <input type="pointURL" class="form-control" name="pointURL" value=${DEFAULT_IMAGE}>
 </div>
-<button type="submit" class="btn btn-primary">Create Map!</button>
+<button type="submit" class="btn btn-danger">Create Map!</button>
 </div>
 </form>
-<div hidden class="displayPoint">
+<div class="displayPoint d-none">
 </div>
 `;
 
@@ -84,8 +84,9 @@ function saveMarker(latlng) {
     let mapName = $("input[type=newMapName]").val();
     console.log(mapName);
     console.log(private);
-    $(".mapForm").hide();
-    $(".pointsForm").show();
+    $(".mapForm").addClass("d-none");
+    // $(".pointsForm").show();
+    $(".pointsForm").removeClass("d-none");
   });
 
   $("button[type=submit]").click(function () {
@@ -96,8 +97,9 @@ function saveMarker(latlng) {
     console.log(pointTitle);
     console.log(pointDesc);
     console.log(pointURL);
-    $(".pointsForm").hide();
-    $(".displayPoint").show();
+    $(".pointsForm").addClass("d-none");
+    $(".displayPoint").removeClass("d-none");
+    // $(".displayPoint").show();
     let stuff = `<p>${pointTitle}</p>
     </br>
     <p>${pointDesc}</p>

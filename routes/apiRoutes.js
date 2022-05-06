@@ -92,9 +92,10 @@ module.exports = function (router, database) {
   router.get("/favourites", (req, res) => {});
 
   router.post("/favourites", (req, res) => {
-    let mapId = "1";
+    let userId = req.cookies["userId"];
+    let mapId = req.cookies["mapId"];
 
-    database.favouriteMap(mapId);
+    database.favouriteMap(mapId, userId);
   });
 
   return router;
