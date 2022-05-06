@@ -2,8 +2,8 @@ const express = require("express");
 const router = express.Router();
 
 // Create New Map Forms
-router.get("/", (req, res) => {
-  res.render("newMap");
+router.get("/", function (req, res) {
+  res.render("testDisplay");
 });
 
 module.exports = router;
