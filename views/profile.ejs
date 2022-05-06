@@ -3,10 +3,22 @@
   <head>
     <title>Wiki Map - Your Profile</title>
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
 
     <%- include('./partials/links.ejs') %>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="/styles/main.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/profile.css" type="text/css" />
 
     <!-- Make sure you put this AFTER Leaflet's CSS -->
     <script
@@ -18,28 +30,28 @@
   </head>
 
   <body>
-
     <%- include('./partials/nav.ejs') %>
 
     <main class="container">
-      <section id ="list-container">
+      <section id="list-container">
         <h4>My Profile:</h4>
         <p>
           Name: SQL query
-          <br>
+          <br />
           E-Mail:
-          <br>
+          <br />
           Address:
         </p>
       </section>
-      <section class="form-container">
-        <h4>Contributions:</h4>
-        <p>
-          List of maps here?
-        </p>
-      </section>
+        <section class="form-container">
+          <h3>Contributions:</h4>
+          <p>List of maps here?</p>
+        </section>
+        <section class="form-container">
+          <h3>Favourite Maps:</h4>
+          <p>List of maps here?</p>
+        </section>
     </main>
-
   </body>
-  <script type="text/javascript" src="/scripts/app.js"></script>
+  <!-- <script type="text/javascript" src="/scripts/app.js"></script> -->
 </html>
