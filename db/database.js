@@ -141,14 +141,9 @@ exports.addPoint = addPoint;
 
 const addContribution = (contribution) => {
   // TODO: Remove date_contributed so that it automatically inputs Now
-  let queryString = `INSERT INTO maps_users (user_id, map_id, date_contributed, favourite)
-  VALUES ($1, $2, $3, $4);`;
-  let queryParams = [
-    contribution.userId,
-    contribution.mapId,
-    "04/28/2022",
-    false,
-  ];
+  let queryString = `INSERT INTO maps_users (user_id, map_id, favourite)
+  VALUES ($1, $2, $3);`;
+  let queryParams = [contribution.userId, contribution.mapId, false];
 
   return pool
     .query(queryString, queryParams)
@@ -162,8 +157,29 @@ const addContribution = (contribution) => {
 
 exports.addContribution = addContribution;
 
+const getContributions = (userId) => {
+  let queryString = `SELECT DISTINCT maps.id, title, lat, lng, created_by, public FROM maps
+  JOIN maps_users ON maps.id = map_id
+  JOIN users ON users.id = user_id
+  WHERE user_id = $1;`;
+  let queryParams = [userId];
+
+  return pool
+    .query(queryString, queryParams)
+    .then((res) => {
+      return res.rows;
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+};
+
+exports.getContributions = getContributions;
+
 const getFavouriteMaps = (userId) => {
-  let queryString = `SELECT * FROM maps_users
+  let queryString = `SELECT DISTINCT maps.id, title, lat, lng, created_by, public FROM maps
+  JOIN maps_users ON maps.id = map_id
+  JOIN users ON users.id = user_id
   WHERE user_id = $1
   AND favourite = TRUE;`;
   let queryParams = [userId];
