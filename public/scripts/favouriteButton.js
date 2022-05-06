@@ -23,7 +23,7 @@ $.ajax("/cookies").then((res) => {
     }
     console.log(isFave);
     isFave ? console.log("yes, it is") : console.log("no, it isn't");
-    $(".fave-button").click(clickFavourite);
+    // $(".fave-button").click(clickFavourite); // <-------------------
     // $(".favourited").click(clickUnfavourite);
   });
 });

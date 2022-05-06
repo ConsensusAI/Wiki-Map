@@ -43,6 +43,8 @@ module.exports = function (router, database) {
 
   router.post("/favourites", (req, res) => {
     console.log("====Favourited!=====");
+    res.render("index");
+    req.mapId = 2;
     // res.send("Favourited map!");
   });
 
