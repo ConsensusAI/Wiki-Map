@@ -162,8 +162,27 @@ const addContribution = (contribution) => {
 
 exports.addContribution = addContribution;
 
+const getContributions = (userId) => {
+  let queryString = `SELECT DISTINCT maps.id, title, lat, lng, created_by, public FROM maps
+  JOIN maps_users ON maps.id = map_id
+  JOIN users ON users.id = user_id
+  WHERE user_id = $1;`;
+  let queryParams = [userId];
+
+  return pool
+    .query(queryString, queryParams)
+    .then((res) => {
+      return res.rows;
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+};
+
+exports.getContributions = getContributions;
+
 const getFavouriteMaps = (userId) => {
-  let queryString = `SELECT * FROM maps
+  let queryString = `SELECT DISTINCT maps.id, title, lat, lng, created_by, public FROM maps
   JOIN maps_users ON maps.id = map_id
   JOIN users ON users.id = user_id
   WHERE user_id = $1

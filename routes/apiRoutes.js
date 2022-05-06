@@ -56,6 +56,14 @@ module.exports = function (router, database) {
     // res.send("Favourited map!");
   });
 
+  // Get Contributed Maps
+  router.get("/maps/contributions", (req, res) => {
+    let userId = Number(req.cookies["userId"]);
+    database
+      .getContributions(userId)
+      .then((contributedMaps) => res.send({ contributedMaps }));
+  });
+
   // Points for specific map
   router.get("/maps/user", function (req, res) {
     database
