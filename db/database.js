@@ -141,14 +141,9 @@ exports.addPoint = addPoint;
 
 const addContribution = (contribution) => {
   // TODO: Remove date_contributed so that it automatically inputs Now
-  let queryString = `INSERT INTO maps_users (user_id, map_id, date_contributed, favourite)
-  VALUES ($1, $2, $3, $4);`;
-  let queryParams = [
-    contribution.userId,
-    contribution.mapId,
-    "04/28/2022",
-    false,
-  ];
+  let queryString = `INSERT INTO maps_users (user_id, map_id, favourite)
+  VALUES ($1, $2, $3);`;
+  let queryParams = [contribution.userId, contribution.mapId, false];
 
   return pool
     .query(queryString, queryParams)
