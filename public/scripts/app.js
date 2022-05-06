@@ -97,16 +97,21 @@ $(() => {
           if (p.map_id === map_id) {
             let tempMarker = L.marker([p.lat, p.lng]).addTo(map);
 
-            let popContent = document.createElement('div')
-            let pTag = document.createElement('p')
-            pTag.textContent = `
-              <p>${p.title}</p>
-              </br>
-              <p>${p.description}</p>
-              </br>
-              <img src="${p.image}" style="width:150px;height:150px;">
-            `;
-            popContent.appendChild(pTag)
+            let popContent = document.createElement('div');
+
+            let pTagTitle = document.createElement('p');
+            pTagTitle.textContent = p.title;
+            popContent.appendChild(pTagTitle);
+
+            let pTagDesc = document.createElement('p');
+            pTagDesc.textContent = p.description;
+            popContent.appendChild(pTagDesc);
+
+            let imgTag = document.createElement('img');
+            imgTag.src = p.image;
+            imgTag.style.width = "150px";
+            imgTag.style.height = "150px";
+            popContent.appendChild(imgTag);
             let button = document.createElement('button')
             button.textContent = 'Remove'
             button.addEventListener('click', () => {
@@ -128,6 +133,13 @@ $(() => {
     let title = prompt("Please enter the title", "Write...");
     let desc = prompt("Brief description", "Write...");
 
+    // $.ajax({
+    //   url: "/maps/points",
+    //   success: function (json) {
+    //     getLastPointId(json);
+    //   },
+    // });
+
     let newIdPoint = points[Object.keys(points).length - 1].id + 1;
 
     let content = `<p>${title}</p></br><p>${desc}</p></br><button onclick="clearMarker(${newIdPoint})">Remove</button>`;
@@ -148,14 +160,25 @@ $(() => {
         markers.splice(index, 1);
       }
     });
-
-    points.forEach((p, index) => {
-      if (p.id === idMarker) {
-        points.splice(index, 1);
-      }
-    });
+    $.ajax(`/maps/points/remove/${idMarker}`)
+      .then((res) => {
+        console.log(res);
+      });
   }
 
+  // add points
+  const addPointsList = (pointsJson) => {
+    let points = pointsJson["points"];
+    for (let point in points) {
+      let linkTag = document.createElement('li');
+      linkTag.textContent = points[point]["title"];
+      linkTag.addEventListener('click', () => {
+        showPopup(points[point]["id"])
+      });
+      $("#map-points").append(linkTag);
+
+    }
+  };
 
   // Open Popup
   function showPopup(id) {

@@ -193,6 +193,30 @@ const getAllPublicMapsByUser = function (id) {
 
 exports.getAllPublicMapsByUser = getAllPublicMapsByUser;
 
+const getLastPointId = function (userId) {
+  return pool
+    .query("SELECT id FROM points WHERE created_by = $1 ORDER BY id DESC", [userId])
+    .then((result) => {
+      console.log("last id: ", result.rows[0]);
+      return result.rows[0];
+    })
+    .catch((err) => console.log(err));
+};
+
+exports.getLastPointId = getLastPointId;
+
+const removePoint = function (pointId) {
+  return pool
+    .query("DELETE FROM points WHERE id = $1;" [pointId])
+    .then((result) => {
+      console.log("Deleted point id: ", pointId);
+      return result;
+    })
+    .catch((err) => console.log(err));
+};
+
+exports.removePoint = removePoint;
+
 // const getMapsByUser = function (email) {
 //   return pool
 //     .query("SELECT * FROM maps WHERE email = $1", [email])

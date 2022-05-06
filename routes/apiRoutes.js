@@ -44,6 +44,28 @@ module.exports = function (router, database) {
       });
   });
 
+  // Last point ID
+  router.get("/points/last", function (req, res) {
+    database
+      .getLastPointId(1)
+      .then((points) => res.send({ points }))
+      .catch((e) => {
+        console.error(e);
+        res.send(e);
+      });
+  });
+
+  // Remove Point
+  router.post("/points/remove/:id", function (req, res) {
+    database
+      .removePoint(req.params['id'])
+      .then((points) => res.send({ points }))
+      .catch((e) => {
+        console.error(e);
+        res.send(e);
+      });
+  });
+
   // Create new map
   router.post("/new", (req, res) => {
     let userId = Number(req.cookies["userId"]);

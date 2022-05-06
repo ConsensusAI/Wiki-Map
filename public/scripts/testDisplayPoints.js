@@ -22,13 +22,20 @@ const addMapsList = (mapsJson) => {
   }
 };
 
-const addPointsList = (pointsJson) => {
-  let points = pointsJson["points"];
-  for (let point in points) {
-    // console.log("the point-", point);
-    $("#map-points").append(`<li>${points[point]["title"]}</li>`).click(); //`showPopup(${point.id})`
-  }
-};
+// included on app.js ----------------
+
+// const addPointsList = (pointsJson) => {
+//   let points = pointsJson["points"];
+//   for (let point in points) {
+//     let linkTag = document.createElement('li');
+//     linkTag.textContent = `<li>${points[point]["title"]}</li>`;
+//     linkTag.addEventListener('click', () => {
+//       showPopup(points[point]["id"])
+//     });
+//     $("#map-points").append(linkTag);
+
+//   }
+// };
 
 // IMPORTANT
 // console.log("result:", result["maps"][0]);
