@@ -52,6 +52,7 @@ $(() => {
     popContent.appendChild(pTag)
     let button = document.createElement('button')
     button.textContent = 'Save'
+    button.type = 'Submit'
     button.addEventListener('click', () => {
       // console.log('button clicked')
       saveMarker(latlng)
@@ -157,16 +158,58 @@ $(() => {
         markers.push(tempMarker);
         tempMarker.bindPopup(popContent).openPopup();
 
-        let newPoint = {
-          mapId: map_id,
-          title: title,
-          desc: desc,
-          image: '',
-          lat: latlng.lat,
-          lng: latlng.lng,
-          createdBy: user_id,
-        };
-        addToPointTable(newPoint);
+
+        let newForm = document.createElement("form");
+        newForm.action = "/maps/points/add";
+        newForm.method = "post";
+
+        let hiddenMapId = document.createElement("input");
+        hiddenMapId.name = "mapId";
+        hiddenMapId.value = map_id;
+        newForm.appendChild(hiddenMapId);
+
+        let hiddenMapTitle = document.createElement("input");
+        hiddenMapTitle.name = "title";
+        hiddenMapTitle.value = map_id;
+        newForm.appendChild(hiddenMapTitle);
+
+        let hiddenMapDesc = document.createElement("input");
+        hiddenMapDesc.name = "desc";
+        hiddenMapDesc.value = map_id;
+        newForm.appendChild(hiddenMapDesc);
+
+        let hiddenMapImg = document.createElement("input");
+        hiddenMapImg.name = "image";
+        hiddenMapImg.value = map_id;
+        newForm.appendChild(hiddenMapImg);
+
+        let hiddenMapLat = document.createElement("input");
+        hiddenMapLat.name = "lat";
+        hiddenMapLat.value = map_id;
+        newForm.appendChild(hiddenMapLat);
+
+        let hiddenMapLng = document.createElement("input");
+        hiddenMapLng.name = "lng";
+        hiddenMapLng.value = map_id;
+        newForm.appendChild(hiddenMapLng);
+
+        let hiddenMapCreatedBy = document.createElement("input");
+        hiddenMapCreatedBy.name = "CreatedBy";
+        hiddenMapCreatedBy.value = map_id;
+        newForm.appendChild(hiddenMapCreatedBy);
+
+        newForm.submit();
+
+        // let newPoint = {
+        //   mapId: map_id,
+        //   title: title,
+        //   desc: desc,
+        //   image: '',
+        //   lat: latlng.lat,
+        //   lng: latlng.lng,
+        //   createdBy: user_id,
+        // };
+        // addToPointTable(newPoint);
       },
     });
 
@@ -177,10 +220,12 @@ $(() => {
   }
 
   function addToPointTable(newPoint) {
-    $.ajax(`/points/add/${newPoint}`)
-      .then(res => {
-        console.log(res);
-      });
+    // $.post(`maps/points/add?mapId=${newPoint.mapId}&title=${newPoint.title}&desc=${newPoint.desc}&image=${newPoint.image}&lat=${newPoint.lat}&lng=&{lng}&createdBy=${newPoint.createdBy}`)
+    //   .then(res => {
+    //     console.log(res, newPoint);
+    //   });
+
+
   }
 
   // Clear marker
