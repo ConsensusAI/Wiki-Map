@@ -1,7 +1,7 @@
 let DEFAULT_IMAGE =
   "https://i.pinimg.com/originals/0f/61/ba/0f61ba72e0e12ba59d30a50295964871.png";
 
-var map = L.map("map").setView([51.505, -0.09], 13);
+var map = L.map("map").setView([45.4, -75.65], 13);
 L.tileLayer(
   "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}",
   {
