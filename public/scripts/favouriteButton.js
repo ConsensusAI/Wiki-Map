@@ -1,6 +1,6 @@
 $.ajax("/cookies").then((res) => {
-  // let mapId = res.mapId;
-  let mapId = 1;
+  let mapId = res.mapId;
+  // let mapId = 1;
   console.log(res);
   $.ajax("/maps/favourites").then((res) => {
     let allFavouriteMaps = res["favouriteMaps"];

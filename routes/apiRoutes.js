@@ -42,9 +42,17 @@ module.exports = function (router, database) {
   });
 
   router.post("/favourites", (req, res) => {
+    let userId = Number(req.cookies["userId"]);
+    let mapId = Number(req.cookies["mapId"]);
+    console.log("user", userId);
+    console.log("map", mapId);
+    database.toggleFavouriteMap(userId, mapId).then(() => {
+      console.log("DONE!");
+      res.render("index");
+    });
     console.log("====Favourited!=====");
-    res.render("index");
-    req.mapId = 2;
+
+    // req.mapId = 2;
     // res.send("Favourited map!");
   });
 

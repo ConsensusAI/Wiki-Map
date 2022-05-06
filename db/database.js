@@ -199,6 +199,45 @@ const favouriteMap = (userId, mapId) => {
 
 exports.favouriteMap = favouriteMap;
 
+const unFavouriteMap = (userId, mapId) => {
+  let queryString = `UPDATE maps_users
+  SET favourite = FALSE
+  WHERE user_id = $1
+  AND mapId = $2;`;
+  let queryParams = [userId, mapId];
+
+  return pool
+    .query(queryString, queryParams)
+    .then((res) => {
+      return res.rows;
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+};
+
+exports.unFavouriteMap = unFavouriteMap;
+
+const toggleFavouriteMap = (userId, mapId) => {
+  let queryString = `UPDATE maps_users
+  SET favourite = NOT favourite
+  WHERE user_id = $1
+  AND map_id = $2;`;
+  let queryParams = [userId, mapId];
+
+  return pool
+    .query(queryString, queryParams)
+    .then((res) => {
+      console.log("FAVOURITE TOGGLED");
+      return res.rows;
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+};
+
+exports.toggleFavouriteMap = toggleFavouriteMap;
+
 const getAllPublicMapsByUser = function (id) {
   return pool
     .query("SELECT * FROM maps WHERE public = TRUE AND created_by = $1, [id]")
