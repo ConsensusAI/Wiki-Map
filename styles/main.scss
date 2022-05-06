@@ -17,7 +17,36 @@
 //   );
 // }
 
-@import 'nav';
-@import 'header';
-@import 'layout';
-@import 'mapsLists';
+#map {
+  height: 700px;
+  width: 150%;
+  margin-left: 500px;
+}
+
+li :hover {
+  cursor: pointer;
+  color: aqua;
+}
+
+ul :hover {
+  cursor: pointer;
+  color: aqua;
+}
+
+#map-title {
+  margin-top: -60px;
+}
+
+h1 {
+  font-family: "Koulen", cursive;
+  margin-left: 420px;
+}
+
+h2 {
+  font-family: "Koulen", cursive;
+}
+
+@import "nav";
+@import "header";
+@import "layout";
+@import "mapsLists";

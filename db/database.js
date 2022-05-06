@@ -1,7 +1,7 @@
 const { Pool } = require("pg");
 
 const pool = new Pool({
-  user: "henrique",
+  user: "vagrant",
   password: "123",
   host: "localhost",
   database: "midterm",
@@ -162,11 +162,12 @@ const addContribution = (contribution) => {
 
 exports.addContribution = addContribution;
 
-const favouriteMap = (userId) => {
+const favouriteMap = (userId, mapId) => {
   let queryString = `UPDATE maps_users
   SET favourite = TRUE
-  WHERE user_id = $1;`;
-  let queryParams = [userId];
+  WHERE user_id = $1
+  AND mapId = $2;`;
+  let queryParams = [userId, mapId];
 
   return pool
     .query(queryString, queryParams)

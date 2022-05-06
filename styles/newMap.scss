@@ -1,0 +1,45 @@
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+h1 {
+  padding-top: 1.1em;
+  font-size: 3em;
+  margin-left: 700px;
+}
+
+#horizontal-content {
+  display: flex;
+  flex-direction: column;
+}
+
+p {
+  font-weight: 600;
+}
+
+label {
+  font-weight: 600;
+}
+
+#map {
+  height: 650px;
+  width: 1600px;
+  margin-left: 700px;
+}
+
+.form-control {
+  width: 300px;
+}
+
+.form-check {
+  padding-bottom: 0.5rem;
+}
+
+.form-check label {
+  margin-top: 0.22rem;
+}
+
+.instructions {
+  margin-left: 700px;
+}
