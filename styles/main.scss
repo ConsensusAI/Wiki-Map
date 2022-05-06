@@ -18,7 +18,7 @@
 // }
 
 #map {
-  height: 620px;
+  height: 650px;
   width: 150%;
   margin-left: 500px;
 }
@@ -31,6 +31,10 @@ li :hover {
 ul :hover {
   cursor: pointer;
   color: aqua;
+}
+
+#map-title {
+  margin-top: 0px;
 }
 
 h1 {
