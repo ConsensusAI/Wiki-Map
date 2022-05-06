@@ -192,6 +192,20 @@ const getAllPublicMapsByUser = function (id) {
 
 exports.getAllPublicMapsByUser = getAllPublicMapsByUser;
 
+const getLastPointId = function (userId) {
+  return pool
+    .query("SELECT id FROM points WHERE created_by = $1 ORDER BY id DESC, [userId]")
+    .then((result) => {
+      console.log("last id: ", result);
+      return result;
+    })
+    .catch((err) => console.log(err));
+};
+
+exports.getLastPointId = getLastPointId;
+
+
+
 // const getMapsByUser = function (email) {
 //   return pool
 //     .query("SELECT * FROM maps WHERE email = $1", [email])

@@ -98,17 +98,20 @@ $(() => {
             let tempMarker = L.marker([p.lat, p.lng]).addTo(map);
 
             let popContent = document.createElement('div');
+
             let pTagTitle = document.createElement('p');
             pTagTitle.textContent = p.title;
+            popContent.appendChild(pTagTitle);
+
             let pTagDesc = document.createElement('p');
-            pTag.textContent = `
-              <p>${p.title}</p>
-              </br>
-              <p>${p.description}</p>
-              </br>
-              <img src="${p.image}" style="width:150px;height:150px;">
-            `;
-            popContent.appendChild(pTag)
+            pTagDesc.textContent = p.description;
+            popContent.appendChild(pTagDesc);
+
+            let imgTag = document.createElement('img');
+            imgTag.src = p.image;
+            imgTag.style.width = "150px";
+            imgTag.style.height = "150px";
+            popContent.appendChild(imgTag);
             let button = document.createElement('button')
             button.textContent = 'Remove'
             button.addEventListener('click', () => {
@@ -129,6 +132,13 @@ $(() => {
     let tempMarker = L.marker([latlng.lat, latlng.lng]).addTo(map);
     let title = prompt("Please enter the title", "Write...");
     let desc = prompt("Brief description", "Write...");
+
+    // $.ajax({
+    //   url: "/maps/points",
+    //   success: function (json) {
+    //     addPointsList(json);
+    //   },
+    // });
 
     let newIdPoint = points[Object.keys(points).length - 1].id + 1;
 
