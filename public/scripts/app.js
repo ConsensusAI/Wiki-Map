@@ -10,41 +10,10 @@ $(() => {
     });
     return res;
   }
-  // let map_id = getCookie("mapId");
-  // let map_id;
-  // console.log("MAP ID IS: " + map_id);
+
   let user_id = 1;
   let markers = [];
   let userMaps = [];
-
-  // $.ajax("/maps").then((res) => {
-  //   res.maps.map((m, index) => {
-  //     if (m.created_by === user_id) {
-  //       // Start map by default: first map found for each user
-  //       if (userMaps.length === 0) {
-  //         // map_id = m.id;
-  //         // $("#map-title").html(m.title);
-  //         map = L.map("map").setView([Number(m.lat), Number(m.lng)], 13);
-  //         L.tileLayer(
-  //           "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}",
-  //           {
-  //             attribution:
-  //               'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-  //             maxZoom: 18,
-  //             id: "mapbox/streets-v11",
-  //             tileSize: 512,
-  //             zoomOffset: -1,
-  //             accessToken:
-  //               "pk.eyJ1IjoiaGVucmlxdWV0YWthIiwiYSI6ImNsMmlkZnVhMDAxcW0zZG50OHZkMmw2bjcifQ.sjkW4ZrEFg8NOCIKEQki1g",
-  //           }
-  //         ).addTo(map);
-
-  //         map.on("click", onMapClick);
-  //       }
-  //       userMaps.push([m.id, index]);
-  //     }
-  //   });
-  // });
 
   $.ajax("/maps").then((maps) => {
     let map_id = Number(getCookie("mapId")) - 1;
