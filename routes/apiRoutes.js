@@ -14,7 +14,7 @@ module.exports = function (router, database) {
     let userId = Number(req.cookies["userId"]);
     let mapId = Number(req.cookies["mapId"]);
     database
-      .getAllPointsByUserAndMap(userId, mapId)
+      .getAllPointsByMap(mapId)
       .then((points) => res.send({ points }))
       .catch((e) => {
         console.error(e);
