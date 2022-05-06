@@ -13,7 +13,6 @@ const addFavouriteMapsList = (mapsJson) => {
       .click(function () {
         alert("Handler for .click() called.");
       });
-    // node.click(`loadMapId(${m.id}, ${index})`);   // finish later
   }
 };
 
@@ -23,7 +22,6 @@ function loadFavouriteMaps() {
     url: "/maps/favourites",
     success: function (json) {
       addFavouriteMapsList(json);
-      // console.log(json["favouriteMaps"][0]);
     },
   });
 }
@@ -39,10 +37,6 @@ const addContributionsList = (mapsJson) => {
       </button>
       </li>`
     );
-    // .click(function () {
-    //   alert("Handler for .click() called.");
-    // });
-    // node.click(`loadMapId(${m.id}, ${index})`);   // finish later
   }
 };
 
@@ -75,11 +69,3 @@ $.ajax("/users").then((res) => {
   let displayPic = res["user"][0]["profile_pic"];
   $("#display-pic").attr("src", displayPic);
 });
-
-/*
-      <input type="hidden" name="extra_submit_param" value="extra_submit_value">
-      <button type="submit" name="submit_param" value="submit_value" class="link-button">
-        This is a link that sends a POST request
-      </button>
-    </form>
-*/
