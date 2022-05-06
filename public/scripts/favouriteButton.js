@@ -13,8 +13,8 @@ $.ajax("/cookies").then((res) => {
         letFave = true;
         $(".fave-button").addClass("btn-success");
         $(".fave-button").removeClass("btn-outline-success");
-        $(".fave-button").removeClass("unfavourited");
-        $(".fave-button").addClass("favourited");
+        // $(".fave-button").removeClass("unfavourited");
+        // $(".fave-button").addClass("favourited");
         $(".fave-button").html("Favourited!");
         console.log("YES");
       } else {
@@ -23,8 +23,8 @@ $.ajax("/cookies").then((res) => {
     }
     console.log(isFave);
     isFave ? console.log("yes, it is") : console.log("no, it isn't");
-    $(".unfavourited").click(clickFavourite);
-    $(".favourited").click(clickUnfavourite);
+    $(".fave-button").click(clickFavourite);
+    // $(".favourited").click(clickUnfavourite);
   });
 });
 
@@ -59,12 +59,22 @@ $(".fave-button").hover(toggleHoverButton, toggleUnhoverButton);
 // });
 
 function clickFavourite() {
-  $(".fave-button").toggleClass("unfavourited");
-  $(".fave-button").toggleClass("favourited");
-  $(".fave-button").toggleClass("btn-outline-danger");
-  $(".fave-button").toggleClass("btn-success");
+  // $(".fave-button").toggleClass("unfavourited");
+  // $(".fave-button").toggleClass("favourited");
+  let buttonClass =
+    $(".fave-button").text() === "Unfavourite?"
+      ? "btn-outline-danger"
+      : "btn-success";
+  $(".fave-button").toggleClass(buttonClass);
+  let buttonClass2 =
+    $(".fave-button").text() === "Unfavourite?"
+      ? "btn-outline-success"
+      : "btn-success";
+  $(".fave-button").toggleClass(buttonClass2);
   let textToggle =
-    $(".fave-button").text() === "NOT FAVE" ? "Favourited!" : "NOT FAVE";
+    $(".fave-button").text() === "Unfavourite?"
+      ? "Favourite Map"
+      : "Favorited!";
   $(".fave-button").empty();
   $(".fave-button").text(textToggle);
 }
