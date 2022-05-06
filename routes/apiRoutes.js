@@ -1,6 +1,6 @@
 module.exports = function (router, database) {
   // Get all the maps
-  router.get("/", function (req, res) {
+  router.get("/maps", function (req, res) {
     database
       .getAllMaps()
       .then((maps) => res.send({ maps }))
@@ -10,7 +10,7 @@ module.exports = function (router, database) {
       });
   });
 
-  router.get("/points", (req, res) => {
+  router.get("/maps/points", (req, res) => {
     let userId = Number(req.cookies["userId"]);
     let mapId = Number(req.cookies["mapId"]);
     database
@@ -22,7 +22,7 @@ module.exports = function (router, database) {
       });
   });
 
-  router.get("/pointsByMap", (req, res) => {
+  router.get("/maps/pointsByMap", (req, res) => {
     let mapId = req.cookies["mapId"];
     database
       .getAllPointsByMap(mapId)
@@ -33,8 +33,31 @@ module.exports = function (router, database) {
       });
   });
 
+  // Get Favourite Maps
+  router.get("/maps/favourites", (req, res) => {
+    let userId = Number(req.cookies["userId"]);
+    database
+      .getFavouriteMaps(userId)
+      .then((favouriteMaps) => res.send({ favouriteMaps }));
+  });
+
+  router.post("/maps/favourites", (req, res) => {
+    let userId = Number(req.cookies["userId"]);
+    let mapId = Number(req.cookies["mapId"]);
+    console.log("user", userId);
+    console.log("map", mapId);
+    database.toggleFavouriteMap(userId, mapId).then(() => {
+      console.log("DONE!");
+      res.redirect("/");
+    });
+    console.log("====Favourited!=====");
+
+    // req.mapId = 2;
+    // res.send("Favourited map!");
+  });
+
   // Points for specific map
-  router.get("/user", function (req, res) {
+  router.get("/maps/user", function (req, res) {
     database
       .getAllMapsByUser(1)
       .then((maps) => res.send({ maps }))
@@ -45,9 +68,9 @@ module.exports = function (router, database) {
   });
 
   // Add point to points table
-  router.post("/points/add/:point", function (req, res) {
+  router.post("/maps/points/add/:point", function (req, res) {
     database
-      .addPoint(req.params['point'])
+      .addPoint(req.params["point"])
       .then((points) => res.send({ points }))
       .catch((e) => {
         console.error(e);
@@ -56,7 +79,7 @@ module.exports = function (router, database) {
   });
 
   // Last point ID
-  router.get("/points/last", function (req, res) {
+  router.get("/maps/points/last", function (req, res) {
     database
       .getLastPointId(1)
       .then((points) => res.send({ points }))
@@ -67,18 +90,36 @@ module.exports = function (router, database) {
   });
 
   // Remove Point
-  router.post("/points/remove/:id", function (req, res) {
+  router.post("/maps/points/remove", function (req, res) {
+    pointId = req.body.hiddenID;
+    console.log("WORKS");
+    console.log("hidden ID: ", req.body.hiddenID);
     database
-      .removePoint(req.params['id'])
-      .then((points) => res.send({ points }))
+      .removePoint(Number(pointId))
+      .then((points) => {
+        console.log("Removed");
+        // res.send("OK");
+        res.redirect("/");
+      })
       .catch((e) => {
         console.error(e);
         res.send(e);
       });
   });
 
+  router.get("/maps/points/remove/:id", function (req, res) {
+    console.log("id is: " + req.params["id"]);
+    // database
+    //   .removePoint(Number(req.params["id"][0]["id"]))
+    //   .then((points) => res.send({ points }))
+    //   .catch((e) => {
+    //     console.error(e);
+    //     res.send(e);
+    //   });
+  });
+
   // Create new map
-  router.post("/new", (req, res) => {
+  router.post("/maps/new", (req, res) => {
     let userId = Number(req.cookies["userId"]);
 
     let details = req.body;
@@ -120,15 +161,6 @@ module.exports = function (router, database) {
         res.redirect("/");
       });
     });
-  });
-
-  router.get("/favourites", (req, res) => {});
-
-  router.post("/favourites", (req, res) => {
-    let userId = req.cookies["userId"];
-    let mapId = req.cookies["mapId"];
-
-    database.favouriteMap(mapId, userId);
   });
 
   return router;

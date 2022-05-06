@@ -1,40 +1,38 @@
 $(() => {
-
   let map;
   let map_id;
   let user_id = 1;
   let markers = [];
   let userMaps = [];
 
-  $.ajax('/maps')
-    .then(res => {
-      res.maps.map((m, index) => {
-        if(m.created_by === user_id) {
+  $.ajax("/maps").then((res) => {
+    res.maps.map((m, index) => {
+      if (m.created_by === user_id) {
+        // Start map by default: first map found for each user
+        if (userMaps.length === 0) {
+          map_id = m.id;
+          $("#map-title").html(m.title);
+          map = L.map("map").setView([Number(m.lat), Number(m.lng)], 13);
+          L.tileLayer(
+            "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}",
+            {
+              attribution:
+                'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+              maxZoom: 18,
+              id: "mapbox/streets-v11",
+              tileSize: 512,
+              zoomOffset: -1,
+              accessToken:
+                "pk.eyJ1IjoiaGVucmlxdWV0YWthIiwiYSI6ImNsMmlkZnVhMDAxcW0zZG50OHZkMmw2bjcifQ.sjkW4ZrEFg8NOCIKEQki1g",
+            }
+          ).addTo(map);
 
-          // Start map by default: first map found for each user
-          if(userMaps.length === 0) {
-            map_id = m.id;
-            $("#map-title").html(m.title);
-            map = L.map("map").setView([Number(m.lat), Number(m.lng)], 13);
-            L.tileLayer(
-              "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}",
-              {
-                attribution:
-                  'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-                maxZoom: 18,
-                id: "mapbox/streets-v11",
-                tileSize: 512,
-                zoomOffset: -1,
-                accessToken: "pk.eyJ1IjoiaGVucmlxdWV0YWthIiwiYSI6ImNsMmlkZnVhMDAxcW0zZG50OHZkMmw2bjcifQ.sjkW4ZrEFg8NOCIKEQki1g"
-              }
-              ).addTo(map)
-
-              map.on("click", onMapClick);
-          }
-          userMaps.push([m.id, index]);
+          map.on("click", onMapClick);
         }
-      })
-    })
+        userMaps.push([m.id, index]);
+      }
+    });
+  });
 
   loadMaps();
   loadPoints();
@@ -46,22 +44,19 @@ $(() => {
   function onMapClick(e) {
     latlng = e.latlng;
 
-    let popContent = document.createElement('div')
-    let pTag = document.createElement('p')
-    pTag.textContent = `Clicked on: ${e.latlng}`
-    popContent.appendChild(pTag)
-    let button = document.createElement('button')
-    button.textContent = 'Save'
-    button.addEventListener('click', () => {
+    let popContent = document.createElement("div");
+    let pTag = document.createElement("p");
+    pTag.textContent = `Clicked on: ${e.latlng}`;
+    popContent.appendChild(pTag);
+    let button = document.createElement("button");
+    button.textContent = "Save";
+    button.addEventListener("click", () => {
       // console.log('button clicked')
-      saveMarker(latlng)
-    })
-    popContent.appendChild(button)
+      saveMarker(latlng);
+    });
+    popContent.appendChild(button);
 
-    clickedMapPopup
-      .setLatLng(e.latlng)
-      .setContent(popContent)
-      .openOn(map);
+    clickedMapPopup.setLatLng(e.latlng).setContent(popContent).openOn(map);
   }
 
   // List of Maps (Ottawa, Montreal, etc)
@@ -87,41 +82,40 @@ $(() => {
 
   // Load Markers to the map from points table
   function loadMarkers() {
-    $.ajax('/maps/points')
-      .then(res => {
-        res.points.map((p, index) => {
-          console.log("point: ", p, "p.map_id: ", p.map_id, "map_id: ", map_id);
-          if (p.map_id === map_id) {
-            let tempMarker = L.marker([p.lat, p.lng]).addTo(map);
+    $.ajax("/maps/points").then((res) => {
+      res.points.map((p, index) => {
+        console.log("point: ", p, "p.map_id: ", p.map_id, "map_id: ", map_id);
+        if (p.map_id === map_id) {
+          let tempMarker = L.marker([p.lat, p.lng]).addTo(map);
 
-            let popContent = document.createElement('div');
+          let popContent = document.createElement("div");
 
-            let pTagTitle = document.createElement('p');
-            pTagTitle.textContent = p.title;
-            popContent.appendChild(pTagTitle);
+          let pTagTitle = document.createElement("p");
+          pTagTitle.textContent = p.title;
+          popContent.appendChild(pTagTitle);
 
-            let pTagDesc = document.createElement('p');
-            pTagDesc.textContent = p.description;
-            popContent.appendChild(pTagDesc);
+          let pTagDesc = document.createElement("p");
+          pTagDesc.textContent = p.description;
+          popContent.appendChild(pTagDesc);
 
-            let imgTag = document.createElement('img');
-            imgTag.src = p.image;
-            imgTag.style.width = "150px";
-            imgTag.style.height = "150px";
-            popContent.appendChild(imgTag);
-            let button = document.createElement('button')
-            button.textContent = 'Remove'
-            button.addEventListener('click', () => {
-              // console.log('button clicked')
-              clearMarker(p.id)
-            })
-            popContent.appendChild(button)
-            tempMarker._id = p.id;
-            markers.push(tempMarker);
-            tempMarker.bindPopup(popContent);
-          }
+          let imgTag = document.createElement("img");
+          imgTag.src = p.image;
+          imgTag.style.width = "150px";
+          imgTag.style.height = "150px";
+          popContent.appendChild(imgTag);
+          let button = document.createElement("button");
+          button.textContent = "Remove";
+          button.addEventListener("click", () => {
+            // console.log('button clicked')
+            clearMarker(p.id);
+          });
+          popContent.appendChild(button);
+          tempMarker._id = p.id;
+          markers.push(tempMarker);
+          tempMarker.bindPopup(popContent);
         }
-      )})
+      });
+    });
   }
 
   // Save point on map (creates a new marker and add to points table)
@@ -135,21 +129,32 @@ $(() => {
       success: function (json) {
         let newIdPoint = json.points.id + 1;
 
-        let popContent = document.createElement('div');
-        let btnTag = document.createElement('button');
+        let popContent = document.createElement("div");
+        let newForm = document.createElement("form");
+        newForm.action = "/maps/points/remove";
+        newForm.method = "post";
+        let hiddenIdTag = document.createElement("input");
+        hiddenIdTag.classList.add("d-none");
+        hiddenIdTag.name = "hiddenID";
+        hiddenIdTag.value = newIdPoint;
+        let btnTag = document.createElement("button");
+        btnTag.type = "submit";
         btnTag.textContent = "Remove";
-        btnTag.addEventListener('click', () => {
-          clearMarker(newIdPoint)
-        })
-        popContent.appendChild(btnTag);
-        let pTag = document.createElement('p');
+        // btnTag.addEventListener("click", () => {
+        //   clearMarker(newIdPoint);
+        // });
+        newForm.appendChild(btnTag);
+        newForm.appendChild(hiddenIdTag);
+        popContent.appendChild(newForm);
+        let pTag = document.createElement("p");
         pTag.textContent = title;
         popContent.appendChild(pTag);
-        let descTag = document.createElement('p');
+        let descTag = document.createElement("p");
         descTag.textContent = desc;
         popContent.appendChild(descTag);
-        let imgTag = document.createElement('img');
-        imgTag.src = 'https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80';
+        let imgTag = document.createElement("img");
+        imgTag.src =
+          "https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80";
         imgTag.style.width = "150px";
         imgTag.style.height = "150px";
         popContent.appendChild(imgTag);
@@ -161,7 +166,7 @@ $(() => {
           mapId: map_id,
           title: title,
           desc: desc,
-          image: '',
+          image: "",
           lat: latlng.lat,
           lng: latlng.lng,
           createdBy: user_id,
@@ -172,15 +177,13 @@ $(() => {
 
     // Implement on Database - points table 'New QUERY INSERT INTO ...
 
-
     // console.log("<<saveMarkers>> markers: ", markers);
   }
 
   function addToPointTable(newPoint) {
-    $.ajax(`/points/add/${newPoint}`)
-      .then(res => {
-        console.log(res);
-      });
+    $.ajax(`/points/add/${newPoint}`).then((res) => {
+      console.log(res);
+    });
   }
 
   // Clear marker
@@ -191,23 +194,21 @@ $(() => {
         markers.splice(index, 1);
       }
     });
-    $.ajax(`/maps/points/remove/${idMarker}`)
-      .then((res) => {
-        console.log(res);
-      });
+    $.ajax(`/maps/points/remove/${idMarker}`).then((res) => {
+      console.log(res);
+    });
   }
 
   // add points
   const addPointsList = (pointsJson) => {
     let points = pointsJson["points"];
     for (let point in points) {
-      let linkTag = document.createElement('li');
+      let linkTag = document.createElement("li");
       linkTag.textContent = points[point]["title"];
-      linkTag.addEventListener('click', () => {
-        showPopup(points[point]["id"])
+      linkTag.addEventListener("click", () => {
+        showPopup(points[point]["id"]);
       });
       $("#map-points").append(linkTag);
-
     }
   };
 
@@ -219,10 +220,7 @@ $(() => {
       }
     });
   }
-
-
 });
-
 
 // OLD CODE -------------------------------------------------------------------------------------------
 
@@ -390,9 +388,9 @@ $(() => {
 //     }
 //   });
 
-  // loadPoints();
-  // console.log("<<clearMarkers>> markers: ", markers, " --- points: ", points);
-  // }
+// loadPoints();
+// console.log("<<clearMarkers>> markers: ", markers, " --- points: ", points);
+// }
 
 // function showPopup(id) {
 //   markers.forEach((m) => {
