@@ -1,7 +1,7 @@
 const { Pool } = require("pg");
 
 const pool = new Pool({
-  user: "henrique",
+  user: "vagrant",
   password: "123",
   host: "localhost",
   database: "midterm",
@@ -216,6 +216,30 @@ const removePoint = function (pointId) {
 };
 
 exports.removePoint = removePoint;
+
+const getUserName = function (userId) {
+  return pool
+    .query("SELECT name FROM users WHERE id = $1, [userId]")
+    .then((result) => {
+      console.log("names: ", result.rows[0]);
+      return result.rows[0];
+    })
+    .catch((err) => console.log(err));
+};
+
+exports.getUserName = getUserName;
+
+const getUserEmail = function (userId) {
+  return pool
+    .query("SELECT email FROM users WHERE id = $1, [userId]")
+    .then((result) => {
+      console.log("emails: ", result.rows[0]);
+      return result.rows[0];
+    })
+    .catch((err) => console.log(err));
+};
+
+exports.getUserEmail = getUserEmail;
 
 // const getMapsByUser = function (email) {
 //   return pool
