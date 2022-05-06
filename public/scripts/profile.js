@@ -61,6 +61,21 @@ function loadContributions() {
 loadFavouriteMaps();
 loadContributions();
 
+$.ajax("/users").then((res) => {
+  let username = res["user"][0]["name"];
+  $("#person-name").html(username);
+});
+
+$.ajax("/users").then((res) => {
+  let email = res["user"][0]["email"];
+  $("#email").html("Email: " + email);
+});
+
+$.ajax("/users").then((res) => {
+  let displayPic = res["user"][0]["profile_pic"];
+  $("#display-pic").attr("src", displayPic);
+});
+
 /*
       <input type="hidden" name="extra_submit_param" value="extra_submit_value">
       <button type="submit" name="submit_param" value="submit_value" class="link-button">

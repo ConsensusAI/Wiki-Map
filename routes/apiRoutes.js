@@ -11,7 +11,6 @@ module.exports = function (router, database) {
   });
 
   router.get("/maps/points", (req, res) => {
-    let userId = Number(req.cookies["userId"]);
     let mapId = Number(req.cookies["mapId"]);
     database
       .getAllPointsByMap(mapId)
@@ -22,16 +21,17 @@ module.exports = function (router, database) {
       });
   });
 
-  router.get("/maps/pointsByMap", (req, res) => {
-    let mapId = req.cookies["mapId"];
-    database
-      .getAllPointsByMap(mapId)
-      .then((points) => res.send({ points }))
-      .catch((e) => {
-        console.error(e);
-        res.send(e);
-      });
-  });
+  // router.get("/maps/pointsByMap", (req, res) => {
+  //   let userId = Number(req.cookies["userId"]);
+  //   let mapId = req.cookies["mapId"];
+  //   database
+  //     .getAllPointsByMap(mapId)
+  //     .then((points) => res.send({ points }))
+  //     .catch((e) => {
+  //       console.error(e);
+  //       res.send(e);
+  //     });
+  // });
 
   // Get Favourite Maps
   router.get("/maps/favourites", (req, res) => {
