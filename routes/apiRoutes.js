@@ -166,9 +166,22 @@ module.exports = function (router, database) {
       database.addPoint(newPoint).then(() => {
         let contribution = { userId: Number(userId), mapId: Number(mapId) };
         database.addContribution(contribution);
+        database.addToFavouritesTableOnContribution([
+          Number(userId),
+          Number(mapId),
+        ]);
         res.redirect("/");
       });
     });
+  });
+
+  // Select Current Map
+  router.post("/selectedMap", (req, res) => {
+    res.cookie("mapID", req.body.selectedMapId);
+    console.log("-----------------------------------------------------");
+    console.log(req.body.selectedMapId);
+    console.log("-----------------------------------------------------");
+    res.redirect("/");
   });
 
   return router;
