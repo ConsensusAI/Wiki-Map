@@ -17,8 +17,8 @@
     />
     <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
     <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
-    <link rel="stylesheet" href="/styles/main.css" type="text/css" />
-    <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
+    <!-- <link rel="stylesheet" href="/styles/main.css" type="text/css" /> -->
+    <!-- <link rel="stylesheet" href="/styles/layout.css" type="text/css" /> -->
     <link rel="stylesheet" href="/styles/newMap.css" type="text/css" />
     <link
       rel="stylesheet"
@@ -67,14 +67,14 @@
   <body>
     <%- include('./partials/nav.ejs') %>
 
-    <main class="container">
+    <main class="container-new-map">
       <div></div>
-      <h1>New Map</h1>
-      <div id="horizontal-content">
+      <h1 class="new-map-header">New Map</h1>
+      <div id="horiz-content">
         <p class="instructions">
           Click on the map to choose the starting coordinates of your new map.
         </p>
-        <div id="map"></div>
+        <div id="new-map"></div>
       </div>
     </main>
   </body>

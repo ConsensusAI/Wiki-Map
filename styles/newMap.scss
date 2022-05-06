@@ -1,15 +1,15 @@
-.container {
+.container-new-map {
   display: flex;
   flex-direction: column;
 }
 
-h1 {
+.new-map-header {
   padding-top: 1.1em;
   font-size: 3em;
-  margin-left: 700px;
+  margin-left: 850px;
 }
 
-#horizontal-content {
+#horiz-content {
   display: flex;
   flex-direction: column;
 }
@@ -22,10 +22,10 @@ label {
   font-weight: 600;
 }
 
-#map {
+#new-map {
   height: 650px;
   width: 1600px;
-  margin-left: 700px;
+  margin-left: 130px;
 }
 
 .form-control {
@@ -41,5 +41,5 @@ label {
 }
 
 .instructions {
-  margin-left: 700px;
+  margin-left: 600px;
 }
