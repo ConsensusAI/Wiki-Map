@@ -136,7 +136,7 @@ $(() => {
     // $.ajax({
     //   url: "/maps/points",
     //   success: function (json) {
-    //     addPointsList(json);
+    //     getLastPointId(json);
     //   },
     // });
 
@@ -160,14 +160,25 @@ $(() => {
         markers.splice(index, 1);
       }
     });
-
-    points.forEach((p, index) => {
-      if (p.id === idMarker) {
-        points.splice(index, 1);
-      }
-    });
+    $.ajax(`/maps/points/remove/${idMarker}`)
+      .then((res) => {
+        console.log(res);
+      });
   }
 
+  // add points
+  const addPointsList = (pointsJson) => {
+    let points = pointsJson["points"];
+    for (let point in points) {
+      let linkTag = document.createElement('li');
+      linkTag.textContent = points[point]["title"];
+      linkTag.addEventListener('click', () => {
+        showPopup(points[point]["id"])
+      });
+      $("#map-points").append(linkTag);
+
+    }
+  };
 
   // Open Popup
   function showPopup(id) {

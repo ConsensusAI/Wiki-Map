@@ -55,6 +55,17 @@ module.exports = function (router, database) {
       });
   });
 
+  // Remove Point
+  router.post("/points/remove/:id", function (req, res) {
+    database
+      .removePoint(req.params['id'])
+      .then((points) => res.send({ points }))
+      .catch((e) => {
+        console.error(e);
+        res.send(e);
+      });
+  });
+
   // Create new map
   router.post("/new", (req, res) => {
     let userId = Number(req.cookies["userId"]);
