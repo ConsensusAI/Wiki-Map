@@ -163,7 +163,9 @@ const addContribution = (contribution) => {
 exports.addContribution = addContribution;
 
 const getFavouriteMaps = (userId) => {
-  let queryString = `SELECT * FROM maps_users
+  let queryString = `SELECT * FROM maps
+  JOIN maps_users ON maps.id = map_id
+  JOIN users ON users.id = user_id
   WHERE user_id = $1
   AND favourite = TRUE;`;
   let queryParams = [userId];
