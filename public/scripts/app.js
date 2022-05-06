@@ -1,37 +1,72 @@
 $(() => {
   let map;
-  let map_id;
+  function getCookie(cName) {
+    const name = cName + "=";
+    const cDecoded = decodeURIComponent(document.cookie); //to be careful
+    const cArr = cDecoded.split("; ");
+    let res;
+    cArr.forEach((val) => {
+      if (val.indexOf(name) === 0) res = val.substring(name.length);
+    });
+    return res;
+  }
+  // let map_id = getCookie("mapId");
+  // let map_id;
+  // console.log("MAP ID IS: " + map_id);
   let user_id = 1;
   let markers = [];
   let userMaps = [];
 
-  $.ajax("/maps").then((res) => {
-    res.maps.map((m, index) => {
-      if (m.created_by === user_id) {
-        // Start map by default: first map found for each user
-        if (userMaps.length === 0) {
-          map_id = m.id;
-          // $("#map-title").html(m.title);
-          map = L.map("map").setView([Number(m.lat), Number(m.lng)], 13);
-          L.tileLayer(
-            "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}",
-            {
-              attribution:
-                'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-              maxZoom: 18,
-              id: "mapbox/streets-v11",
-              tileSize: 512,
-              zoomOffset: -1,
-              accessToken:
-                "pk.eyJ1IjoiaGVucmlxdWV0YWthIiwiYSI6ImNsMmlkZnVhMDAxcW0zZG50OHZkMmw2bjcifQ.sjkW4ZrEFg8NOCIKEQki1g",
-            }
-          ).addTo(map);
+  // $.ajax("/maps").then((res) => {
+  //   res.maps.map((m, index) => {
+  //     if (m.created_by === user_id) {
+  //       // Start map by default: first map found for each user
+  //       if (userMaps.length === 0) {
+  //         // map_id = m.id;
+  //         // $("#map-title").html(m.title);
+  //         map = L.map("map").setView([Number(m.lat), Number(m.lng)], 13);
+  //         L.tileLayer(
+  //           "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}",
+  //           {
+  //             attribution:
+  //               'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+  //             maxZoom: 18,
+  //             id: "mapbox/streets-v11",
+  //             tileSize: 512,
+  //             zoomOffset: -1,
+  //             accessToken:
+  //               "pk.eyJ1IjoiaGVucmlxdWV0YWthIiwiYSI6ImNsMmlkZnVhMDAxcW0zZG50OHZkMmw2bjcifQ.sjkW4ZrEFg8NOCIKEQki1g",
+  //           }
+  //         ).addTo(map);
 
-          map.on("click", onMapClick);
-        }
-        userMaps.push([m.id, index]);
+  //         map.on("click", onMapClick);
+  //       }
+  //       userMaps.push([m.id, index]);
+  //     }
+  //   });
+  // });
+
+  $.ajax("/maps").then((maps) => {
+    let map_id = Number(getCookie("mapId")) - 1;
+    let m = maps.maps[map_id];
+    console.log("debugging", maps.maps[map_id]);
+    console.log(m.lat);
+    map = L.map("map").setView([Number(m.lat), Number(m.lng)], 13);
+    L.tileLayer(
+      "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}",
+      {
+        attribution:
+          'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        maxZoom: 18,
+        id: "mapbox/streets-v11",
+        tileSize: 512,
+        zoomOffset: -1,
+        accessToken:
+          "pk.eyJ1IjoiaGVucmlxdWV0YWthIiwiYSI6ImNsMmlkZnVhMDAxcW0zZG50OHZkMmw2bjcifQ.sjkW4ZrEFg8NOCIKEQki1g",
       }
-    });
+    ).addTo(map);
+
+    map.on("click", onMapClick);
   });
 
   loadMaps();
@@ -83,9 +118,10 @@ $(() => {
   // Load Markers to the map from points table
   function loadMarkers() {
     $.ajax("/maps/points").then((res) => {
+      let map_id = getCookie("mapId");
       res.points.map((p, index) => {
         console.log("point: ", p, "p.map_id: ", p.map_id, "map_id: ", map_id);
-        if (p.map_id === map_id) {
+        if (p.map_id == map_id) {
           let tempMarker = L.marker([p.lat, p.lng]).addTo(map);
 
           let popContent = document.createElement("div");
