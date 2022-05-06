@@ -63,7 +63,7 @@ apiRoutes(expressRouter, database);
 app.use("/api/users", usersRoutes());
 app.use("/api/widgets", widgetsRoutes());
 app.use("/maps/new", createMap);
-app.use("/maps", expressRouter);
+app.use("/", expressRouter);
 app.use("/profile", profile);
 app.use("/edit", edit);
 app.use("/test", test);
