@@ -1,6 +1,22 @@
 .container {
   margin-top: 150px;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.items-container {
+  margin-right: -110px;
+}
+
+#display-pic {
+  margin-left: 500px;
+}
+
+.info-container {
+  display: flex;
+  flex-direction: row;
   justify-content: space-between;
+  margin-left: 200px;
 }
 
 h3 {
