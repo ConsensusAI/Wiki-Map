@@ -159,8 +159,17 @@ exports.addContribution = addContribution;
 
 const addToFavouritesTableOnContribution = (userId, mapId) => {
   let queryString = `INSERT INTO favourites (user_id, map_id, favourite)
-  VALUES ($1, $2, FALSE)`;
+  VALUES ($1, $2, FALSE);`;
   let queryParams = [userId, mapId];
+
+  return pool
+    .query(queryString, queryParams)
+    .then((res) => {
+      return res.rows;
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
 };
 
 exports.addToFavouritesTableOnContribution = addToFavouritesTableOnContribution;
@@ -323,6 +332,23 @@ const getUserEmail = function (userId) {
 };
 
 exports.getUserEmail = getUserEmail;
+
+const getUserInfo = (userId) => {
+  let queryString = `SELECT * FROM users
+  WHERE users.id = $1;`;
+  let queryParams = [userId];
+
+  return pool
+    .query(queryString, queryParams)
+    .then((res) => {
+      return res.rows;
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+};
+
+exports.getUserInfo = getUserInfo;
 
 // const getMapsByUser = function (email) {
 //   return pool

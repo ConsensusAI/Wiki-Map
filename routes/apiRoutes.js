@@ -184,5 +184,17 @@ module.exports = function (router, database) {
     res.redirect("/");
   });
 
+  // Get User Info
+  router.get("/users", (req, res) => {
+    let userId = Number(req.cookies["userId"]);
+    console.log(userId);
+    database
+      .getUserInfo(userId)
+      .then((user) => res.send({ user }))
+      .catch((e) => {
+        res.send(e);
+      });
+  });
+
   return router;
 };
