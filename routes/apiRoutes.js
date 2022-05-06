@@ -47,7 +47,7 @@ module.exports = function (router, database) {
   // Add point to points table
   router.post("/points/add/:point", function (req, res) {
     database
-      .addPoint(req.params['point'])
+      .addPoint(req.params["point"])
       .then((points) => res.send({ points }))
       .catch((e) => {
         console.error(e);
@@ -67,14 +67,32 @@ module.exports = function (router, database) {
   });
 
   // Remove Point
-  router.post("/points/remove/:id", function (req, res) {
+  router.post("/points/remove", function (req, res) {
+    pointId = req.body.hiddenID;
+    console.log("WORKS");
+    console.log("hidden ID: ", req.body.hiddenID);
     database
-      .removePoint(req.params['id'])
-      .then((points) => res.send({ points }))
+      .removePoint(Number(pointId))
+      .then((points) => {
+        console.log("Removed");
+        // res.send("OK");
+        res.redirect("/");
+      })
       .catch((e) => {
         console.error(e);
         res.send(e);
       });
+  });
+
+  router.get("/points/remove/:id", function (req, res) {
+    console.log("id is: " + req.params["id"]);
+    // database
+    //   .removePoint(Number(req.params["id"][0]["id"]))
+    //   .then((points) => res.send({ points }))
+    //   .catch((e) => {
+    //     console.error(e);
+    //     res.send(e);
+    //   });
   });
 
   // Create new map

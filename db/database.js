@@ -1,7 +1,7 @@
 const { Pool } = require("pg");
 
 const pool = new Pool({
-  user: "henrique",
+  user: "vagrant",
   password: "123",
   host: "localhost",
   database: "midterm",
@@ -195,7 +195,9 @@ exports.getAllPublicMapsByUser = getAllPublicMapsByUser;
 
 const getLastPointId = function (userId) {
   return pool
-    .query("SELECT id FROM points WHERE created_by = $1 ORDER BY id DESC", [userId])
+    .query("SELECT id FROM points WHERE created_by = $1 ORDER BY id DESC", [
+      userId,
+    ])
     .then((result) => {
       console.log("last id: ", result.rows[0]);
       return result.rows[0];
@@ -207,7 +209,7 @@ exports.getLastPointId = getLastPointId;
 
 const removePoint = function (pointId) {
   return pool
-    .query("DELETE FROM points WHERE id = $1;" [pointId])
+    .query("DELETE FROM points WHERE id = $1;", [pointId])
     .then((result) => {
       console.log("Deleted point id: ", pointId);
       return result;
