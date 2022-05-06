@@ -98,13 +98,14 @@ $(() => {
             let tempMarker = L.marker([p.lat, p.lng]).addTo(map);
 
             let popContent = document.createElement('div')
-            let pTag = document.createElement('p').textContent(`
+            let pTag = document.createElement('p')
+            pTag.textContent = `
               <p>${p.title}</p>
               </br>
               <p>${p.description}</p>
               </br>
               <img src="${p.image}" style="width:150px;height:150px;">
-            `);
+            `;
             popContent.appendChild(pTag)
             let button = document.createElement('button')
             button.textContent = 'Remove'
