@@ -11,7 +11,7 @@ $(() => {
         // Start map by default: first map found for each user
         if (userMaps.length === 0) {
           map_id = m.id;
-          $("#map-title").html(m.title);
+          // $("#map-title").html(m.title);
           map = L.map("map").setView([Number(m.lat), Number(m.lng)], 13);
           L.tileLayer(
             "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}",
@@ -209,6 +209,24 @@ $(() => {
         showPopup(points[point]["id"]);
       });
       $("#map-points").append(linkTag);
+    }
+  };
+
+  // Try new add maps list
+  const addMapsList = (mapsJson) => {
+    let maps = mapsJson["maps"];
+    for (let map in maps) {
+      $("#maps-list")
+        .append(
+          `<li>
+        <button type="submit" name="selectedMapId" value="${maps[map]["id"]}" class="link-button">
+        ${maps[map]["title"]}
+        </button>
+        </li>`
+        )
+        .click(function () {
+          // alert(maps[map]["id"]);
+        });
     }
   };
 
