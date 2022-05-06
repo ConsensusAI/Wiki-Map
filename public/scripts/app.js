@@ -97,8 +97,10 @@ $(() => {
           if (p.map_id === map_id) {
             let tempMarker = L.marker([p.lat, p.lng]).addTo(map);
 
-            let popContent = document.createElement('div')
-            let pTag = document.createElement('p')
+            let popContent = document.createElement('div');
+            let pTagTitle = document.createElement('p');
+            pTagTitle.textContent = p.title;
+            let pTagDesc = document.createElement('p');
             pTag.textContent = `
               <p>${p.title}</p>
               </br>
