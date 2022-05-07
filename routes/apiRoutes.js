@@ -185,7 +185,7 @@ module.exports = function (router, database) {
 
     setTimeout(function () {
       res.redirect("/");
-    }, 10);
+    }, 50);
     // res.redirect("/");
   });
 
