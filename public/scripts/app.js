@@ -137,7 +137,7 @@ $(() => {
         let hiddenIdTag = document.createElement("input");
         hiddenIdTag.classList.add("d-none");
         hiddenIdTag.name = "hiddenID";
-        hiddenIdTag.value = newIdPoint;
+        hiddenIdTag.value = JSON.stringify(newIdPoint);
         let btnTag = document.createElement("button");
         btnTag.type = "submit";
         btnTag.textContent = "Remove";
@@ -147,6 +147,7 @@ $(() => {
         newForm.appendChild(btnTag);
         newForm.appendChild(hiddenIdTag);
         popContent.appendChild(newForm);
+        console.log(newForm);
 
         let pTag = document.createElement("p");
         pTag.textContent = title;
@@ -194,15 +195,25 @@ $(() => {
 
   // Clear marker
   function clearMarker(idMarker) {
+    let json = JSON.stringify("clearMarker: ", idMarker);
     markers.forEach((m, index) => {
       if (m._id === idMarker) {
         m.remove();
         markers.splice(index, 1);
       }
     });
-    $.ajax(`/maps/points/remove/${idMarker}`).then((res) => {
-      console.log(res);
-    });
+    // $.ajax({
+    //   type: "POST",
+    //   url: "/maps/points/remove",
+    //   data: json,
+    //   contentType: "application/json; charset=utf-8",
+    //   dataType: "json",
+    //   success: function(msg) {
+    //     loadPoints();
+    //   }
+    // });
+
+    loadPoints();
   }
 
   // add points

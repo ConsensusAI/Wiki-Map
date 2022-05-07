@@ -1,6 +1,6 @@
 --- maps table seeds ---
 
-INSERT INTO points (map_id, title, description, image, lat, lng, created_by) VALUES (1, 'Point1', 'Some description here...1', '', 45.4236237996463, -75.70106847644017, 1);
+INSERT INTO points (map_id, title, description, image, lat, lng, created_by) VALUES (1, 'Parliament of Canada', 'Historic architecture and landscapes with beautiful views of the city and river.', 'http://www.usarice.com/images/default-source/usa-rice-daily-images/international-trade-policy/itp-canadian-parliament-200318.jpg?sfvrsn=db74d68d_4', 45.438217, -75.697346, 1);
 INSERT INTO points (map_id, title, description, image, lat, lng, created_by) VALUES (1, 'Point2', 'Some description here...2', '', 45.436767, -75.739633, 1);
 INSERT INTO points (map_id, title, description, image, lat, lng, created_by) VALUES (2, 'Point3', 'Some description here...3', '', 45.508091, -73.599874, 2);
 INSERT INTO points (map_id, title, description, image, lat, lng, created_by) VALUES (1, 'Point4', 'Some description here...4', '', 45.508091, -73.599874, 1);
