@@ -9,7 +9,8 @@ const pool = new Pool({
 
 const getAllMaps = function () {
   let queryString = `SELECT *
-  FROM maps;`;
+  FROM maps
+  ORDER BY id;`;
 
   return pool
     .query(queryString)
@@ -383,6 +384,24 @@ const getUserInfo = (userId) => {
 };
 
 exports.getUserInfo = getUserInfo;
+
+const renameMap = (mapId, renamedName) => {
+  let queryString = `UPDATE maps
+  SET title = $2
+  WHERE maps.id = $1`;
+  let queryParams = [mapId, renamedName];
+
+  return pool
+    .query(queryString, queryParams)
+    .then((res) => {
+      return res.rows;
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+};
+
+exports.renameMap = renameMap;
 
 // const getMapsByUser = function (email) {
 //   return pool

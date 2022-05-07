@@ -195,5 +195,15 @@ module.exports = function (router, database) {
       });
   });
 
+  // Rename Map
+  router.post("/rename", (req, res) => {
+    let mapId = Number(req.cookies["mapId"]);
+    let newName = req.body.renamedName;
+    console.log(newName);
+    database.renameMap(mapId, newName).then((response) => {
+      res.redirect("back");
+    });
+  });
+
   return router;
 };

@@ -16,9 +16,10 @@ $(() => {
   let userMaps = [];
 
   $.ajax("/maps").then((maps) => {
-    let map_id = Number(getCookie("mapId")) - 1;
-    let m = maps.maps[map_id];
-    console.log("debugging", maps.maps[map_id]);
+    let map_id = Number(getCookie("mapId"));
+    console.log(map_id);
+    let m = maps.maps[map_id - 1];
+    console.log("debugging", m);
     console.log(m.lat);
     map = L.map("map").setView([Number(m.lat), Number(m.lng)], 13);
     L.tileLayer(

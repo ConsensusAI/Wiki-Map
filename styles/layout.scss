@@ -19,7 +19,6 @@ body {
   color: #ffffff;
 }
 
-
 .container {
   display: flex;
   align-items: center;
@@ -35,7 +34,7 @@ body {
 .map-area {
   display: flex;
   align-items: center;
-  width: 100%;
+  // width: 100%;
   background-color: #f4f1ec;
   display: flex;
   flex-direction: column;
@@ -47,4 +46,56 @@ body {
   flex-direction: column;
   margin-left: 50px;
   width: 25%;
+}
+
+.rename-input {
+  width: 150px;
+  margin-right: 10px;
+  font-family: "Times New Roman", Times, serif;
+  font-size: small;
+}
+
+.rename-btn {
+  font-size: small;
+}
+
+.title-area {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: row;
+}
+
+.fa-pencil:hover {
+  color: #c41c1c;
+}
+
+.fa-square-xmark {
+  color: rgb(230, 59, 59);
+  // position: relative;
+  // top: -2px;
+  // left: 86px;
+  font-size: 20px;
+}
+
+.fa-circle-check {
+  color: rgb(55, 207, 55);
+  font-size: 20px;
+  margin-top: 5px;
+}
+
+.remove-styles {
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+  width: 21px;
+  height: 20px;
+}
+
+#rename-form {
+  justify-content: space-between;
+  display: none;
 }
