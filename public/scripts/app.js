@@ -193,6 +193,7 @@ $(() => {
 
         let map_id = Number(getCookie("mapId"));
         let newPoint = {
+          pId: newIdPoint,
           mapId: map_id,
           title: title,
           desc: desc,
