@@ -14,7 +14,7 @@ const getAllMaps = function () {
   return pool
     .query(queryString)
     .then((res) => {
-      console.log(res.rows);
+      // console.log(res.rows);
       return res.rows;
     })
     .catch((err) => {
@@ -32,7 +32,7 @@ const getMapInfo = (mapId) => {
   return pool
     .query(queryString, queryParams)
     .then((res) => {
-      console.log(res.rows);
+      // console.log(res.rows);
       return res.rows;
     })
     .catch((err) => {
@@ -49,7 +49,7 @@ const getAllPointsByUserAndMap = (userId, mapId) => {
   return pool
     .query(queryString, queryParams)
     .then((res) => {
-      console.log(res.rows);
+      // console.log(res.rows);
       return res.rows;
     })
     .catch((err) => {
@@ -59,12 +59,12 @@ const getAllPointsByUserAndMap = (userId, mapId) => {
 
 const getAllMapsByUser = function (userId) {
   let queryString = `SELECT * FROM maps WHERE created_by = $1;`;
-  let queryParams = [userId];
+  let queryParams = [1];
 
   return pool
     .query(queryString, queryParams)
     .then((res) => {
-      console.log(res.rows);
+      // console.log(res.rows);
       return res.rows;
     })
     .catch((err) => {
@@ -83,7 +83,7 @@ const getAllPointsByMap = (mapId) => {
   return pool
     .query(queryString, queryParams)
     .then((res) => {
-      console.log(res.rows);
+      // console.log(res.rows);
       return res.rows;
     })
     .catch((err) => {
@@ -107,7 +107,7 @@ const addMap = (map) => {
   return pool
     .query(queryString, queryParams)
     .then((res) => {
-      console.log(res.rows);
+      // console.log(res.rows);
       return res.rows;
     })
     .catch((err) => {
@@ -310,7 +310,7 @@ const getAllPublicMapsByUser = function (id) {
   return pool
     .query("SELECT * FROM maps WHERE public = TRUE AND created_by = $1, [id]")
     .then((result) => {
-      console.log("maps: ", result.rows[0]);
+      // console.log("maps: ", result.rows[0]);
       return result.rows[0];
     })
     .catch((err) => console.log(err));
@@ -324,7 +324,7 @@ const getLastPointId = function (userId) {
       userId,
     ])
     .then((result) => {
-      console.log("last id: ", result.rows[0]);
+      // console.log("last id: ", result.rows[0]);
       return result.rows[0];
     })
     .catch((err) => console.log(err));
@@ -342,14 +342,13 @@ const removePoint = function (pointId) {
     })
     .catch((err) => console.log(err));
 };
-
 exports.removePoint = removePoint;
 
 const getUserName = function (userId) {
   return pool
     .query("SELECT name FROM users WHERE id = $1, [userId]")
     .then((result) => {
-      console.log("names: ", result.rows[0]);
+      // console.log("names: ", result.rows[0]);
       return result.rows[0];
     })
     .catch((err) => console.log(err));
@@ -361,7 +360,7 @@ const getUserEmail = function (userId) {
   return pool
     .query("SELECT email FROM users WHERE id = $1, [userId]")
     .then((result) => {
-      console.log("emails: ", result.rows[0]);
+      // console.log("emails: ", result.rows[0]);
       return result.rows[0];
     })
     .catch((err) => console.log(err));
