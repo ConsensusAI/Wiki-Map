@@ -102,16 +102,12 @@ module.exports = function (router, database) {
   router.post("/maps/points/remove", function (req, res) {
     console.log("removepoint req.body", req.body);
     pointId = req.body.id;
-    console.log("WORKS");
-    console.log("hidden ID: ", req.body.id);
     database
       .removePoint(Number(pointId))
       .then((points) => {
         // res.send({points});
-        console.log("Removed");
-        setTimeout(() => {
-          res.redirect("/");
-        }, 50);
+        document.location.reload();
+        // res.redirect("/");
       })
       .catch((e) => {
         console.error(e);
