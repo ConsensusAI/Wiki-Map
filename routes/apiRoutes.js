@@ -10,6 +10,7 @@ module.exports = function (router, database) {
       });
   });
 
+  // Get all points from specific map
   router.get("/maps/points", (req, res) => {
     let mapId = Number(req.cookies["mapId"]);
     database
@@ -20,18 +21,6 @@ module.exports = function (router, database) {
         res.send(e);
       });
   });
-
-  // router.get("/maps/pointsByMap", (req, res) => {
-  //   let userId = Number(req.cookies["userId"]);
-  //   let mapId = req.cookies["mapId"];
-  //   database
-  //     .getAllPointsByMap(mapId)
-  //     .then((points) => res.send({ points }))
-  //     .catch((e) => {
-  //       console.error(e);
-  //       res.send(e);
-  //     });
-  // });
 
   // Get Favourite Maps
   router.get("/maps/favourites", (req, res) => {
@@ -76,8 +65,9 @@ module.exports = function (router, database) {
 
   // Points for specific map
   router.get("/maps/user", function (req, res) {
+    console.log("apiRoutes.js /maps/user req.body", req.body);
     database
-      .getAllMapsByUser(1)
+      .getAllMapsByUser(req.body.userId)
       .then((maps) => res.send({ maps }))
       .catch((e) => {
         console.error(e);
@@ -110,13 +100,14 @@ module.exports = function (router, database) {
 
   // Remove Point
   router.post("/maps/points/remove", function (req, res) {
-    console.log("req.body", req.body);
-    pointId = req.body.hiddenID;
+    console.log("removepoint req.body", req.body);
+    pointId = req.body.id;
     // console.log("WORKS");
     // console.log("hidden ID: ", req.body.hiddenID);
     database
       .removePoint(Number(pointId))
       .then((points) => {
+        // res.send({points});
         console.log("Removed");
         res.redirect("/");
       })
@@ -126,16 +117,16 @@ module.exports = function (router, database) {
       });
   });
 
-  router.get("/maps/points/remove/:id", function (req, res) {
-    console.log("id is: " + req.params["id"]);
-    // database
-    //   .removePoint(Number(req.params["id"][0]["id"]))
-    //   .then((points) => res.send({ points }))
-    //   .catch((e) => {
-    //     console.error(e);
-    //     res.send(e);
-    //   });
-  });
+  // router.get("/maps/points/remove/:id", function (req, res) {
+  //   console.log("id is: " + req.params["id"]);
+  //   // database
+  //   //   .removePoint(Number(req.params["id"][0]["id"]))
+  //   //   .then((points) => res.send({ points }))
+  //   //   .catch((e) => {
+  //   //     console.error(e);
+  //   //     res.send(e);
+  //   //   });
+  // });
 
   // Create new map
   router.post("/maps/new", (req, res) => {
