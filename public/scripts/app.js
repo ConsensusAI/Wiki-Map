@@ -55,7 +55,8 @@ $(() => {
 
     let popContent = document.createElement("div");
     let pTag = document.createElement("p");
-    pTag.textContent = `Clicked on: ${e.latlng}`;
+    // pTag.textContent = `Clicked on: ${e.latlng}`;
+    pTag.textContent = "New Point";
     popContent.appendChild(pTag);
 
     let inputTag = document.createElement("input");
@@ -63,24 +64,23 @@ $(() => {
     inputTag.name = "inputTitle";
     let labelTitle = document.createElement("label");
     labelTitle.htmlFor = "inputTitle";
-    labelTitle.textContent = "Title";
+    labelTitle.textContent = "Title and Description";
     popContent.appendChild(labelTitle);
-    popContent.appendChild(inputTag);
-
     let space = document.createElement("br");
     popContent.appendChild(space);
+    popContent.appendChild(inputTag);
+
 
     let descTag = document.createElement("textarea");
     descTag.name = "inputDesc";
     let labelDesc = document.createElement("label");
     labelDesc.htmlFor = "inputDesc";
-    labelDesc.textContent = "Description";
+    // labelDesc.textContent = "Description";
     popContent.appendChild(labelDesc);
     // popContent.appendChild(space);
     descTag.placeholder = "write...";
     popContent.appendChild(descTag);
 
-    popContent.appendChild(space);
     let button = document.createElement("button");
     button.textContent = "Save";
     button.addEventListener("click", () => {
