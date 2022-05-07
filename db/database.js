@@ -318,11 +318,9 @@ const getAllPublicMapsByUser = function (id) {
 
 exports.getAllPublicMapsByUser = getAllPublicMapsByUser;
 
-const getLastPointId = function (userId) {
+const getLastPointId = function () {
   return pool
-    .query("SELECT id FROM points WHERE created_by = $1 ORDER BY id DESC", [
-      userId,
-    ])
+    .query("SELECT id FROM points ORDER BY id DESC")
     .then((result) => {
       // console.log("last id: ", result.rows[0]);
       return result.rows[0];

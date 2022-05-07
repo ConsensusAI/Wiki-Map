@@ -90,7 +90,7 @@ module.exports = function (router, database) {
   // Last point ID
   router.get("/maps/points/last", function (req, res) {
     database
-      .getLastPointId(1)
+      .getLastPointId()
       .then((points) => res.send({ points }))
       .catch((e) => {
         console.error(e);
@@ -102,14 +102,16 @@ module.exports = function (router, database) {
   router.post("/maps/points/remove", function (req, res) {
     console.log("removepoint req.body", req.body);
     pointId = req.body.id;
-    // console.log("WORKS");
-    // console.log("hidden ID: ", req.body.hiddenID);
+    console.log("WORKS");
+    console.log("hidden ID: ", req.body.id);
     database
       .removePoint(Number(pointId))
       .then((points) => {
         // res.send({points});
         console.log("Removed");
-        res.redirect("/");
+        setTimeout(() => {
+          res.redirect("/");
+        }, 50);
       })
       .catch((e) => {
         console.error(e);

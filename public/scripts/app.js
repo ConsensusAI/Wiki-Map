@@ -86,7 +86,6 @@ $(() => {
     //     addMapsList(data);
     //   }
     // });
-
   }
 
   // List of Points
@@ -192,7 +191,7 @@ $(() => {
         markers.push(tempMarker);
         tempMarker.bindPopup(popContent).openPopup();
 
-        let map_id = Number(getCookie("mapId")) - 1;
+        let map_id = Number(getCookie("mapId"));
         let newPoint = {
           mapId: map_id,
           title: title,
@@ -235,11 +234,12 @@ $(() => {
       data: json,
       contentType: "application/json; charset=utf-8",
       dataType: "json",
-      success: function(msg) {
+      success: function (msg) {
         console.log("Success: point added");
-      }
+      },
+    }).then(() => {
+      loadPoints();
     });
-    loadPoints();
   }
 
   // add points
