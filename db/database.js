@@ -9,7 +9,8 @@ const pool = new Pool({
 
 const getAllMaps = function () {
   let queryString = `SELECT *
-  FROM maps;`;
+  FROM maps
+  ORDER BY id;`;
 
   return pool
     .query(queryString)
@@ -158,6 +159,30 @@ const addPoint = (point) => {
 };
 
 exports.addPoint = addPoint;
+
+const addNewMapPoint = (point) => {
+  let queryString = `INSERT INTO points (map_id, title, description, image, lat, lng, created_by)
+  VALUES ($1, $2, $3, $4, $5, $6, $7);`;
+  let queryParams = [
+    point.mapId,
+    point.title,
+    point.desc,
+    point.image,
+    point.lat,
+    point.lng,
+    point.createdBy,
+  ];
+  return pool
+    .query(queryString, queryParams)
+    .then((res) => {
+      return res.rows;
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+};
+
+exports.addNewMapPoint = addNewMapPoint;
 
 const addContribution = (contribution) => {
   // TODO: Remove date_contributed so that it automatically inputs Now
@@ -383,6 +408,24 @@ const getUserInfo = (userId) => {
 };
 
 exports.getUserInfo = getUserInfo;
+
+const renameMap = (mapId, renamedName) => {
+  let queryString = `UPDATE maps
+  SET title = $2
+  WHERE maps.id = $1`;
+  let queryParams = [mapId, renamedName];
+
+  return pool
+    .query(queryString, queryParams)
+    .then((res) => {
+      return res.rows;
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+};
+
+exports.renameMap = renameMap;
 
 // const getMapsByUser = function (email) {
 //   return pool

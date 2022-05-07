@@ -159,7 +159,7 @@ module.exports = function (router, database) {
         createdBy: Number(userId),
       };
 
-      database.addPoint(newPoint).then(() => {
+      database.addNewMapPoint(newPoint).then(() => {
         let contribution = { userId: Number(userId), mapId: Number(mapId) };
         database.addContribution(contribution);
         database.addToFavouritesTableOnContribution(contribution);
@@ -193,6 +193,16 @@ module.exports = function (router, database) {
       .catch((e) => {
         res.send(e);
       });
+  });
+
+  // Rename Map
+  router.post("/rename", (req, res) => {
+    let mapId = Number(req.cookies["mapId"]);
+    let newName = req.body.renamedName;
+    console.log(newName);
+    database.renameMap(mapId, newName).then((response) => {
+      res.redirect("back");
+    });
   });
 
   return router;
