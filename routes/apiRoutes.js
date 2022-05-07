@@ -182,7 +182,11 @@ module.exports = function (router, database) {
   // Select Current Map
   router.post("/selectedMap", (req, res) => {
     res.cookie("mapId", req.body.selectedMapId);
-    res.redirect("/");
+
+    setTimeout(function () {
+      res.redirect("/");
+    }, 10);
+    // res.redirect("/");
   });
 
   router.get("/selectedMap", (req, res) => {
