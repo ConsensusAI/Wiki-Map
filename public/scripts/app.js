@@ -170,6 +170,7 @@ $(() => {
         markers.push(tempMarker);
         tempMarker.bindPopup(popContent).openPopup();
 
+        let map_id = Number(getCookie("mapId")) - 1;
         let newPoint = {
           mapId: map_id,
           title: title,
@@ -183,19 +184,17 @@ $(() => {
         var json = JSON.stringify(newPoint);
         console.log("jsonstringfy: ", json);
         $.ajax({
-            type: "POST",
-            url: "maps/points/add",
-            data: json,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function(msg) {
-                loadPoints();
-            }
+          type: "POST",
+          url: "maps/points/add",
+          data: json,
+          contentType: "application/json; charset=utf-8",
+          dataType: "json",
+          success: function (msg) {
+            loadPoints();
+          },
         });
-
       },
     });
-
   }
 
   // Clear marker

@@ -51,7 +51,7 @@ module.exports = function (router, database) {
         database.toggleFavouriteMap(userId, mapId).then((rows) => {
           setTimeout(function () {
             res.redirect("/");
-          }, 10);
+          }, 20);
         });
       } else {
         database.favouriteMap(userId, mapId).then(() => {
@@ -87,7 +87,7 @@ module.exports = function (router, database) {
 
   // Add point to points table
   router.post("/maps/points/add", function (req, res) {
-    // console.log("apiRoutes: ",req.body);
+    console.log("apiRoutes: ", req.body);
     database
       .addPoint(req.body)
       .then((points) => res.send({ points }))
