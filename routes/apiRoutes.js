@@ -87,6 +87,7 @@ module.exports = function (router, database) {
 
   // Add point to points table
   router.post("/maps/points/add", function (req, res) {
+    console.log("apiRoutes: ",req.body);
     database
       .addPoint(req.body)
       .then((points) => res.send({ points }))

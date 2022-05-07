@@ -53,6 +53,7 @@ $(() => {
     button.addEventListener("click", () => {
       // console.log('button clicked')
       saveMarker(latlng);
+      // savePointToTable(latlng);
     });
     popContent.appendChild(button);
 
@@ -146,6 +147,7 @@ $(() => {
         newForm.appendChild(btnTag);
         newForm.appendChild(hiddenIdTag);
         popContent.appendChild(newForm);
+
         let pTag = document.createElement("p");
         pTag.textContent = title;
         popContent.appendChild(pTag);
@@ -162,71 +164,32 @@ $(() => {
         markers.push(tempMarker);
         tempMarker.bindPopup(popContent).openPopup();
 
-        let newFormAdd = document.createElement("form");
-        newFormAdd.action = "/maps/points/add";
-        newFormAdd.method = "post";
+        let newPoint = {
+          mapId: map_id,
+          title: title,
+          desc: desc,
+          image: "",
+          lat: latlng.lat,
+          lng: latlng.lng,
+          createdBy: user_id,
+        };
 
-        let hiddenMapId = document.createElement("input");
-        hiddenMapId.name = "mapId";
-        hiddenMapId.value = map_id;
-        newFormAdd.appendChild(hiddenMapId);
+        var json = JSON.stringify(newPoint);
+        console.log("jsonstringfy: ", json);
+        $.ajax({
+            type: "POST",
+            url: "maps/points/add",
+            data: json,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function(msg) {
+                loadPoints();
+            }
+        });
 
-        let hiddenMapTitle = document.createElement("input");
-        hiddenMapTitle.name = "title";
-        hiddenMapTitle.value = map_id;
-        newFormAdd.appendChild(hiddenMapTitle);
-
-        let hiddenMapDesc = document.createElement("input");
-        hiddenMapDesc.name = "desc";
-        hiddenMapDesc.value = map_id;
-        newFormAdd.appendChild(hiddenMapDesc);
-
-        let hiddenMapImg = document.createElement("input");
-        hiddenMapImg.name = "image";
-        hiddenMapImg.value = map_id;
-        newFormAdd.appendChild(hiddenMapImg);
-
-        let hiddenMapLat = document.createElement("input");
-        hiddenMapLat.name = "lat";
-        hiddenMapLat.value = map_id;
-        newFormAdd.appendChild(hiddenMapLat);
-
-        let hiddenMapLng = document.createElement("input");
-        hiddenMapLng.name = "lng";
-        hiddenMapLng.value = map_id;
-        newFormAdd.appendChild(hiddenMapLng);
-
-        let hiddenMapCreatedBy = document.createElement("input");
-        hiddenMapCreatedBy.name = "createdBy";
-        hiddenMapCreatedBy.value = map_id;
-        newFormAdd.appendChild(hiddenMapCreatedBy);
-
-        newFormAdd.submit();
-
-        console.log("newform", newFormAdd);
-
-        // let newPoint = {
-        //   mapId: map_id,
-        //   title: title,
-        //   desc: desc,
-        //   image: "",
-        //   lat: latlng.lat,
-        //   lng: latlng.lng,
-        //   createdBy: user_id,
-        // };
-        // addToPointTable(newPoint);
       },
     });
 
-    // Implement on Database - points table 'New QUERY INSERT INTO ...
-
-    // console.log("<<saveMarkers>> markers: ", markers);
-  }
-
-  function addToPointTable(newPoint) {
-    $.ajax(`/points/add/${newPoint}`).then((res) => {
-      console.log(res);
-    });
   }
 
   // Clear marker
@@ -245,6 +208,7 @@ $(() => {
   // add points
   const addPointsList = (pointsJson) => {
     let points = pointsJson["points"];
+    $("#map-points").html("");
     for (let point in points) {
       let linkTag = document.createElement("li");
       linkTag.textContent = points[point]["title"];

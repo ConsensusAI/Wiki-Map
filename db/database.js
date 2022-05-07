@@ -133,6 +133,7 @@ const getMaxId = () => {
 exports.getMaxId = getMaxId;
 
 const addPoint = (point) => {
+  console.log(point);
   let queryString = `INSERT INTO points (map_id, title, description, image, lat, lng, created_by)
   VALUES ($1, $2, $3, $4, $5, $6, $7);`;
   let queryParams = [
@@ -144,7 +145,7 @@ const addPoint = (point) => {
     point.lng,
     point.createdBy,
   ];
-  console.log("queryStr", queryString);
+  console.log("queryStr", queryParams);
   return pool
     .query(queryString, queryParams)
     .then((res) => {
