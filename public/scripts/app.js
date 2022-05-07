@@ -46,19 +46,49 @@ $(() => {
   // Click Event
   let clickedMapPopup = L.popup();
   let latlng;
+  let inputTitle;
+  let inputDesc;
   function onMapClick(e) {
     latlng = e.latlng;
+    inputTitle = "";
+    inputDesc = "";
 
     let popContent = document.createElement("div");
     let pTag = document.createElement("p");
     pTag.textContent = `Clicked on: ${e.latlng}`;
     popContent.appendChild(pTag);
+
+    let inputTag = document.createElement("input");
+    inputTag.placeholder = "title...";
+    inputTag.name = "inputTitle";
+    let labelTitle = document.createElement("label");
+    labelTitle.htmlFor = "inputTitle";
+    labelTitle.textContent = "Title";
+    popContent.appendChild(labelTitle);
+    popContent.appendChild(inputTag);
+
+    let space = document.createElement("br");
+    popContent.appendChild(space);
+
+    let descTag = document.createElement("textarea");
+    descTag.name = "inputDesc";
+    let labelDesc = document.createElement("label");
+    labelDesc.htmlFor = "inputDesc";
+    labelDesc.textContent = "Description";
+    popContent.appendChild(labelDesc);
+    // popContent.appendChild(space);
+    descTag.placeholder = "write...";
+    popContent.appendChild(descTag);
+
+    popContent.appendChild(space);
     let button = document.createElement("button");
     button.textContent = "Save";
     button.addEventListener("click", () => {
       // console.log('button clicked')
       saveMarker(latlng);
-      // savePointToTable(latlng);
+      inputTitle = inputTag.value;
+      inputDesc = descTag.value;
+      console.log(inputTitle, inputDesc);
     });
     popContent.appendChild(button);
 
@@ -141,8 +171,8 @@ $(() => {
   // Save point on map (creates a new marker and add to points table)
   function saveMarker(latlng) {
     let tempMarker = L.marker([latlng.lat, latlng.lng]).addTo(map);
-    let title = prompt("Please enter the title", "Write...");
-    let desc = prompt("Brief description", "Write...");
+    // let title = prompt("Please enter the title", "Write...");
+    // let desc = prompt("Brief description", "Write...");
 
     $.ajax({
       url: "/maps/points/last",
@@ -177,10 +207,10 @@ $(() => {
         popContent.appendChild(btnTag);
 
         let pTag = document.createElement("p");
-        pTag.textContent = title;
+        pTag.textContent = inputTitle;
         popContent.appendChild(pTag);
         let descTag = document.createElement("p");
-        descTag.textContent = desc;
+        descTag.textContent = inputDesc;
         popContent.appendChild(descTag);
         let imgTag = document.createElement("img");
         imgTag.src =
@@ -196,8 +226,8 @@ $(() => {
         let newPoint = {
           pId: newIdPoint,
           mapId: map_id,
-          title: title,
-          desc: desc,
+          title: inputTitle,
+          desc: inputDesc,
           image: "",
           lat: latlng.lat,
           lng: latlng.lng,
