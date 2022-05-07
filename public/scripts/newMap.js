@@ -34,9 +34,6 @@ function saveMarker(latlng) {
   let tempMarker = L.marker([latlng.lat, latlng.lng]).addTo(map);
   let lat = latlng.lat;
   let lng = latlng.lng;
-  let pointTitle;
-  let pointDesc;
-  let newPointId;
   let formContent = `<form action="/maps/new" method="POST">
   <div class="form-group d-none">
   <input type="hiddenlat" class="form-control" name="hiddenlat" value="${lat}">

@@ -159,7 +159,7 @@ module.exports = function (router, database) {
         createdBy: Number(userId),
       };
 
-      database.addPoint(newPoint).then(() => {
+      database.addNewMapPoint(newPoint).then(() => {
         let contribution = { userId: Number(userId), mapId: Number(mapId) };
         database.addContribution(contribution);
         database.addToFavouritesTableOnContribution(contribution);
