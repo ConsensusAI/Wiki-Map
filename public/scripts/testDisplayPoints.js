@@ -12,15 +12,15 @@
 //   },
 // });
 
-const addMapsList = (mapsJson) => {
-  let maps = mapsJson["maps"];
-  for (let map in maps) {
-    $("#maps-list").append(`<li>${maps[map]["title"]}</li>`).click(function() {
-      alert( "Handler for .click() called." );
-    });
-    // node.click(`loadMapId(${m.id}, ${index})`);   // finish later
-  }
-};
+// const addMapsList = (mapsJson) => {
+//   let maps = mapsJson["maps"];
+//   for (let map in maps) {
+//     $("#maps-list").append(`<li>${maps[map]["title"]}</li>`).click(function() {
+//       alert( "Handler for .click() called." );
+//     });
+//     // node.click(`loadMapId(${m.id}, ${index})`);   // finish later
+//   }
+// };
 
 // included on app.js ----------------
 

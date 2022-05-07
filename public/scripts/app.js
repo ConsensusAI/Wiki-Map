@@ -38,7 +38,7 @@ $(() => {
     map.on("click", onMapClick);
   });
 
-  loadMaps();
+  loadMaps(user_id);
   loadPoints();
   loadMarkers();
 
@@ -65,7 +65,7 @@ $(() => {
   }
 
   // List of Maps (Ottawa, Montreal, etc)
-  function loadMaps() {
+  function loadMaps(user_id) {
     $("#maps-list").html("");
     $.ajax({
       url: "/maps/user",
@@ -73,6 +73,20 @@ $(() => {
         addMapsList(json);
       },
     });
+
+    // let json = JSON.stringify(user_id);
+    // console.log("json", json);
+    // $.ajax({
+    //   type: "GET",
+    //   url: "/maps/user",
+    //   data: json,
+    //   contentType: "application/json; charset=utf-8",
+    //   dataType: "json",
+    //   success: function(data) {
+    //     addMapsList(data);
+    //   }
+    // });
+
   }
 
   // List of Points
@@ -135,24 +149,32 @@ $(() => {
       success: function (json) {
         let newIdPoint = json.points.id + 1;
 
-        let popContent = document.createElement("div");
-        let newForm = document.createElement("form");
-        newForm.action = "/maps/points/remove";
-        newForm.method = "post";
-        let hiddenIdTag = document.createElement("input");
-        hiddenIdTag.classList.add("d-none");
-        hiddenIdTag.name = "hiddenID";
-        hiddenIdTag.value = JSON.stringify(newIdPoint);
-        let btnTag = document.createElement("button");
-        btnTag.type = "submit";
-        btnTag.textContent = "Remove";
+        // let popContent = document.createElement("div");
+        // let newForm = document.createElement("form");
+        // newForm.action = "/maps/points/remove";
+        // newForm.method = "post";
+        // let hiddenIdTag = document.createElement("input");
+        // hiddenIdTag.classList.add("d-none");
+        // hiddenIdTag.name = "hiddenID";
+        // hiddenIdTag.value = newIdPoint;
+        // let btnTag = document.createElement("button");
+        // btnTag.type = "submit";
+        // btnTag.textContent = "Remove";
         // btnTag.addEventListener("click", () => {
         //   clearMarker(newIdPoint);
         // });
-        newForm.appendChild(btnTag);
-        newForm.appendChild(hiddenIdTag);
-        popContent.appendChild(newForm);
-        console.log(newForm);
+        // newForm.appendChild(btnTag);
+        // newForm.appendChild(hiddenIdTag);
+        // popContent.appendChild(newForm);
+        // console.log(newForm);
+
+        let popContent = document.createElement("div");
+        let btnTag = document.createElement("button");
+        btnTag.textContent = "Remove";
+        btnTag.addEventListener("click", () => {
+          clearMarker(newIdPoint);
+        });
+        popContent.appendChild(btnTag);
 
         let pTag = document.createElement("p");
         pTag.textContent = title;
@@ -181,8 +203,9 @@ $(() => {
           createdBy: user_id,
         };
 
+        // Save new point on DB
         var json = JSON.stringify(newPoint);
-        console.log("jsonstringfy: ", json);
+        // console.log("jsonstringfy: ", json);
         $.ajax({
           type: "POST",
           url: "maps/points/add",
@@ -199,24 +222,23 @@ $(() => {
 
   // Clear marker
   function clearMarker(idMarker) {
-    let json = JSON.stringify("clearMarker: ", idMarker);
+    let json = JSON.stringify({ id: idMarker });
     markers.forEach((m, index) => {
       if (m._id === idMarker) {
         m.remove();
         markers.splice(index, 1);
       }
     });
-    // $.ajax({
-    //   type: "POST",
-    //   url: "/maps/points/remove",
-    //   data: json,
-    //   contentType: "application/json; charset=utf-8",
-    //   dataType: "json",
-    //   success: function(msg) {
-    //     loadPoints();
-    //   }
-    // });
-
+    $.ajax({
+      type: "POST",
+      url: "/maps/points/remove",
+      data: json,
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      success: function(msg) {
+        console.log("Success: point added");
+      }
+    });
     loadPoints();
   }
 
@@ -247,7 +269,8 @@ $(() => {
         </li>`
         )
         .click(function () {
-          // alert(maps[map]["id"]);
+          console.log("changed map");
+          map.setView([maps[map].lat, maps[map].lng], 13);
         });
     }
   };
