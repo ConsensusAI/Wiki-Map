@@ -192,8 +192,9 @@ $(() => {
         markers.push(tempMarker);
         tempMarker.bindPopup(popContent).openPopup();
 
-        let map_id = Number(getCookie("mapId")) - 1;
+        let map_id = Number(getCookie("mapId"));
         let newPoint = {
+          pId: newIdPoint,
           mapId: map_id,
           title: title,
           desc: desc,
