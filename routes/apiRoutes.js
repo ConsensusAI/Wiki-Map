@@ -86,9 +86,10 @@ module.exports = function (router, database) {
   });
 
   // Add point to points table
-  router.post("/maps/points/add/:point", function (req, res) {
+  router.post("/maps/points/add", function (req, res) {
+    // console.log("apiRoutes: ",req.body);
     database
-      .addPoint(req.params["point"])
+      .addPoint(req.body)
       .then((points) => res.send({ points }))
       .catch((e) => {
         console.error(e);
@@ -109,9 +110,10 @@ module.exports = function (router, database) {
 
   // Remove Point
   router.post("/maps/points/remove", function (req, res) {
+    console.log("req.body", req.body);
     pointId = req.body.hiddenID;
-    console.log("WORKS");
-    console.log("hidden ID: ", req.body.hiddenID);
+    // console.log("WORKS");
+    // console.log("hidden ID: ", req.body.hiddenID);
     database
       .removePoint(Number(pointId))
       .then((points) => {

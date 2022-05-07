@@ -53,6 +53,7 @@ $(() => {
     button.addEventListener("click", () => {
       // console.log('button clicked')
       saveMarker(latlng);
+      // savePointToTable(latlng);
     });
     popContent.appendChild(button);
 
@@ -136,7 +137,7 @@ $(() => {
         let hiddenIdTag = document.createElement("input");
         hiddenIdTag.classList.add("d-none");
         hiddenIdTag.name = "hiddenID";
-        hiddenIdTag.value = newIdPoint;
+        hiddenIdTag.value = JSON.stringify(newIdPoint);
         let btnTag = document.createElement("button");
         btnTag.type = "submit";
         btnTag.textContent = "Remove";
@@ -146,6 +147,8 @@ $(() => {
         newForm.appendChild(btnTag);
         newForm.appendChild(hiddenIdTag);
         popContent.appendChild(newForm);
+        console.log(newForm);
+
         let pTag = document.createElement("p");
         pTag.textContent = title;
         popContent.appendChild(pTag);
@@ -171,37 +174,52 @@ $(() => {
           lng: latlng.lng,
           createdBy: user_id,
         };
-        addToPointTable(newPoint);
+
+        var json = JSON.stringify(newPoint);
+        console.log("jsonstringfy: ", json);
+        $.ajax({
+            type: "POST",
+            url: "maps/points/add",
+            data: json,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function(msg) {
+                loadPoints();
+            }
+        });
+
       },
     });
 
-    // Implement on Database - points table 'New QUERY INSERT INTO ...
-
-    // console.log("<<saveMarkers>> markers: ", markers);
-  }
-
-  function addToPointTable(newPoint) {
-    $.ajax(`/points/add/${newPoint}`).then((res) => {
-      console.log(res);
-    });
   }
 
   // Clear marker
   function clearMarker(idMarker) {
+    let json = JSON.stringify("clearMarker: ", idMarker);
     markers.forEach((m, index) => {
       if (m._id === idMarker) {
         m.remove();
         markers.splice(index, 1);
       }
     });
-    $.ajax(`/maps/points/remove/${idMarker}`).then((res) => {
-      console.log(res);
-    });
+    // $.ajax({
+    //   type: "POST",
+    //   url: "/maps/points/remove",
+    //   data: json,
+    //   contentType: "application/json; charset=utf-8",
+    //   dataType: "json",
+    //   success: function(msg) {
+    //     loadPoints();
+    //   }
+    // });
+
+    loadPoints();
   }
 
   // add points
   const addPointsList = (pointsJson) => {
     let points = pointsJson["points"];
+    $("#map-points").html("");
     for (let point in points) {
       let linkTag = document.createElement("li");
       linkTag.textContent = points[point]["title"];

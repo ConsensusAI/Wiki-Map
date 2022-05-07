@@ -1,7 +1,7 @@
 const { Pool } = require("pg");
 
 const pool = new Pool({
-  user: "vagrant",
+  user: "henrique",
   password: "123",
   host: "localhost",
   database: "midterm",
@@ -133,6 +133,7 @@ const getMaxId = () => {
 exports.getMaxId = getMaxId;
 
 const addPoint = (point) => {
+  // console.log("on database.js: ", point);
   let queryString = `INSERT INTO points (map_id, title, description, image, lat, lng, created_by)
   VALUES ($1, $2, $3, $4, $5, $6, $7);`;
   let queryParams = [
@@ -144,7 +145,7 @@ const addPoint = (point) => {
     point.lng,
     point.createdBy,
   ];
-
+  // console.log("queryStr", queryParams);
   return pool
     .query(queryString, queryParams)
     .then((res) => {
@@ -332,6 +333,7 @@ const getLastPointId = function (userId) {
 exports.getLastPointId = getLastPointId;
 
 const removePoint = function (pointId) {
+  console.log("database.js removePoint: ", pointId);
   return pool
     .query("DELETE FROM points WHERE id = $1;", [pointId])
     .then((result) => {

@@ -15,6 +15,7 @@ app.use(cookieParser());
 // Parse Information Sent in Body
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 // PG database client/connection setup
 // const { Pool } = require("pg");
