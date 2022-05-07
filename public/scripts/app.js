@@ -104,6 +104,7 @@ $(() => {
     $.ajax("/maps/points").then((res) => {
       let map_id = getCookie("mapId");
       res.points.map((p, index) => {
+
         console.log("point: ", p, "p.map_id: ", p.map_id, "map_id: ", map_id);
         if (p.map_id == map_id) {
           let tempMarker = L.marker([p.lat, p.lng]).addTo(map);
