@@ -228,7 +228,7 @@ $(() => {
           mapId: map_id,
           title: inputTitle,
           desc: inputDesc,
-          image: "",
+          image: "https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
           lat: latlng.lat,
           lng: latlng.lng,
           createdBy: user_id,
