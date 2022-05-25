@@ -82,7 +82,6 @@ function saveMarker(latlng) {
     console.log(mapName);
     console.log(private);
     $(".mapForm").addClass("d-none");
-    // $(".pointsForm").show();
     $(".pointsForm").removeClass("d-none");
   });
 
@@ -96,7 +95,6 @@ function saveMarker(latlng) {
     console.log(pointURL);
     $(".pointsForm").addClass("d-none");
     $(".displayPoint").removeClass("d-none");
-    // $(".displayPoint").show();
     let stuff = `<p>${pointTitle}</p>
     </br>
     <p>${pointDesc}</p>

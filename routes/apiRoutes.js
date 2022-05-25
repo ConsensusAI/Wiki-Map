@@ -67,7 +67,7 @@ module.exports = function (router, database) {
   router.get("/maps/user", function (req, res) {
     console.log("apiRoutes.js /maps/user req.body", req.body);
     database
-      .getAllMapsByUser(req.body.userId)
+      .getAllMapsByUser(Number(req.body.userId))
       .then((maps) => res.send({ maps }))
       .catch((e) => {
         console.error(e);
@@ -175,7 +175,6 @@ module.exports = function (router, database) {
     setTimeout(function () {
       res.redirect("/");
     }, 50);
-    // res.redirect("/");
   });
 
   router.get("/selectedMap", (req, res) => {

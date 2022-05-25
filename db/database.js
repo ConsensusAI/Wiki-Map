@@ -1,7 +1,7 @@
 const { Pool } = require("pg");
 
 const pool = new Pool({
-  user: "henrique",
+  user: "vagrant",
   password: "123",
   host: "localhost",
   database: "midterm",
@@ -15,7 +15,6 @@ const getAllMaps = function () {
   return pool
     .query(queryString)
     .then((res) => {
-      // console.log(res.rows);
       return res.rows;
     })
     .catch((err) => {
@@ -33,7 +32,6 @@ const getMapInfo = (mapId) => {
   return pool
     .query(queryString, queryParams)
     .then((res) => {
-      // console.log(res.rows);
       return res.rows;
     })
     .catch((err) => {
@@ -50,7 +48,6 @@ const getAllPointsByUserAndMap = (userId, mapId) => {
   return pool
     .query(queryString, queryParams)
     .then((res) => {
-      // console.log(res.rows);
       return res.rows;
     })
     .catch((err) => {
@@ -65,7 +62,6 @@ const getAllMapsByUser = function (userId) {
   return pool
     .query(queryString, queryParams)
     .then((res) => {
-      // console.log(res.rows);
       return res.rows;
     })
     .catch((err) => {
@@ -84,7 +80,6 @@ const getAllPointsByMap = (mapId) => {
   return pool
     .query(queryString, queryParams)
     .then((res) => {
-      // console.log(res.rows);
       return res.rows;
     })
     .catch((err) => {
@@ -108,7 +103,6 @@ const addMap = (map) => {
   return pool
     .query(queryString, queryParams)
     .then((res) => {
-      // console.log(res.rows);
       return res.rows;
     })
     .catch((err) => {
@@ -134,7 +128,6 @@ const getMaxId = () => {
 exports.getMaxId = getMaxId;
 
 const addPoint = (point) => {
-  // console.log("on database.js: ", point);
   let queryString = `INSERT INTO points (id, map_id, title, description, image, lat, lng, created_by)
   VALUES ($1, $2, $3, $4, $5, $6, $7, $8);`;
   let queryParams = [
@@ -147,7 +140,6 @@ const addPoint = (point) => {
     point.lng,
     point.createdBy,
   ];
-  // console.log("queryStr", queryParams);
   return pool
     .query(queryString, queryParams)
     .then((res) => {
@@ -185,7 +177,6 @@ const addNewMapPoint = (point) => {
 exports.addNewMapPoint = addNewMapPoint;
 
 const addContribution = (contribution) => {
-  // TODO: Remove date_contributed so that it automatically inputs Now
   let queryString = `INSERT INTO maps_users (user_id, map_id)
   VALUES ($1, $2);`;
   let queryParams = [contribution.userId, contribution.mapId];
@@ -336,7 +327,6 @@ const getAllPublicMapsByUser = function (id) {
   return pool
     .query("SELECT * FROM maps WHERE public = TRUE AND created_by = $1, [id]")
     .then((result) => {
-      // console.log("maps: ", result.rows[0]);
       return result.rows[0];
     })
     .catch((err) => console.log(err));
@@ -348,7 +338,6 @@ const getLastPointId = function () {
   return pool
     .query("SELECT id FROM points ORDER BY id DESC")
     .then((result) => {
-      // console.log("last id: ", result.rows[0]);
       return result.rows[0];
     })
     .catch((err) => console.log(err));
@@ -372,7 +361,6 @@ const getUserName = function (userId) {
   return pool
     .query("SELECT name FROM users WHERE id = $1, [userId]")
     .then((result) => {
-      // console.log("names: ", result.rows[0]);
       return result.rows[0];
     })
     .catch((err) => console.log(err));
@@ -384,7 +372,6 @@ const getUserEmail = function (userId) {
   return pool
     .query("SELECT email FROM users WHERE id = $1, [userId]")
     .then((result) => {
-      // console.log("emails: ", result.rows[0]);
       return result.rows[0];
     })
     .catch((err) => console.log(err));
@@ -426,29 +413,3 @@ const renameMap = (mapId, renamedName) => {
 };
 
 exports.renameMap = renameMap;
-
-// const getMapsByUser = function (email) {
-//   return pool
-//     .query("SELECT * FROM maps WHERE email = $1", [email])
-//     .then((result) => {
-//       console.log("maps: ", result.rows[0]);
-//       return result.rows[0];
-//     })
-//     .catch((err) => console.log(err));
-// };
-
-// (module.exports = router), getMapsByUser;
-
-/*
-Queries for making new map, new point, new contribution
-New map:
-INSERT INTO maps (title, lat, lng, created_by, public) VALUES ($1, $2, $3, $4, $5);
-New point:
-INSERT INTO points (map_id, title, description, image, lat, lng, created_by) VALUES ($1, $2, $3, $4, $5, $6, $7)
-New contribution:                                        false by default
-INSERT INTO maps_users (user_id, map_id, date_contributed, favourite) VALUES ($1, $2, $3, $4);
-Favourited:
-UPDATE maps_users
-SET favourite = TRUE
-WHERE user_id = $1;
-*/
